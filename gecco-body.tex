@@ -1,123 +1,168 @@
 \section{Introduction}
 
-The \textit{proceedings} are the records of a conference.\footnote{This
-  is a footnote}  ACM seeks
-to give these conference by-products a uniform, high-quality
-appearance.  To do this, ACM has some rigid requirements for the
-format of the proceedings documents: there is a specified format
-(balanced double columns), a specified set of fonts (Arial or
-Helvetica and Times Roman) in certain specified sizes, a specified
-live area, centered on the page, specified size of margins, specified
-column width and gutter size.
+Nature-inspired optimization algorithms have been used successfully in the last
+decades to tackle complex problems \cite{yang2014nature}. Algorithms taking
+inspiration in nature include evolutionary algorithms (EAs)
+\cite{back1996evolutionary} and swarm intelligence (SI)
+\cite{kennedy2006swarm}. A common characteristic of these two methods is the
+use of an initial set of random candidate solutions that are manipulated by the
+algorithm to generate a new set of candidates, and because of this, we commonly
+referred to them as population-based algorithms. Popular EAs are Genetic
+Algorithms (GAs) \cite{holland1992adaptation,eiben2003genetic}, and
+Differential Evolution (DE) \cite{karabouga2004simple}. While examples of (SI)
+\cite{kennedy2006swarm} are particle swarm optimization (PSO)
+\cite{clerc2010particle}, and ant colony algorithms (ACO) \cite{dorigo1999ant}.
 
-\section{The Body of The Paper}
+A drawback of population-based algorithms is that they can be computationally
+expensive, and that is why researchers have been proposing some form of
+parallelization \cite{muhlenbein1988evolution} to increase the scalability of
+these algorithms. One of the first methods of parallelization was the island
+model, which lead to an increased performance
+\cite{gorges1990explicit,grosso1985computer}. The concept was to divide the
+population into smaller populations that communicated with each other. Other
+population-based algorithms have adopted the technique, and since then,
+researchers have found additional advantages besides the execution speed; these
+include avoiding a premature convergence and maintaining the diversity of the
+global population \cite{li2015multi}. Some researchers use the term
+multi-population based methods when referring to techniques using many
+populations as part of their optimization strategy \cite{Ma2019}. The relative
+isolation in which populations carry out the algorithm, together with the
+synchronous or asynchronous communication, helps to increase the overall
+diversity since each population will search in a particular area, at least
+between communications. Multi-population algorithms mainly use a form of
+communication to recombine or migrate candidate solutions between populations
+to avoid premature convergence, since smaller populations are known to perform
+better for a given problem than bigger populations
+\cite{li2016multi,wu2016differential}. In some cases, a multi-population based
+algorithm scales better due to the interactions b and the parallelism of the
+operation \cite{ALBA20027}.
+
+Several multi-population based are heterogeneous,
+integrating various optimization algorithms, and often perform better than
+single-population or homogeneous optimization algorithms
+\cite{wu2016differential,nseef2016adaptive}. Heterogeneous algorithms add to
+the problem of finding the correct parameter settings for each population;
+because some parameters affect the accuracy of the solution and the convergence
+speed of the individual algorithms as they tip the balance between exploration
+and exploitation of the search space. On the other hand, current studies show
+that by having a high number of populations communicating in parallel, the
+effect of the individual parameters of each population is compensated by those
+selected in other populations \cite{li2016multi,tanabe2013evaluation}. Some
+level of heterogeneity can be implemented by just changing the configuration
+parameters of each population, but in this case, we are interested in
+heterogeneous search strategies. Therefore, in this paper, we compare
+heterogeneous multi-populations with only a GA or PSO search strategy in
+populations, versus an ensemble multi-population of GA and PSO algorithms. As a
+benchmark, we used the first five functions of the BBOB testbed.
+%% EvoSwarm framework comment
+
+\section{State of the Art}
+
+% \begin{table*}
+%   \caption{Some Typical Commands}
+%   \label{tab:commands}
+%   \begin{tabular}{ccl}
+%     \toprule
+%     Command &A Number & Comments\\
+%     \midrule
+%     \texttt{{\char'134}author} & 100& Author \\
+%     \texttt{{\char'134}table}& 300 & For tables\\
+%     \texttt{{\char'134}table*}& 400& For wider tables\\
+%     \bottomrule
+%   \end{tabular}
+% \end{table*}
+% % end the environment with {table*}, NOTE not {table}!
 
 
-\begin{table*}
-  \caption{Some Typical Commands}
-  \label{tab:commands}
-  \begin{tabular}{ccl}
-    \toprule
-    Command &A Number & Comments\\
-    \midrule
-    \texttt{{\char'134}author} & 100& Author \\
-    \texttt{{\char'134}table}& 300 & For tables\\
-    \texttt{{\char'134}table*}& 400& For wider tables\\
-    \bottomrule
-  \end{tabular}
-\end{table*}
-% end the environment with {table*}, NOTE not {table}!
+% %\begin{figure}
+% %\includegraphics[height=1in, width=1in]{fly}
+% %\caption{A sample black and white graphic
+% %that has been resized with the \texttt{includegraphics} command.}
+% %\end{figure}
 
 
-%\begin{figure}
-%\includegraphics[height=1in, width=1in]{fly}
-%\caption{A sample black and white graphic
-%that has been resized with the \texttt{includegraphics} command.}
-%\end{figure}
+% As was the case with tables, you may want a figure that spans two
+% columns.  To do this, and still to ensure proper ``floating''
+% placement of tables, use the environment \textbf{figure*} to enclose
+% the figure and its caption.  And don't forget to end the environment
+% with \textbf{figure*}, not \textbf{figure}!
+
+% %\begin{figure*}
+% %\includegraphics{flies}
+% %\caption{A sample black and white graphic
+% %that needs to span two columns of text.}
+% %\end{figure*}
 
 
-As was the case with tables, you may want a figure that spans two
-columns.  To do this, and still to ensure proper ``floating''
-placement of tables, use the environment \textbf{figure*} to enclose
-the figure and its caption.  And don't forget to end the environment
-with \textbf{figure*}, not \textbf{figure}!
+% %\begin{figure}
+% %\includegraphics[height=1in, width=1in]{rosette}
+% %\caption{A sample black and white graphic that has
+% %been resized with the \texttt{includegraphics} command.}
+% %\end{figure}
 
-%\begin{figure*}
-%\includegraphics{flies}
-%\caption{A sample black and white graphic
-%that needs to span two columns of text.}
-%\end{figure*}
+% \subsection{Experiment}
+% \label{sec:exp_results}
+% Having a multi-population based algorithm can decrease the execution time
+% because of the parallel execution of the evolution. But, having heterogeneous 
+% populations might enhance evolutionary search and needless
+% evaluations than homogeneous systems; heterogeneous settings, if
+% done right, increases the diversity of the whole population
+% \cite{araujo2008multikulti}.
 
-
-%\begin{figure}
-%\includegraphics[height=1in, width=1in]{rosette}
-%\caption{A sample black and white graphic that has
-%been resized with the \texttt{includegraphics} command.}
-%\end{figure}
-
-\subsection{Experiment}
-\label{sec:exp_results}
-Having a multi-population based algorithm can decrease the execution time
-because of the parallel execution of the evolution. But, having heterogeneous 
-populations might enhance evolutionary search and needless
-evaluations than homogeneous systems; heterogeneous settings, if
-done right, increases the diversity of the whole population
-\cite{araujo2008multikulti}.
-
-But this is a rule of thumb, and it will depend on the degree of heterogeneity,
-as well as on the algorithm itself. Some level of heterogeneity can be
-implemented by just changing the configuration parameters of each population,
-but in this case, we are interested in a heterogeneous search strategy. 
-Therefore, in this experiment we compare a multi-population with only GA and PSO populations,
-versus an ensemble of GA and PSO algorithms. We tested on the first five functions of the
-BBOB testbed. We used ten populations and eight workers for the experiment and the
-same parameters as before.  
+% But this is a rule of thumb, and it will depend on the degree of heterogeneity,
+% as well as on the algorithm itself. Some level of heterogeneity can be
+% implemented by just changing the configuration parameters of each population,
+% but in this case, we are interested in a heterogeneous search strategy. 
+% Therefore, in this experiment we compare a multi-population with only GA and PSO populations,
+% versus an ensemble of GA and PSO algorithms. We tested on the first five functions of the
+% BBOB testbed. We used ten populations and eight workers for the experiment and the
+% same parameters as before.  
 
 
-\begin{figure*}[h!tb]
-    \begin{tabular}
-        {c@{\hspace*{-0.00001\textwidth}}
-         c@{\hspace*{-0.00001\textwidth}}
-         c@{\hspace*{-0.00001\textwidth}}
-        }
-    GA  &  PSO & GA \& PSO\\   
-    \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
+% \begin{figure*}[h!tb]
+%     \begin{tabular}
+%         {c@{\hspace*{-0.00001\textwidth}}
+%          c@{\hspace*{-0.00001\textwidth}}
+%          c@{\hspace*{-0.00001\textwidth}}
+%         }
+%     GA  &  PSO & GA \& PSO\\   
+%     \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
+%     \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
+%     \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
 
-    \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
+%     \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
+%     \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
+%     \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
 
-    \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
+%     \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
+%     \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
+%     \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
 
-    \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
+%     \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
+%     \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
+%     \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
 
-    \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
-    \end{tabular}
-    \vspace{-3ex}
-     \caption{
- Scaling of runtime with dimension to reach certain target values $\Delta f$. Lines:
- average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
- the most difficult target that was reached at least once (but not always);
- Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
- interquartile range with median of simulated runs; All values are divided by
- dimension and plotted as $log_{10}$ values versus dimension. 
- %Shown is the aRT for
- %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
- Numbers above aRT-symbols
- (if appearing) indicate the number of trials reaching the respective target.
- %The light thick line with diamonds indicates the best algorithm from BBOB 2009
- %for the most difficult target. Horizontal lines mean linear scaling, slanted
- %grid lines depict quadratic scaling.
- }
-    \end{figure*}
+%     \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
+%     \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
+%     \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
+%     \end{tabular}
+%     \vspace{-3ex}
+%      \caption{
+%  Scaling of runtime with dimension to reach certain target values $\Delta f$. Lines:
+%  average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
+%  the most difficult target that was reached at least once (but not always);
+%  Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
+%  interquartile range with median of simulated runs; All values are divided by
+%  dimension and plotted as $log_{10}$ values versus dimension. 
+%  %Shown is the aRT for
+%  %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
+%  Numbers above aRT-symbols
+%  (if appearing) indicate the number of trials reaching the respective target.
+%  %The light thick line with diamonds indicates the best algorithm from BBOB 2009
+%  %for the most difficult target. Horizontal lines mean linear scaling, slanted
+%  %grid lines depict quadratic scaling.
+%  }
+% \end{figure*}
 
 
     \begin{figure}[h!tb]
@@ -149,9 +194,5 @@ same parameters as before.
 
   The authors would also like to thank the anonymous referees for
   their valuable comments and helpful suggestions. The work is
-  supported by the \grantsponsor{GS501100001809}{XXXXXX XXX
-    XXXX} under Grant
-  No.:~\grantnum{GS5SAAA00001809}{61273304}
-  and~\grantnum[http://www.nnsf.cn/xxxxxxxx]{G1100001809}{XXXX XXXXX}.
-
+  supported by the 
 \end{acks}
