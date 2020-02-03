@@ -58,6 +58,60 @@ benchmark, we used the first five functions of the BBOB testbed.
 
 \section{State of the Art}
 
+\section{Proposed Method}
+
+\section{Setup}
+\begin{table}
+    \small
+    \caption{ DEAP GA EvoWorker Parameters }
+    \label{tab:GAparams} 
+    \centering
+    \small
+    \begin{tabular}{|l|c|}
+      \hline
+      Selection & Tournament size=12                            \\ \hline
+      Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05   \\ \hline
+      Mutation Probability & [0.1,0.3]                          \\ \hline
+      Crossover & Two Point                                     \\ \hline
+      Crossover Probability  & [0.2,0.6]                          \\ \hline
+    \end{tabular}
+  \end{table}
+  
+  \begin{table}
+    \small
+    \caption{ EvoloPy PSO Parameters }
+    \label{tab:PSOparams} 
+    \centering
+    \small
+    \begin{tabular}{|l|c|}
+      \hline
+      $V_{max}$ & 6 \\ \hline
+      $W_{max}$ & $0.9$ \\ \hline
+      $W_{min}$ & $0.2$ \\ \hline
+      $C_1$ & 2 \\ \hline
+      $C_2$ & 2 \\ \hline
+    \end{tabular}
+  \end{table}
+
+
+  \begin{table}
+    \small
+    \caption{Parameters used in the experiments with ten populations
+    }
+    \label{tab:params:10}
+    \vspace{0.25cm}
+    \centering
+    \small
+    \begin{tabular}{|l|c|c|c|c|c|c|}
+      \hline
+      Dimension        & 2  & 3  & 5  & 10 & 20  & 40  \\ \hline
+      Generations      & 40 & 25 & 28 & 50 & 66  & 80  \\ \hline
+      Population Size  & 50 & 60 & 60 & 70 & 100 & 125 \\ \hline
+      Populations      & 10 & 10 & 10 & 10 & 10  & 10  \\ \hline
+      Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
+    \end{tabular}
+\end{table}
+
 % \begin{table*}
 %   \caption{Some Typical Commands}
 %   \label{tab:commands}
