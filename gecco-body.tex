@@ -99,7 +99,88 @@ conclusions of this paper and suggestions on future work in Section
 In general, population based algorithms have to keep a balance between
 exploration and exploitation via the clever use of selection and
 variation operators \cite{vcrepinvsek2013exploration}. In pursuit of
-that objective, it is important to keep diversity high \cite{yuan2005importance}.
+that objective, it is important to keep diversity high
+\cite{yuan2005importance}, but different algorithms have different
+mechanisms for increasing diversity (exploration) or decreasing it
+(exploitation). PSO has two constants that rule in which direction the
+{\em particle} is going to move: either randomly (exploration) or in
+the direction of the best particle (exploitation); evolutionary
+algorithms use mutation and, to a certain point, crossover for
+exploration and crossover and selection procedures for
+exploitation. Since these mechanisms are fundamentally different,
+using several different algorithms at the same time might be
+considered a win-win situation by way of performing exploitation in
+several different directions at the same time, which will be able to
+get closer to the solution as well as generate new possibilities.
+
+This
+is why hybrid population-based algorithms have been repeatedly
+suggested in the literature: Pandi et al. \cite{pandi2011dynamic}
+suggest a combination of swarm intelligence and another algorithm
+denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
+particle swarm optimization with bee colony algorithms, while Zhao et
+al. \cite{zhao2010hybrid} combine the latter with evolutionary
+algorithms.
+
+\begin{table}[h!tb]
+    \caption{Equivalence of terms between particle swarm optimization
+    and evolutionary algorithms. \label{tab:equivalence}}
+\centering
+\begin{tabular}{|c|c|}
+  PSO & EA \\ \hline
+  Position vector & {\em genes} in a chromosome \\ \hline
+  Move towards better & Selection  \\ \hline
+  Random motion & Mutation \\ \hline
+  Move towards centroid & Crossover \\ hline
+\end{tabular}
+\end{table}
+%
+EAs and PSOs share another characteristic, besides the fact that they
+act on populations: they can use the same data structures to
+represent every member of the population. Please check Table
+\ref{tab:equivalence} for equivalence of terms between PSO and EAs;
+additionally to the data structures used, there is a certain
+equivalence in the operators, but they are different enough to perform
+search in different ways. The fact that they use the same data
+structures means that you can apply them in turns, or simply start
+calling a ``chromosome'' a ``particle'' or the other way round,
+without any coversion, and keep working with it.
+
+This is what the first papers to propose such a hybrid algorithm, by
+Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem;
+mixing both algorithms, in principle, would allow them to avoid
+that. In general, however, a well-designed evolutionary or PSO
+algorithm will not fall in that local optimum; it is certainly true
+that, within a certain evaluation budget, neither might be able to
+find that global optimum. However, it is probably that they mean that,
+since exploitation of better-than-average solutions is done by the two
+algorithms in different directions, a hybrid algorithm might help the
+single-algorithm version to escape that.
+This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, % But
+                                % I don't have the paper and I'll have
+                                % to check - JJ
+with the objetive of solving electromagnetic problems,
+and Esmin et al. \cite{esmin2006hybrid} leveraged to design their
+algorithms; this idea was
+latter extended by Li et al. \cite{li2008gene}; in this work,
+chromosomes/particles represent Support Vector Machines, which are
+optimized to find the most representative features of gene expression
+data sets. PSO and EAs are applied serially: 10 iterations of each,
+after which the finalization criterium is examined; first PSO, then
+EA. Separate EA and PSO are tested against this hybrid algorithm,
+finding improvements of a few percent points in the accuracy over
+classification of the whole dataset. This marginal, but significative,
+improvement is essentially the kind of results that should be
+expected. While improvements in diversity always boost the results by
+allowing the algorithms to find better solutions, an
+order-of-magnitude difference is not usually  achieved, since both
+algorithm, by themselves, have good mechanisms for global
+exploration.
+
+Several other hybrid algorithms have been proposed more recently:
+Gulia et al. \cite{gulia2019hybrid} mix swarm and EAs to select
+software testing cases. % Maybe a bit of comment on how they actually
+                        % do it.
 
 
 \begin{figure*}
@@ -115,18 +196,21 @@ that needs to span two columns of text.}
 \subsection{Architecture}
 \label{arch}
 
-In this section, present our proposed model for the execution of
-multi-population based asynchronous algorithms. As we mention before, when
+In this section we present our proposed model for the execution of
+multi-population based asynchronous algorithms. As we have mentioned before, when
 designing efficient multi-population algorithms, we need to consider additional
 issues \cite{Ma2019}, including the number and size of populations, how they
-interact between them, and the search strategy and parametrization of
-populations. We have considered these requirements and propose a cloud-native
+interact or communicate between them, and the search strategy and parametrization of
+populations. We have considered these requirements and, in this paper,
+propose a cloud-native
 multi-population solution. In this model, populations are the primary data
-structure, and we can consider them as messages in a continuous stream flowing
-from one algorithm to the other. To achieve this ``continuous stream,''
-everything must happen asynchronously without components needing to wait for
-others. We implement this streaming functionality by using a message queue
-system. Figure \ref{fig:kafkeo} shows the general architecture. We can explain
+structure, and we package them as messages that are part of a continuous stream flowing
+from one computing node, performing an algorithm, to the next. To achieve this ``continuous stream,''
+everything must happen asynchronously without computing node needing to wait for
+others, and becoming available as soon as it is needed.
+
+We have implemented this streaming functionality by using a message queue
+system, whose general architecture is shown in Figure \ref{fig:kafkeo}. We can explain
 the model by using an analogy of producers and consumers of messages. There are
 two queues, one labeled \texttt{input}, and the other one \texttt{output}. In a
 queue, {\em push} operations are represented by solid arrows connecting to the
@@ -148,11 +232,11 @@ where its algorithm and execution parameters are specified. For instance, for a
 GA, the mutation rate, type of crossover operator, and other values are
 indicated.
 
-\item The setup process pushes each population to the \texttt{input}
+\item The setup process pushes each population on to the \texttt{input}
 queue so that they can be consumed by stateless functions responsible for the
 execution of the search.
 
-
+% before you have used Function in caps - JJ
 \item One or more \texttt{stateless functions} are constantly pulling
 population messages from the \texttt{input} queue. These functions have the
 task of executing the optimization algorithm. They take the current state of
@@ -160,9 +244,10 @@ the population and start to run the specified algorithm for a certain number of
 iterations.
 
 \item Once they finish the execution, the resulting populations are pushed to
-the \texttt{output} queue. Once finished, it pulls another population from the
+the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
+% You are using also caps here for the queue name - JJ
 \item The \texttt{controller} pulls populations from the \texttt{Output} queue,
 inspects the metadata describing the current state of the populations, and if
 the algorithm has found an optimal solution or the maximum number of iteration
@@ -196,16 +281,19 @@ serverless cloud application.
 \subsection{Stateless functions} 
 \label{functions} 
 
+% Maybe mention that before? You have already mentioned them above - JJ
 This message queue pattern is an essential component of a highly scalable
 reactive architecture; one of the reasons for this scalability is the use of
 stateless functions that have no secondary effects, or the need to read data
 from an external entity. Stateless functions do not need to read, keep, or
-modify data outside of the method. If we implement population-based
-optimization algorithms using stateless functions, then to the system, there is
+modify data outside of the scope of the method, it will have no side
+effects reading inputs and producing an output, mapping input to ouput
+as it were. If we implement population-based
+optimizarion algorithms using stateless functions, then to the system, there is
 no difference between having one or many copies of the same function pulling
 work from the queue all at the same time, because there are no unwanted side
 effects, including problems of resource locking resulting from this
-concurrency.
+concurrency. % Add a few references to our papers, anonymized or not - JJ
 
 To have a stateless version of a population-based algorithm, we only need to
 skip the step of creating a random population. Instead, the function receives
@@ -251,9 +339,11 @@ newly generated populations back to the \texttt{Input} message queue.
     \end{algorithmic}
 \end{algorithm}
 
-\section{Setup}
+\section{Experimental setup}
 \label{setup}
 
+% We don't verify, unless you will be comenting the results: you will
+% be explaining how the system to verify is going to be set up - JJ
 In this section, we verify if having a multi-population algorithm, with
 heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
