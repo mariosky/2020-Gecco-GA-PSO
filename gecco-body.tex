@@ -196,18 +196,21 @@ that needs to span two columns of text.}
 \subsection{Architecture}
 \label{arch}
 
-In this section, present our proposed model for the execution of
-multi-population based asynchronous algorithms. As we mention before, when
+In this section we present our proposed model for the execution of
+multi-population based asynchronous algorithms. As we have mentioned before, when
 designing efficient multi-population algorithms, we need to consider additional
 issues \cite{Ma2019}, including the number and size of populations, how they
-interact between them, and the search strategy and parametrization of
-populations. We have considered these requirements and propose a cloud-native
+interact or communicate between them, and the search strategy and parametrization of
+populations. We have considered these requirements and, in this paper,
+propose a cloud-native
 multi-population solution. In this model, populations are the primary data
-structure, and we can consider them as messages in a continuous stream flowing
-from one algorithm to the other. To achieve this ``continuous stream,''
-everything must happen asynchronously without components needing to wait for
-others. We implement this streaming functionality by using a message queue
-system. Figure \ref{fig:kafkeo} shows the general architecture. We can explain
+structure, and we package them as messages that are part of a continuous stream flowing
+from one computing node, performing an algorithm, to the next. To achieve this ``continuous stream,''
+everything must happen asynchronously without computing node needing to wait for
+others, and becoming available as soon as it is needed.
+
+We have implemented this streaming functionality by using a message queue
+system, whose general architecture is shown in Figure \ref{fig:kafkeo}. We can explain
 the model by using an analogy of producers and consumers of messages. There are
 two queues, one labeled \texttt{input}, and the other one \texttt{output}. In a
 queue, {\em push} operations are represented by solid arrows connecting to the
@@ -229,11 +232,11 @@ where its algorithm and execution parameters are specified. For instance, for a
 GA, the mutation rate, type of crossover operator, and other values are
 indicated.
 
-\item The setup process pushes each population to the \texttt{input}
+\item The setup process pushes each population on to the \texttt{input}
 queue so that they can be consumed by stateless functions responsible for the
 execution of the search.
 
-
+% before you have used Function in caps - JJ
 \item One or more \texttt{stateless functions} are constantly pulling
 population messages from the \texttt{input} queue. These functions have the
 task of executing the optimization algorithm. They take the current state of
@@ -241,9 +244,10 @@ the population and start to run the specified algorithm for a certain number of
 iterations.
 
 \item Once they finish the execution, the resulting populations are pushed to
-the \texttt{output} queue. Once finished, it pulls another population from the
+the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
+% You are using also caps here for the queue name - JJ
 \item The \texttt{controller} pulls populations from the \texttt{Output} queue,
 inspects the metadata describing the current state of the populations, and if
 the algorithm has found an optimal solution or the maximum number of iteration
@@ -277,16 +281,19 @@ serverless cloud application.
 \subsection{Stateless functions} 
 \label{functions} 
 
+% Maybe mention that before? You have already mentioned them above - JJ
 This message queue pattern is an essential component of a highly scalable
 reactive architecture; one of the reasons for this scalability is the use of
 stateless functions that have no secondary effects, or the need to read data
 from an external entity. Stateless functions do not need to read, keep, or
-modify data outside of the method. If we implement population-based
+modify data outside of the scope of the method, it will have no side
+effects reading inputs and producing an output, mapping input to ouput
+as it were. If we implement population-based
 optimizarion algorithms using stateless functions, then to the system, there is
 no difference between having one or many copies of the same function pulling
 work from the queue all at the same time, because there are no unwanted side
 effects, including problems of resource locking resulting from this
-concurrency.
+concurrency. % Add a few references to our papers, anonymized or not - JJ
 
 \subsection{Migration}
 \label{migration}
@@ -329,9 +336,11 @@ the newly generated populations back to the \texttt{Input} message queue.
 
 
 
-\section{Setup}
+\section{Experimental setup}
 \label{setup}
 
+% We don't verify, unless you will be comenting the results: you will
+% be explaining how the system to verify is going to be set up - JJ
 In this section, we verify if having a multi-population algorithm, with
 heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
