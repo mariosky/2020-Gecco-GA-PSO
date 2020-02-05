@@ -99,7 +99,19 @@ conclusions of this paper and suggestions on future work in Section
 In general, population based algorithms have to keep a balance between
 exploration and exploitation via the clever use of selection and
 variation operators \cite{vcrepinvsek2013exploration}. In pursuit of
-that objective, it is important to keep diversity high \cite{yuan2005importance}.
+that objective, it is important to keep diversity high
+\cite{yuan2005importance}, but different algorithms have different
+mechanisms for increasing diversity (exploration) or decreasing it
+(exploitation). PSO has two constants that rule in which direction the
+{\em particle} is going to move: either randomly (exploration) or in
+the direction of the best particle (exploitation); evolutionary
+algorithms use mutation and, to a certain point, crossover for
+exploration and crossover and selection procedures for
+exploitation. Since these mechanisms are fundamentally different,
+using several different algorithms at the same time might be
+considered a win-win situation by way of performing exploitation in
+several different directions at the same time, which will be able to
+get closer to the solution as well as generate new possibilities.
 
 
 \begin{figure*}
