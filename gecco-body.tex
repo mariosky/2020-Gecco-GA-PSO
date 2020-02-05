@@ -103,6 +103,86 @@ that objective, it is important to keep diversity high \cite{yuan2005importance}
 \section{Proposed Method}
 \label{method}
 
+In this section, present our proposed model for the execution of
+multi-population based asynchronous algorithms. As we mention before, when
+designing efficient multi-population algorithms, we need to consider additional
+issues \cite{Ma2019}, including the number and size of populations, how they
+interact between them, and the search strategy and parametrization of
+populations. We have considered these requirements and propose a cloud-native
+multi-population solution. In this model, populations are the primary data
+structure, and we can consider them as messages in a continuous stream flowing
+from one algorithm to the other. To achieve this ``continuous stream,''
+everything must happen asynchronously without components needing to wait for
+others. We implement this streaming functionality by using a message queue
+system. Figure \ref{fig:kafkEO} shows the general architecture. We can explain
+the model by using an analogy of producers and consumers of messages. There are
+two queues, one labeled \texttt{input}, and the other one \texttt{output}. In a
+queue, {\em push} operations are represented by solid arrows connecting to the
+left side and pull or pop operations as solid arrows leaving from the right
+side. The \texttt{controller} process, is responsible for the migration of
+individuals from one population to the other, and keeping track of the
+iterations of the algorithm. There is at least one \texttt{stateless Function}
+worker process responsible for running the isolated algorithms. The two
+processes \texttt{PSO} and \texttt{GA}, are shown.
+
+We can follow the path of messages as follows:
+
+\begin{enumerate}
+
+\item In this step, the specified number of populations are created according
+to the configuration. Populations at this moment are just static data messages,
+including each individual inside. Each population includes a metadata section
+where its algorithm and execution parameters are specified. For instance, for a
+GA, the mutation rate, type of crossover operator, and other values are
+indicated.
+
+\item The setup process pushes each population to the \texttt{input}
+queue so that they can be consumed by stateless functions responsible for the
+execution of the search.
+
+
+\item One or more \texttt{stateless functions} are constantly pulling
+population messages from the \texttt{input} queue. These functions have the
+task of executing the optimization algorithm. They take the current state of
+the population and start to run the specified algorithm for a certain number of
+iterations.
+
+\item Once they finish the execution, the resulting populations are pushed to
+the \texttt{output} queue. Once finished, it pulls another population from the
+queue.
+
+\item The \texttt{controller} pulls populations from the \texttt{Output} queue,
+inspects the metadata describing the current state of the populations, and if
+the algorithm has found an optimal solution or the maximum number of iteration
+has been reached it stops the execution.
+
+\item Otherwise, it passes the stream of messages to a migration function,
+where populations are mixed. Migration generates new populations, and they are
+again pushed to the \texttt{input} queue to continue in a loop. The
+\texttt{controller} is also responsible for logging the metadata.
+
+\end{enumerate}
+
+This reactive architecture has the following advantages:
+\begin{itemize}
+
+\item It decouples the population and the population-based algorithm. In this
+design, we can have one or many processing nodes, each running a different
+search strategy.
+
+\item Also, the reactive controller gives designers more control over the
+multi-population algorithm. In this process, designers can dynamically change
+the number of populations, population parameters, and migration details
+on-the-fly.
+
+\item Another advantage is that algorithm designers have many options for
+implementing this simple architecture. The same basic components can be
+implemented as a single multi-threaded program, or as a highly scalable
+serverless cloud application.
+
+\end{itemize}
+
+
 \section{Setup}
 \label{setup}
 
