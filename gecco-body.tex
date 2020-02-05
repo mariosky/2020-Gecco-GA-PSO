@@ -153,19 +153,7 @@ calling a ``chromosome'' a ``particle'' or the other way round,
 without any coversion, and keep working with it.
 
 This is what the first papers to propose such a hybrid algorithm, by
-Robinson et al. \cite{Robinson2002}, explicitly played on this
-fact and also on what we might call diversity of local minima by
-running an algorithm on a population until it became stagnated, and
-then switching to the other one. This was done apparently only once,
-but eventually the mixture of the two algorithms was able to obtain
-better results in the design of a kind of antenna called ``horn'' than
-each one of them separately, although they report that the best value
-was obtained by the algorithm that started as a PSO and terminated as
-an evolutionary one.
-
-Another kind of hybrid was proposed independently by 
-Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem,
-that is, the same as the previous one;
+Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem;
 mixing both algorithms, in principle, would allow them to avoid
 that. In general, however, a well-designed evolutionary or PSO
 algorithm will not fall in that local optimum; it is certainly true
@@ -177,16 +165,8 @@ single-algorithm version to escape that.
 This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, % But
                                 % I don't have the paper and I'll have
                                 % to check - JJ
-with the objetive of solving electromagnetic problems. What they do is
-to split the population into two different populations which will be
-processed by an EA and a PSO algorithm; the new individuals generated
-are merged in a single population, which is then split all over again
-in the next iteration. This guarantees that none of the two algorithms
-is getting stuck, since the individuals will be randomly subjected to
-one or the other every generation.
-
-
-Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
+with the objetive of solving electromagnetic problems,
+and Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 latter extended by Li et al. \cite{li2008gene}; in this work,
 chromosomes/particles represent Support Vector Machines, which are
@@ -473,13 +453,6 @@ this is the same as $40*50*10*10$.
   \end{tabular}
 \end{table}
 
-We deployed the container-based application in which we run the experiments in a
-Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads in total,
-and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
-(version 3.7) code.  Container images and Docker compose file are available at
-(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/)
-
-
 \begin{figure}[h!tb]
   \begin{tabular}
       {c@{\hspace*{-0.00001\textwidth}}
@@ -503,6 +476,15 @@ and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
     all other algorithms ($p < 0.01$) and Bonferroni 
     correction number of dimensions (six).}
 \end{figure}  
+
+We deployed the container-based application in which we run the experiments in a
+Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads in total,
+and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
+(version 3.7) code.  Container images and Docker compose file are available at
+(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/)
+
+
+
 
 \section{Results}
 \label{results}
