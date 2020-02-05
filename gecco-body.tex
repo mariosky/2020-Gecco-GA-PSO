@@ -5,13 +5,15 @@ decades to tackle complex problems \cite{yang2014nature}. These
 algorithms include evolutionary algorithms (EAs)
 \cite{back1996evolutionary} and swarm intelligence (SI)
 \cite{kennedy2006swarm}. % Maybe mention a few more, like bee o others
-                         % like that? - JJ
+                         % like that? - JJ 
+                         % ok, we have them by the dozen - Mario
 Genetic Algorithms (GAs) 
-\cite{holland1992adaptation,eiben2003genetic}, and
-Differential Evolution (DE) \cite{karabouga2004simple} are two popular
-EAs, while examples of SI algorithms 
+\cite{holland1992adaptation,eiben2003genetic}, 
+Differential Evolution (DE) \cite{karabouga2004simple}, and 
+Genetic Programming (GP) \cite{back1996evolutionary} are popular EAs, while examples of SI algorithms 
 \cite{kennedy2006swarm} are particle swarm optimization (PSO)
-\cite{clerc2010particle}, and ant colony algorithms (ACO) \cite{dorigo1999ant}.
+\cite{clerc2010particle}, artificial bee colony (ABC) \cite{karaboga2005idea} and Grey Wolf Optimization
+(GWO) \cite{mirjalili2014grey}, and ant colony algorithms (ACO) \cite{dorigo1999ant}.
 A common characteristic of these kind of methods is the
 use of an initial set of random candidate solutions that are manipulated by the
 algorithm to generate a new set of candidates, and because of this, we commonly
@@ -19,6 +21,11 @@ referred to them as population-based algorithms. % There are other
                                 % population based algorithms that are
                                 % not natural, such as PBIL. Maybe you
                                 % could mention them - JJ
+There are other stochastic optimization methods, that even if they are not
+nature-inspired, they employ the concept of an evolving population. An example
+of this kind of method is population-based incremental learning (PBIL)
+\cite{baluja1994population}, which is an optimization and an estimation of
+distribution algorithm. estimation of distribution algorithm.
 
 Since instead of piecewise constructing a population or changing it
 incrementally, all members of the population have to be evaluated to
@@ -29,7 +36,7 @@ heterogeneous e it is difficult to overcome that $n$ factor, where $n$
 is the population size, in the complexity of every iteration of the
 algorithm. That is why researchers have been proposing some form of
 parallelization since early on \cite{muhlenbein1988evolution} to
-increase their scalability. % Not scalability, but wallclock timing - JJ
+decrease their execution time. % Not scalability, but wallclock timing - JJ
 One of the first methods of parallelization was the island
 model, which lead to an increased performance
 \cite{gorges1990explicit,grosso1985computer}. The concept was to divide the
