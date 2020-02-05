@@ -351,7 +351,9 @@ newly generated populations back to the \texttt{input} message queue.
 
 % We don't verify, unless you will be comenting the results: you will
 % be explaining how the system to verify is going to be set up - JJ
-In this section, we verify if having a multi-population algorithm, with
+% Yes, you are right - Mario
+In this section, present the experimental setup needed 
+to verify if having a multi-population algorithm, with
 heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
 than a homogeneous setting.
@@ -478,20 +480,29 @@ this is the same as $40*50*10*10$.
     correction number of dimensions (six).}
 \end{figure}  
 
-We deployed the container-based application in which we run the experiments in a
-Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads in total,
+We deployed the container-based application in a
+Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads,
 and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
-(version 3.7) code.  Container images and Docker compose file are available at
-(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/)
-
-
+(version 3.7) code. Container images and Docker compose file are available at
+(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/). 
+The experiments were performed with COCO , version bbob.v15.03 in python, 
+the plots were produced with version 2.3.2.
 
 
 \section{Results}
 \label{results}
 
+The results obtained show (see Figure ) that the proposed algorithm reaches the
+$10^{-8}$ target value on all functions ($f_1-f_5$), and scales well to higher
+dimensions. On the other hand, the GA algorithm has a hard time reaching even
+the $10^{-5}$ target value in functions ($f_1-f_4$) but performs well on
+function $f_5$. The multi-population PSO has a better performance, but it is not
+able to reach the  $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$.
 
-
+These results are also competitive when compared against other GA and PSO
+implementations of past BBOB workshops. In particular, the simple binary GA algorithm
+of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
+and an EDA and PSO hybrid \cite{el2009blackHybrid}.
 
 
 
