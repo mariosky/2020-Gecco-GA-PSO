@@ -189,7 +189,7 @@ one or the other every generation.
 
 Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
-latter extended by Li et al. \cite{li2008gene}; in this work,
+later extended by Li et al. \cite{li2008gene}; in this work,
 chromosomes/particles represent Support Vector Machines, which are
 optimized to find the most representative features of gene expression
 data sets. PSO and EAs are applied serially: 10 iterations of each,
@@ -205,9 +205,17 @@ algorithm, by themselves, have good mechanisms for global
 exploration.
 
 Several other hybrid algorithms have been proposed more recently:
-Gulia et al. \cite{gulia2019hybrid} mix swarm and EAs to select
-software testing cases. % Maybe a bit of comment on how they actually
-                        % do it.
+Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization, which is a swarm intelligence algorithm,  and EAs to select
+software testing cases. ACO and EA are used serially, with GA acting
+to refine the test suite initially selected by the ant algorithm.
+
+The state of the art is, then, use swarm intelligence and evolutionary
+algorithms coupled to a population to which they are applied either
+one after the other, or splitting the population so that every one is
+applied to a part. In our case, however, population and algorithms are
+decoupled, and this decoupled architecture allows to mix algorithms in
+several different ways, which will be tested in this paper using the
+method explained next.
 
 
 \begin{figure*}
@@ -370,16 +378,14 @@ newly generated populations back to the \texttt{input} message queue.
 \section{Experimental setup}
 \label{setup}
 
-% We don't verify, unless you will be comenting the results: you will
-% be explaining how the system to verify is going to be set up - JJ
-% Yes, you are right - Mario
-In this section, present the experimental setup needed 
+In this section, we present the experimental setup needed 
 to verify if having a multi-population algorithm, with
 heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
 than a homogeneous setting.
 
-For the experiment, we used five benchmark separable functions ($f_1 to f_5 $)
+% Use present perfect more than past - JJ
+For the experiment, we have used five benchmark separable functions ($f_1 to f_5 $)
 from the Continuous Noiseless BBOB testbed, which is part of the Comparing
 Continuous Optimizers (COCO) framework \cite{hansen2016coco}. The functions are
 real-parameter, single-objective benchmark functions. We tested with fifteen
@@ -424,7 +430,7 @@ only provided the population size and number of generations as parameters.
     Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05   \\ \hline
     Mutation Probability & [0.1,0.3]                          \\ \hline
     Crossover & Two Point                                     \\ \hline
-    Crossover Probability  & [0.2,0.6]                          \\ \hline
+    Crossover Probability  & [0.2,0.6]                        \\ \hline
   \end{tabular}
 \end{table}
 
@@ -526,6 +532,8 @@ of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel 
 and an EDA and PSO hybrid \cite{el2009blackHybrid}.
 
 
+% This will have to be expanded a tiny bit - JJ
+
 
 % \subsection{Experiment}
 % \label{sec:exp_results}
@@ -594,12 +602,16 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}.
 
 
 
-\section{Conclusions}
+\section{Conclusions and future lines of work}
 \label{conclusions}
+
+
+
+As future lines of work, we will 
 
 \begin{acks}
 
   The authors would also like to thank the anonymous referees for
   their valuable comments and helpful suggestions. The work is
-  supported by the 
+  supported by the so and so.
 \end{acks}
