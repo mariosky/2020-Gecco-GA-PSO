@@ -154,20 +154,40 @@ calling a ``chromosome'' a ``particle'' or the other way round,
 without any coversion, and keep working with it.
 
 This is what the first papers to propose such a hybrid algorithm, by
-Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem;
-mixing both algorithms, in principle, would allow them to avoid
-that. In general, however, a well-designed evolutionary or PSO
+Robinson et al. \cite{Robinson2002}, explicitly played on this
+fact and also on what we might call diversity of local minima by
+running an algorithm on a population until it became stagnated, and
+then switching to the other one. This was done apparently only once,
+but eventually the mixture of the two algorithms was able to obtain
+better results in the design of a kind of antenna called ``horn'' than
+each one of them separately, although they report that the best value
+was obtained by the algorithm that started as a PSO and terminated as
+an evolutionary one.
+
+Another kind of hybrid was proposed independently by 
+Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem,
+that is, the same as the previous one; it mixes both algorithms
+testing in different configurations: ``parallel'' and ``serial''
+testing which configuration works better and is able to avoid
+that. Their results on benchmark functions are mixed;
+In general, however, a well-designed evolutionary or PSO
 algorithm will not fall in that local optimum; it is certainly true
 that, within a certain evaluation budget, neither might be able to
 find that global optimum. However, it is probably that they mean that,
 since exploitation of better-than-average solutions is done by the two
 algorithms in different directions, a hybrid algorithm might help the
 single-algorithm version to escape that.
-This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, % But
-                                % I don't have the paper and I'll have
-                                % to check - JJ
-with the objetive of solving electromagnetic problems,
-and Esmin et al. \cite{esmin2006hybrid} leveraged to design their
+
+This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, with the objetive of solving electromagnetic problems. What they do is
+to split the population into two different populations which will be
+processed by an EA and a PSO algorithm; the new individuals generated
+are merged in a single population, which is then split all over again
+in the next iteration. This guarantees that none of the two algorithms
+is getting stuck, since the individuals will be randomly subjected to
+one or the other every generation.
+
+
+Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 latter extended by Li et al. \cite{li2008gene}; in this work,
 chromosomes/particles represent Support Vector Machines, which are
