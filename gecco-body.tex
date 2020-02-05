@@ -193,6 +193,20 @@ implemented as a single multi-threaded program, or as a highly scalable
 serverless cloud application.
 \end{itemize}
 
+\subsection{Stateless functions} 
+\label{functions} 
+
+This message queue pattern is an essential component of a highly scalable
+reactive architecture; one of the reasons for this scalability is the use of
+stateless functions that have no secondary effects, or the need to read data
+from an external entity. Stateless functions do not need to read, keep, or
+modify data outside of the method. If we implement population-based
+optimizarion algorithms using stateless functions, then to the system, there is
+no difference between having one or many copies of the same function pulling
+work from the queue all at the same time, because there are no unwanted side
+effects, including problems of resource locking resulting from this
+concurrency.
+
 \subsection{Migration}
 \label{migration}
 %% TO DO:
@@ -237,7 +251,43 @@ the newly generated populations back to the \texttt{Input} message queue.
 \section{Setup}
 \label{setup}
 
+In this section, we verify if having a multi-population algorithm, with
+heterogeneous populations and the support for mixing search strategies,
+increases the performance of the search by needing fewer function evaluations
+than a homogeneous setting.
 
+For the experiment, we used five benchmark separable functions ($f_1 to f_5 $)
+from the Continuous Noiseless BBOB testbed, which is part of the Comparing
+Continuous Optimizers (COCO) framework \cite{hansen2016coco}. The functions are
+real-parameter, single-objective benchmark functions. We tested with fifteen
+instances of each function, each having a different optimal value. The standard
+benchmark of the testbed uses these 15 instances over 2, 3, 5, 10, 20, and 40
+dimensions. With the maximum number of function evaluations (\#FEs) increasing
+with the dimension (D), using the expression $10^5 \cdot D$ (i.e. for $D = 2$,
+\#FEs is $200,000$).
+
+The COCO framework offers several tools to compare the performance of
+algorithms, generating data sets, tables, and reports for an experiment, we
+compared using the average required time (aRT). There is a
+repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
+of more than 200 results for the noiseless BBOB testbed, collected from BBOB
+workshops and special sessions between the years 2009 and 2019. To test the
+heterogeneous multi-population capabilities, we compare the aRT between a
+homogeneous and an ensemble of multi-populations, using Genetic Algorithms
+(GAs) and Particle Swarm Optimization (PSO). We used the DEAP framework for the
+GA stateless function \cite{fortin2012deap} and the EvoloPy library
+\cite{faris2016evolopy} for the PSO algorithm function. We show the parameters
+for each algorithm, in Tables \ref{tab:GAparams} and Table \ref{tab:PSOparams}
+for the GA and PSO, respectively. We obtained these parameters by following a
+method we used in a previous work \cite{garcia2017benchmarking}. First, we
+tested the parameters for the Rastrigin separable function with five
+dimensions. After about fifteen experiments, the most challenging targets were
+achieved for this particular function. We tested again with functions one to
+three, and after obtaining favorable results, we set the PSO and GA algorithm
+parameters. We set the mutation and crossover probabilities of the GA randomly
+to have heterogeneous populations; the table shows the range of these
+parameters. We did not change these settings during the experiments, and we
+only provided the population size and number of generations as parameters.
 
 \section{Results}
 \label{results}
