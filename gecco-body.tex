@@ -147,10 +147,19 @@ calling a ``chromosome'' a ``particle'' or the other way round,
 without any coversion, and keep working with it.
 
 This is what the first papers to propose such a hybrid algorithm, by
-Shi et al. \cite{shi2003hybrid}, Grimaldi et al. \cite{grimaldi2005genetical}, % But
+Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem;
+mixing both algorithms, in principle, would allow them to avoid
+that. In general, however, a well-designed evolutionary or PSO
+algorithm will not fall in that local optimum; it is certainly true
+that, within a certain evaluation budget, neither might be able to
+find that global optimum. However, it is probably that they mean that,
+since exploitation of better-than-average solutions is done by the two
+algorithms in different directions, a hybrid algorithm might help the
+single-algorithm version to escape that.
+This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, % But
                                 % I don't have the paper and I'll have
                                 % to check - JJ
-this one with the objetive of applying to electromagnetic problems,
+with the objetive of solving electromagnetic problems,
 and Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 latter extended by Li et al. \cite{li2008gene}; in this work,
