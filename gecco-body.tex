@@ -113,6 +113,39 @@ considered a win-win situation by way of performing exploitation in
 several different directions at the same time, which will be able to
 get closer to the solution as well as generate new possibilities.
 
+This
+is why hybrid population-based algorithms have been repeatedly
+suggested in the literature: Pandi et al. \cite{pandi2011dynamic}
+suggest a combination of swarm intelligence and another algorithm
+denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
+particle swarm optimization with bee colony algorithms, while Zhao et
+al. \cite{zhao2010hybrid} combine the latter with evolutionary
+algorithms.
+
+\begin{table}[h!tb]
+    \caption{Equivalence of terms between particle swarm optimization
+    and evolutionary algorithms. \label{tab:equivalence}}
+\centering
+\begin{tabular}{|c|c|}
+  PSO & EA \\ \hline
+  Position vector & {\em genes} in a chromosome \\ \hline
+  Move towards better & Selection  \\ \hline
+  Random motion & Mutation \\ \hline
+  Move towards centroid & Crossover \\ hline
+\end{tabular}
+\end{table}
+%
+EAs and PSOs share another characteristic, besides the fact that they
+act on populations: they can use the same data structures to
+represent every member of the population. Please check Table
+\ref{tab:equivalence} for equivalence of terms between PSO and EAs;
+additionally to the data structures used, there is a certain
+equivalence in the operators, but they are different enough to perform
+search in different ways. The fact that they use the same data
+structures means that you can apply them in turns, or simply start
+calling a ``chromosome'' a ``particle'' or the other way round,
+without any coversion, and keep working with it. 
+
 
 \begin{figure*}
 \includegraphics[width=5in]{kafkeo}
