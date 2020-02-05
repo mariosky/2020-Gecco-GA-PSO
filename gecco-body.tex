@@ -201,35 +201,40 @@ reactive architecture; one of the reasons for this scalability is the use of
 stateless functions that have no secondary effects, or the need to read data
 from an external entity. Stateless functions do not need to read, keep, or
 modify data outside of the method. If we implement population-based
-optimizarion algorithms using stateless functions, then to the system, there is
+optimization algorithms using stateless functions, then to the system, there is
 no difference between having one or many copies of the same function pulling
 work from the queue all at the same time, because there are no unwanted side
 effects, including problems of resource locking resulting from this
 concurrency.
+
+To have a stateless version of a population-based algorithm, we only need to
+skip the step of creating a random population. Instead, the function receives
+the population as a parameter along with the required parameters. After several
+iterations (specified in the parameters), the function returns the current state
+of the population, with additional data describing the local execution. This
+data is necessary to log the \#FE and current fitness values.
+
 
 \subsection{Migration}
 \label{migration}
 %% TO DO:
 %% Explain migration
 
-The   \texttt{buffer\_with\_count(3)} operator, waits until it receives 
-three valid messages to emit a single message that contains a list with
-the previous three. The \texttt{population\_mixer}  method requires that list to mix them. 
-In our previous work, we needed a local buffer for storing a certain 
-number of populations to mix them with others. This design has the advantage
-of not needing extra memory, and it integrates better with the reactive paradigm.
-A possible disadvantage can be that it only mixes contiguous populations,
-but this can be mitigated with a larger buffer.
+As the controller is pulling population messages from the output queue, it waits
+until it takes three valid populations to trigger an event handled by the
+\texttt{population\_mixer}  function, that takes a list containing the three
+populations. This reactive design has the advantage of not needing to keep a
+buffer in memory or external storage, and it follows the reactive paradigm. A
+possible disadvantage can be that it only mixes contiguous populations, but we
+could mitigate this with a larger buffer.
 
-The \texttt{population\_mixer} receives a list of three populations,
-let us say [A, B, C], and calls the migration method shown in
-Algorithm \ref{alg:migration}  for [A, B], [B, C] and [A, C]. 
-The migration algorithm sorts both populations and generates
-a new population containing the best half from each.
-Finally, the method pushes the new populations to the 
-\texttt{messages Observable}. From there, a
-\texttt{publish(population)} observer is responsible for pushing
-the newly generated populations back to the \texttt{Input} message queue.
+The \texttt{population\_mixer} receives a list of three populations, let us say
+[A, B, C], and calls the migration method shown in Algorithm \ref{alg:migration}
+for [A, B], [B, C] and [A, C]. The migration algorithm sorts both populations
+and generates a new population containing the best half from each. Finally, the
+method pushes the new populations to the \texttt{messages Observable}. From
+there, a \texttt{publish(population)} observer is responsible for pushing the
+newly generated populations back to the \texttt{Input} message queue.
 
 \begin{algorithm}
     \caption{Migration}
@@ -245,8 +250,6 @@ the newly generated populations back to the \texttt{Input} message queue.
         \EndProcedure 
     \end{algorithmic}
 \end{algorithm}
-
-
 
 \section{Setup}
 \label{setup}
@@ -289,59 +292,77 @@ to have heterogeneous populations; the table shows the range of these
 parameters. We did not change these settings during the experiments, and we
 only provided the population size and number of generations as parameters.
 
+\begin{table}
+  \small
+  \caption{ DEAP GA EvoWorker Parameters }
+  \label{tab:GAparams} 
+  \centering
+  \small
+  \begin{tabular}{|l|c|}
+    \hline
+    Selection & Tournament size=12                            \\ \hline
+    Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05   \\ \hline
+    Mutation Probability & [0.1,0.3]                          \\ \hline
+    Crossover & Two Point                                     \\ \hline
+    Crossover Probability  & [0.2,0.6]                          \\ \hline
+  \end{tabular}
+\end{table}
+
+\begin{table}
+  \small
+  \caption{ EvoloPy PSO Parameters }
+  \label{tab:PSOparams} 
+  \centering
+  \small
+  \begin{tabular}{|l|c|}
+    \hline
+    $V_{max}$ & 6 \\ \hline
+    $W_{max}$ & $0.9$ \\ \hline
+    $W_{min}$ & $0.2$ \\ \hline
+    $C_1$ & 2 \\ \hline
+    $C_2$ & 2 \\ \hline
+  \end{tabular}
+\end{table}
+
+To run the experiments, we deployed the docker application with 8 worker
+containers hosting the stateless version of the GA and PSO algorithms described
+earlier and a total of 10 populations. Table \ref{tab:params} shows the
+parameters we used. The {\em GA-PSO Ratio} parameter specifies the proportion of
+populations that will use the GA algorithm. Next, we specify that the experiment
+will use only the first five functions, and how many instances. {\em Instances}
+has a default value of 15. We used this value because it is the standard for the
+BBOB benchmark \cite{hansen2016coco}. We define a list of the dimensions that we
+will test in the {\em Dimensions} parameter. Then, we defined for each
+dimension: the number of populations, and for each population,  the number of
+generations and population size. Finally, we define how many complete loops the
+algorithm will perform. The product of these parameters gives us a maximum
+\#FEs. For example, for $D = 2$, the maximum number evaluations is $200,000$,
+this is the same as $40*50*10*10$.
+
+\begin{table}
+  \small
+  \caption{Parameters used in the experiments with ten populations
+  }
+  \label{tab:params:10}
+  \vspace{0.25cm}
+  \centering
+  \small
+  \begin{tabular}{|l|c|c|c|c|c|c|}
+    \hline
+    Dimension        & 2  & 3  & 5  & 10 & 20  & 40  \\ \hline
+    Generations      & 40 & 25 & 28 & 50 & 66  & 80  \\ \hline
+    Population Size  & 50 & 60 & 60 & 70 & 100 & 125 \\ \hline
+    Populations      & 10 & 10 & 10 & 10 & 10  & 10  \\ \hline
+    Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
+  \end{tabular}
+\end{table}
+
 \section{Results}
 \label{results}
 
-\begin{table}
-    \small
-    \caption{ DEAP GA EvoWorker Parameters }
-    \label{tab:GAparams} 
-    \centering
-    \small
-    \begin{tabular}{|l|c|}
-      \hline
-      Selection & Tournament size=12                            \\ \hline
-      Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05   \\ \hline
-      Mutation Probability & [0.1,0.3]                          \\ \hline
-      Crossover & Two Point                                     \\ \hline
-      Crossover Probability  & [0.2,0.6]                          \\ \hline
-    \end{tabular}
-  \end{table}
-  
-  \begin{table}
-    \small
-    \caption{ EvoloPy PSO Parameters }
-    \label{tab:PSOparams} 
-    \centering
-    \small
-    \begin{tabular}{|l|c|}
-      \hline
-      $V_{max}$ & 6 \\ \hline
-      $W_{max}$ & $0.9$ \\ \hline
-      $W_{min}$ & $0.2$ \\ \hline
-      $C_1$ & 2 \\ \hline
-      $C_2$ & 2 \\ \hline
-    \end{tabular}
-  \end{table}
 
 
-  \begin{table}
-    \small
-    \caption{Parameters used in the experiments with ten populations
-    }
-    \label{tab:params:10}
-    \vspace{0.25cm}
-    \centering
-    \small
-    \begin{tabular}{|l|c|c|c|c|c|c|}
-      \hline
-      Dimension        & 2  & 3  & 5  & 10 & 20  & 40  \\ \hline
-      Generations      & 40 & 25 & 28 & 50 & 66  & 80  \\ \hline
-      Population Size  & 50 & 60 & 60 & 70 & 100 & 125 \\ \hline
-      Populations      & 10 & 10 & 10 & 10 & 10  & 10  \\ \hline
-      Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
-    \end{tabular}
-\end{table}
+
 
 
 % \subsection{Experiment}
