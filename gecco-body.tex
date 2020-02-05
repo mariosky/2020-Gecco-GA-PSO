@@ -293,47 +293,6 @@ the newly generated populations back to the \texttt{Input} message queue.
     \end{tabular}
 \end{table}
 
-% \begin{table*}
-%   \caption{Some Typical Commands}
-%   \label{tab:commands}
-%   \begin{tabular}{ccl}
-%     \toprule
-%     Command &A Number & Comments\\
-%     \midrule
-%     \texttt{{\char'134}author} & 100& Author \\
-%     \texttt{{\char'134}table}& 300 & For tables\\
-%     \texttt{{\char'134}table*}& 400& For wider tables\\
-%     \bottomrule
-%   \end{tabular}
-% \end{table*}
-% % end the environment with {table*}, NOTE not {table}!
-
-
-% %\begin{figure}
-% %\includegraphics[height=1in, width=1in]{fly}
-% %\caption{A sample black and white graphic
-% %that has been resized with the \texttt{includegraphics} command.}
-% %\end{figure}
-
-
-% As was the case with tables, you may want a figure that spans two
-% columns.  To do this, and still to ensure proper ``floating''
-% placement of tables, use the environment \textbf{figure*} to enclose
-% the figure and its caption.  And don't forget to end the environment
-% with \textbf{figure*}, not \textbf{figure}!
-
-% %\begin{figure*}
-% %\includegraphics{flies}
-% %\caption{A sample black and white graphic
-% %that needs to span two columns of text.}
-% %\end{figure*}
-
-
-% %\begin{figure}
-% %\includegraphics[height=1in, width=1in]{rosette}
-% %\caption{A sample black and white graphic that has
-% %been resized with the \texttt{includegraphics} command.}
-% %\end{figure}
 
 % \subsection{Experiment}
 % \label{sec:exp_results}
@@ -354,50 +313,50 @@ the newly generated populations back to the \texttt{Input} message queue.
 % same parameters as before.  
 
 
-% \begin{figure*}[h!tb]
-%     \begin{tabular}
-%         {c@{\hspace*{-0.00001\textwidth}}
-%          c@{\hspace*{-0.00001\textwidth}}
-%          c@{\hspace*{-0.00001\textwidth}}
-%         }
-%     GA  &  PSO & GA \& PSO\\   
-%     \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
-%     \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
-%     \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
+\begin{figure*}[h!tb]
+    \begin{tabular}
+        {c@{\hspace*{-0.00001\textwidth}}
+         c@{\hspace*{-0.00001\textwidth}}
+         c@{\hspace*{-0.00001\textwidth}}
+        }
+    GA  &  PSO & GA \& PSO\\   
+    \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
 
-%     \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
-%     \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
-%     \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
+    \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
 
-%     \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
-%     \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
-%     \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
+    \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
 
-%     \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
-%     \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
-%     \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
+    \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
 
-%     \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
-%     \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
-%     \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
-%     \end{tabular}
-%     \vspace{-3ex}
-%      \caption{
-%  Scaling of runtime with dimension to reach certain target values $\Delta f$. Lines:
-%  average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
-%  the most difficult target that was reached at least once (but not always);
-%  Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
-%  interquartile range with median of simulated runs; All values are divided by
-%  dimension and plotted as $log_{10}$ values versus dimension. 
-%  %Shown is the aRT for
-%  %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
-%  Numbers above aRT-symbols
-%  (if appearing) indicate the number of trials reaching the respective target.
-%  %The light thick line with diamonds indicates the best algorithm from BBOB 2009
-%  %for the most difficult target. Horizontal lines mean linear scaling, slanted
-%  %grid lines depict quadratic scaling.
-%  }
-% \end{figure*}
+    \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
+    \end{tabular}
+    \vspace{-3ex}
+     \caption{
+ Scaling of runtime with dimension to reach certain target values $\Delta f$. Lines:
+ average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
+ the most difficult target that was reached at least once (but not always);
+ Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
+ interquartile range with median of simulated runs; All values are divided by
+ dimension and plotted as $log_{10}$ values versus dimension. 
+ %Shown is the aRT for
+ %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
+ Numbers above aRT-symbols
+ (if appearing) indicate the number of trials reaching the respective target.
+ %The light thick line with diamonds indicates the best algorithm from BBOB 2009
+ %for the most difficult target. Horizontal lines mean linear scaling, slanted
+ %grid lines depict quadratic scaling.
+ }
+\end{figure*}
 
 
     \begin{figure}[h!tb]
