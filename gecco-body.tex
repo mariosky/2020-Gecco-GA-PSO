@@ -223,7 +223,7 @@ queue, {\em push} operations are represented by solid arrows connecting to the
 left side and pull or pop operations as solid arrows leaving from the right
 side. The \texttt{controller} process, is responsible for the migration of
 individuals from one population to the other, and keeping track of the
-iterations of the algorithm. There is at least one \texttt{stateless Function}
+iterations of the algorithm. There is at least one \texttt{stateless function}
 worker process responsible for running the isolated algorithms. The two
 processes \texttt{PSO} and \texttt{GA}, are shown.
 
@@ -254,7 +254,7 @@ the \texttt{output} queue; when the computing node is done with a population, it
 queue.
 
 % You are using also caps here for the queue name - JJ
-\item The \texttt{controller} pulls populations from the \texttt{Output} queue,
+\item The \texttt{controller} pulls populations from the \texttt{output} queue,
 inspects the metadata describing the current state of the populations, and if
 the algorithm has found an optimal solution or the maximum number of iteration
 has been reached it stops the execution.
@@ -328,7 +328,7 @@ for [A, B], [B, C] and [A, C]. The migration algorithm sorts both populations
 and generates a new population containing the best half from each. Finally, the
 method pushes the new populations to the \texttt{messages Observable}. From
 there, a \texttt{publish(population)} observer is responsible for pushing the
-newly generated populations back to the \texttt{Input} message queue.
+newly generated populations back to the \texttt{input} message queue.
 
 \begin{algorithm}
     \caption{Migration}
@@ -453,6 +453,37 @@ this is the same as $40*50*10*10$.
   \end{tabular}
 \end{table}
 
+We deployed the container-based application in which we run the experiments in a
+Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads in total,
+and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
+(version 3.7) code.  Container images and Docker compose file are available at
+(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/)
+
+
+\begin{figure}[h!tb]
+  \begin{tabular}
+      {c@{\hspace*{-0.00001\textwidth}}
+      % c@{\hspace*{-0.00001\textwidth}}
+      }
+     
+  \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
+
+  \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
+  
+  \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
+  \end{tabular}
+  \vspace{-3ex}
+   \caption{Average running time (in \#FEs as $log_{10}$ value),
+    divided by dimension for target function value $10^{-8}$ vs dimension. 
+    Algorithms legends are given in $f_1$. Light symbols give the maximum number of 
+    function evaluations from the longest trial divided by dimension. 
+    Black stars indicate a statistically better result compared to 
+    all other algorithms ($p < 0.01$) and Bonferroni 
+    correction number of dimensions (six).}
+\end{figure}  
+
 \section{Results}
 \label{results}
 
@@ -526,29 +557,7 @@ this is the same as $40*50*10*10$.
 \end{figure*}
 
 
-    \begin{figure}[h!tb]
-        \begin{tabular}
-            {c@{\hspace*{-0.00001\textwidth}}
-            % c@{\hspace*{-0.00001\textwidth}}
-            }
-           
-        \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
-        \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
 
-        \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
-        \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
-        
-        \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
-        \end{tabular}
-        \vspace{-3ex}
-         \caption{Average running time (in \#FEs as $log_{10}$ value),
-          divided by dimension for target function value $10^{-8}$ vs dimension. 
-          Algorithms legends are given in $f_1$. Light symbols give the maximum number of 
-          function evaluations from the longest trial divided by dimension. 
-          Black stars indicate a statistically better result compared to 
-          all other algorithms ($p < 0.01$) and Bonferroni 
-          correction number of dimensions (six).}
-    \end{figure}  
 
 \section{Conclusions}
 \label{conclusions}
