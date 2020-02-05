@@ -165,8 +165,16 @@ single-algorithm version to escape that.
 This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, % But
                                 % I don't have the paper and I'll have
                                 % to check - JJ
-with the objetive of solving electromagnetic problems,
-and Esmin et al. \cite{esmin2006hybrid} leveraged to design their
+with the objetive of solving electromagnetic problems. What they do is
+to split the population into two different populations which will be
+processed by an EA and a PSO algorithm; the new individuals generated
+are merged in a single population, which is then split all over again
+in the next iteration. This guarantees that none of the two algorithms
+is getting stuck, since the individuals will be randomly subjected to
+one or the other every generation.
+
+
+Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 latter extended by Li et al. \cite{li2008gene}; in this work,
 chromosomes/particles represent Support Vector Machines, which are
