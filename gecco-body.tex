@@ -22,9 +22,10 @@ referred to them as population-based algorithms. % There are other
 
 Since instead of piecewise constructing a population or changing it
 incrementally, all members of the population have to be evaluated to
-obtain a fitness or score that will be used to select them (or not), a
-drawback of this kind of algorithms is that they can be computationally
-expensive since it is difficult to overcome that $n$ factor, where $n$
+obtain a fitnen of each population.  In this paper, we are interested in the
+latter, that is, having multiple populations running with distinct parameters
+and optimization algorithms. We can find in the literature, several
+heterogeneous e it is difficult to overcome that $n$ factor, where $n$
 is the population size, in the complexity of every iteration of the
 algorithm. That is why researchers have been proposing some form of
 parallelization since early on \cite{muhlenbein1988evolution} to
@@ -100,8 +101,19 @@ exploration and exploitation via the clever use of selection and
 variation operators \cite{vcrepinvsek2013exploration}. In pursuit of
 that objective, it is important to keep diversity high \cite{yuan2005importance}.
 
+
+\begin{figure*}
+\includegraphics[width=5in]{kafkeo}
+\caption{A sample black and white graphic
+that needs to span two columns of text.}
+\label{fig:kafkeo}
+\end{figure*}
+
 \section{Proposed Method}
 \label{method}
+
+\subsection{Architecture}
+\label{arch}
 
 In this section, present our proposed model for the execution of
 multi-population based asynchronous algorithms. As we mention before, when
@@ -114,7 +126,7 @@ structure, and we can consider them as messages in a continuous stream flowing
 from one algorithm to the other. To achieve this ``continuous stream,''
 everything must happen asynchronously without components needing to wait for
 others. We implement this streaming functionality by using a message queue
-system. Figure \ref{fig:kafkEO} shows the general architecture. We can explain
+system. Figure \ref{fig:kafkeo} shows the general architecture. We can explain
 the model by using an analogy of producers and consumers of messages. There are
 two queues, one labeled \texttt{input}, and the other one \texttt{output}. In a
 queue, {\em push} operations are represented by solid arrows connecting to the
@@ -179,8 +191,45 @@ on-the-fly.
 implementing this simple architecture. The same basic components can be
 implemented as a single multi-threaded program, or as a highly scalable
 serverless cloud application.
-
 \end{itemize}
+
+\subsection{Migration}
+\label{migration}
+
+The   \texttt{buffer\_with\_count(3)} operator, waits until it receives 
+three valid messages to emit a single message that contains a list with
+the previous three. The \texttt{population\_mixer}  method requires that list to mix them. 
+In our previous work, we needed a local buffer for storing a certain 
+number of populations to mix them with others. This design has the advantage
+of not needing extra memory, and it integrates better with the reactive paradigm.
+A possible disadvantage can be that it only mixes contiguous populations,
+but this can be mitigated with a larger buffer.
+
+The \texttt{population\_mixer} receives a list of three populations,
+let us say [A, B, C], and calls the migration method shown in
+Algorithm \ref{alg:migration}  for [A, B], [B, C] and [A, C]. 
+The migration algorithm sorts both populations and generates
+a new population containing the best half from each.
+Finally, the method pushes the new populations to the 
+\texttt{messages Observable}. From there, a
+\texttt{publish(population)} observer is responsible for pushing
+the newly generated populations back to the \texttt{Input} message queue.
+
+\begin{algorithm}
+    \caption{Migration}
+    \label{alg:migration}
+    \begin{algorithmic}[1]
+        \Procedure{cxBestFromEach}{$pop_1,pop_2$}
+            \State $pop_1.sort()$
+            \State $pop_2.sort()$
+            \State $size\gets min(len(pop_1), len(pop_2))$
+            \State $cxpoint\gets (size-1)/2$
+            \State $pop_1[cxpoint:]\gets pop_2[:cxpoint+2]$
+            \State \textbf{return} $pop_1$
+        \EndProcedure 
+    \end{algorithmic}
+\end{algorithm}
+
 
 
 \section{Setup}
