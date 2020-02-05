@@ -153,7 +153,19 @@ calling a ``chromosome'' a ``particle'' or the other way round,
 without any coversion, and keep working with it.
 
 This is what the first papers to propose such a hybrid algorithm, by
-Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem;
+Robinson et al. \cite{Robinson2002}, explicitly played on this
+fact and also on what we might call diversity of local minima by
+running an algorithm on a population until it became stagnated, and
+then switching to the other one. This was done apparently only once,
+but eventually the mixture of the two algorithms was able to obtain
+better results in the design of a kind of antenna called ``horn'' than
+each one of them separately, although they report that the best value
+was obtained by the algorithm that started as a PSO and terminated as
+an evolutionary one.
+
+Another kind of hybrid was proposed independently by 
+Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem,
+that is, the same as the previous one;
 mixing both algorithms, in principle, would allow them to avoid
 that. In general, however, a well-designed evolutionary or PSO
 algorithm will not fall in that local optimum; it is certainly true
