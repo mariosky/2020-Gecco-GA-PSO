@@ -531,18 +531,23 @@ is a number on the top, it indicates how many times the algorithm has reached
 the target. Fixed values of targets $\Delta f = 10^{k}$ with $k$ colors are
 given in the legend of $f_1$, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. Results
 from each configuration are presented in each column, GA, PSO, and GA\&PSO
-populations. We can see that the GA algorithm has a hard time reaching even the
+populations.
+
+We can see that the GA algorithm (on the left column) has a hard time reaching even the
 $10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
 performance in 20 and 40 dimensions. Finally, it performs better on $f_5$
 reaching the $10^{-8}$ on all dimensions but with a higher runtime on lower
-dimensions. On the other hand, The multi-population PSO has better performance,
+dimensions.
+
+On the other hand, the multi-population PSO (taking the column on the middle) has better performance; its results take a smaller range,
 reaching all targets for functions $f_1$ and $f_2$ but with a slightly higher
 runtime than the multi-strategy configuration. It is not able to reach the
 $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
 multi-population has the best runtime for the lower dimensions of $f_5$.
+
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
-on $f_3$ and $f_4$. 
+on $f_3$ and $f_4$ (charts on the lower rows). 
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. In particular, the simple binary GA algorithm
@@ -550,8 +555,8 @@ of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel 
 and an EDA and PSO hybrid \cite{el2009blackHybrid}. % Where are the results that support this? - JJ
 % They are on those papers, I woill try to include them on the next figure - Mario
 
-% This will have to be expanded a tiny bit - JJ
-% expanded a bit - Mario
+
+% Need to comment figure 2 too - JJ
 
 % \subsection{Experiment}
 % \label{sec:exp_results}
@@ -601,7 +606,7 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}. % Where are the results that
     \end{tabular}
     \vspace{-3ex}
      \caption{
- Scaling of runtime with dimension to reach certain target values $\Delta f$. Lines:
+ Scaling of running with problem dimension to reach certain target values $\Delta f$. Lines:
  average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
  the most difficult target that was reached at least once (but not always);
  Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
@@ -649,6 +654,22 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}. % Where are the results that
 \section{Conclusions and future lines of work}
 \label{conclusions}
 
+In this paper we are presenting a new multi-population, hybrid,
+stateless bioinspired algorithm that use different processing units to
+process sets of populations, which behave as a stream of continuously
+updated messages. Population and evolution (or any other kind of
+change) are totally decoupled, and its procsssing is stateless, which
+makes possible to create a mixture of processing algorithms that work
+asynchronously and in a way that's totally indepedent of each other.
+
+We have tested this combination of algorithms on the BBOB benchmark
+functions, obtaining results that are better that those obtained by
+any of them separated. This confirms results obtained by previous
+authors, except that, in this case, the architecture is different and
+there are improvements all across the tested functions; besides,
+results are better than results that have been published for other
+functions, including a hybrid one, making the hybrid PSO/GA a firm
+contender in the function optimization arena.
 
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
