@@ -509,7 +509,6 @@ this is the same as the product of the parameters, that is $40*50*10*10$.
     Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
   \end{tabular}
 \end{table}
-<<<<<<< HEAD
 
 We have deployed the container-based application in a
 Desktop PC with AMD Ryzen 9 3900x 12-core processor with 24 threads 
@@ -517,24 +516,13 @@ and 16 GB RAM. We used Docker version 19.03.3, build a872fc2f86, and docker-comp
 in Ubuntu Linux 18.04, and Python 3.7.5 code. Container images and Docker compose file are available at
 (https://hub.docker.com/x/x), and (https://github.com/x/). 
 The experiments were performed with COCO \cite{hansen2016coco} version bbob.v15.03 in python, 
-=======
- 
-
-We deployed the container-based application in a
-Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads,
-and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
-(version 3.7) code. Container images and Docker compose file are available at
-(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/). 
-The experiments were performed with COCO , version bbob.v15.03 in python, 
->>>>>>> dcb9dddd4262278fbcc6e1cae0dd7d5b78bfe9bf
 the plots were produced with version 2.3.2.
 
 
 \section{Results}
 \label{results}
 
-<<<<<<< HEAD
-The results obtained by the experiment show (see Figure \ref{fig:coco:1}) how
+The results obtained by the experiment show (see Figure \ref{fig:bbob}) how
 the runtime scales with dimension to reach certain target values $\Delta f$.
 The color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
@@ -554,26 +542,13 @@ $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
 multi-population has the best runtime for the lower dimensions of $f_5$.
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
-on $f_3$ and $f_4$. These results are also competitive when compared against
-other GA and PSO implementations of past BBOB workshops. In particular, the
-simple binary GA algorithm of Nicolau \cite{nicolau2009application}, the PSO
-algorithm by El-Abd and Kamel \cite{el2009black} and an EDA and PSO hybrid
-\cite{el2009blackHybrid}.
-
-=======
-The results (see Figure \ref{fig:avg}) obtained show  that the proposed algorithm reaches the
-$10^{-8}$ target value on all functions ($f_1-f_5$), and scales well to higher
-dimensions. On the other hand, the GA algorithm has a hard time reaching even
-the $10^{-5}$ target value in functions ($f_1-f_4$) but performs well on
-function $f_5$. The multi-population PSO has a better performance, but it is not
-able to reach the  $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$.
+on $f_3$ and $f_4$. 
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. In particular, the simple binary GA algorithm
 of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
 and an EDA and PSO hybrid \cite{el2009blackHybrid}. % Where are the results that support this? - JJ
->>>>>>> dcb9dddd4262278fbcc6e1cae0dd7d5b78bfe9bf
-
+% They are on those papers, I woill try to include them on the next figure - Mario
 
 % This will have to be expanded a tiny bit - JJ
 % expanded a bit - Mario
@@ -639,13 +614,8 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}. % Where are the results that
  %The light thick line with diamonds indicates the best algorithm from BBOB 2009
  %for the most difficult target. Horizontal lines mean linear scaling, slanted
  %grid lines depict quadratic scaling.
-<<<<<<< HEAD
- }
- \label{fig:coco:1}
-=======
 }
 \label{fig:bbob}
->>>>>>> dcb9dddd4262278fbcc6e1cae0dd7d5b78bfe9bf
 \end{figure*}
 
 \begin{figure}[h!tb]
