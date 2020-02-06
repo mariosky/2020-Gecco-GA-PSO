@@ -187,6 +187,12 @@ is getting stuck, since the individuals will be randomly subjected to
 one or the other every generation.
 
 
+\begin{figure*}
+\includegraphics[width=5in]{kafkeo}
+\caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
+\label{fig:kafkeo}
+\end{figure*}
+%
 Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 later extended by Li et al. \cite{li2008gene}; in this work,
@@ -218,15 +224,10 @@ several different ways, which will be tested in this paper using the
 method explained next.
 
 
-\begin{figure*}
-\includegraphics[width=5in]{kafkeo}
-\caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
-\label{fig:kafkeo}
-\end{figure*}
-
 \section{Proposed Method}
 \label{method}
-
+%
+% 
 % Write a small introduction here - JJ
 
 \subsection{Architecture}
@@ -374,7 +375,32 @@ newly generated populations back to the \texttt{input} message queue.
         \EndProcedure 
     \end{algorithmic}
 \end{algorithm}
+%
+\begin{figure}
+  \begin{tabular}
+      {c@{\hspace*{-0.00001\textwidth}}
+      % c@{\hspace*{-0.00001\textwidth}}
+      }
+     
+  \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
 
+  \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
+  
+  \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
+  \end{tabular}
+  \vspace{-3ex}
+   \caption{Average running time (in \#FEs as $log_{10}$ value),
+    divided by dimension for target function value $10^{-8}$ vs dimension. 
+    Algorithm legends are given in $f_1$. Light symbols give the maximum number of 
+    function evaluations from the longest trial divided by dimension. 
+    Black stars indicate a statistically better result compared to 
+    all other algorithms ($p < 0.01$) and Bonferroni 
+    correction number of dimensions.}
+  \label{fig:avg}
+\end{figure}
+%
 \section{Experimental setup}
 \label{setup}
 
@@ -465,7 +491,7 @@ algorithm will perform. The product of these parameters gives us a maximum
 \#FEs. For example, for $D = 2$, the maximum number evaluations is $200,000$,
 this is the same as $40*50*10*10$.
 
-\begin{table}
+\begin{table}[h!tb]
   \small
   \caption{Parameters used in the experiments with ten populations
   }
@@ -482,30 +508,7 @@ this is the same as $40*50*10*10$.
     Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
   \end{tabular}
 \end{table}
-
-\begin{figure}[h!tb]
-  \begin{tabular}
-      {c@{\hspace*{-0.00001\textwidth}}
-      % c@{\hspace*{-0.00001\textwidth}}
-      }
-     
-  \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
-  \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
-
-  \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
-  \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
-  
-  \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
-  \end{tabular}
-  \vspace{-3ex}
-   \caption{Average running time (in \#FEs as $log_{10}$ value),
-    divided by dimension for target function value $10^{-8}$ vs dimension. 
-    Algorithms legends are given in $f_1$. Light symbols give the maximum number of 
-    function evaluations from the longest trial divided by dimension. 
-    Black stars indicate a statistically better result compared to 
-    all other algorithms ($p < 0.01$) and Bonferroni 
-    correction number of dimensions (six).}
-\end{figure}  
+ 
 
 We deployed the container-based application in a
 Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads,
@@ -519,7 +522,7 @@ the plots were produced with version 2.3.2.
 \section{Results}
 \label{results}
 
-The results obtained show (see Figure ) that the proposed algorithm reaches the
+The results (see Figure \ref{fig:avg}) obtained show  that the proposed algorithm reaches the
 $10^{-8}$ target value on all functions ($f_1-f_5$), and scales well to higher
 dimensions. On the other hand, the GA algorithm has a hard time reaching even
 the $10^{-5}$ target value in functions ($f_1-f_4$) but performs well on
