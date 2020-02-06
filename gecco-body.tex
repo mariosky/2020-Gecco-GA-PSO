@@ -12,7 +12,7 @@ Genetic Algorithms (GAs)
 Differential Evolution (DE) \cite{karabouga2004simple}, and 
 Genetic Programming (GP) \cite{back1996evolutionary} are popular EAs, while examples of SI algorithms 
 \cite{kennedy2006swarm} are particle swarm optimization (PSO)
-\cite{clerc2010particle}, artificial bee colony (ABC) \cite{karaboga2005idea} and Grey Wolf Optimization
+\cite{clerc2010particle}, artificial bee colony (ABC) \cite{karaboga2005idea}, Grey Wolf Optimization
 (GWO) \cite{mirjalili2014grey}, and ant colony algorithms (ACO) \cite{dorigo1999ant}.
 A common characteristic of these kind of methods is the
 use of an initial set of random candidate solutions that are manipulated by the
@@ -23,25 +23,23 @@ referred to them as population-based algorithms. % There are other
                                 % could mention them - JJ
 There are other stochastic optimization methods, that even if they are not
 nature-inspired, they employ the concept of an evolving population. An example
-of this kind of method is population-based incremental learning (PBIL)
+of this kind of methods is population-based incremental learning (PBIL)
 \cite{baluja1994population}, which is an optimization and an estimation of
-distribution algorithm. estimation of distribution algorithm.
-Since instead of piecewise constructing a population or changing it
+distribution algorithm. Since instead of piecewise constructing a population or changing it
 incrementally, all members of the population have to be evaluated to
-obtain a fitnen of each population.  In this paper, we are interested in the
-latter, that is, having multiple populations running with distinct parameters
-and optimization algorithms. We can find in the literature, several
-heterogeneous e it is difficult to overcome that $n$ factor, where $n$
+obtain a fitness or score that will be used to select them (or not), a
+drawback of this kind of algorithms is that they can be computationally
+expensive since it is difficult to overcome that $n$ factor, where $n$
 is the population size, in the complexity of every iteration of the
 algorithm. That is why researchers have been proposing some form of
-parallelization since early on \cite{muhlenbein1988evolution} to
-decrease their execution time. % Not scalability, but wallclock timing - JJ
+parallelization since early on \cite{muhlenbein1988evolution} with 
+the goal of decreasing their execution time. % Not scalability, but wallclock timing - JJ
 One of the first methods of parallelization was the island
 model, which lead to an increased performance
 \cite{gorges1990explicit,grosso1985computer}. The concept was to divide the
 population into smaller populations that communicated with each other. Other
 population-based algorithms have adopted the technique, and since then,
-researchers have found additional advantages besides the execution speed, 
+researchers have found additional advantages besides a reduced execution speed, 
 these include avoiding a premature convergence and maintaining the diversity of the
 global population \cite{li2015multi}, we are going to call these methods 
 multi-population algorithms \cite{Ma2019}. The relative 
@@ -52,18 +50,18 @@ between communications. Multi-population algorithms use a form of
 communication to recombine or migrate candidate solutions between populations
 to avoid premature convergence, since smaller populations are known to perform
 better for a given problem than bigger populations
-\cite{li2016multi,wu2016differential}.  Even in some cases, a multi-population based
+\cite{li2016multi,wu2016differential}. Even in some cases, a multi-population based
 algorithm scales better due to these interactions, and the parallelism of the
 operation \cite{ALBA20027}. 
 
 Having many populations offers researchers many configuration options and
 additional challenges when designing efficient multi-population algorithms.
 Options include the number and size of populations, the interaction between
-them, the search area of each population, and the search strategy and
-parametrization of each population.  In this paper, we are interested in the
+them, the search area of each population, and the search strategy and its
+parametrization for each population.  In this paper, we are interested in the
 latter, that is, having multiple populations running with distinct parameters
 and optimization algorithms. We can find in the literature, several
-heterogeneous multi-population algorithms integrating variations of optimization
+heterogeneous multi-population algorithms that integrate variations of optimization
 algorithms, and these often perform better than single-population or homogeneous
 multi-population optimization algorithms\cite{wu2016differential,nseef2016adaptive}.
 Heterogeneous algorithms add to
@@ -84,7 +82,8 @@ guervos2018introducing}, and a reactive migration procedure, in which we compare
 three heterogeneous configurations using a randomized parameter technique. We
 experimented with all populations using a GA or PSO search strategies, versus an
 ensemble multi-population with both GA and PSO algorithms, using as a benchmark,
-the first five functions of the BBOB testbed. We compare the options by
+the separable functions of the BBOB noiseless testbed \cite{hansen2009real}. 
+We compare the options by
 measuring the average running time (aRT) as the number of functions (\#FEs), as
 the objective is to prove that the advantage of heterogeneous configurations
 resides not only in the increased scalability but also in the search
@@ -178,13 +177,14 @@ since exploitation of better-than-average solutions is done by the two
 algorithms in different directions, a hybrid algorithm might help the
 single-algorithm version to escape that.
 
-This better exploitation capability was used by Grimaldi et al. \cite{grimaldi2005genetical}, with the objetive of solving electromagnetic problems. What they do is
+This better exploitation capability was used by Grimaldi et al.
+\cite{grimaldi2005genetical}, with the objetive of solving electromagnetic problems. What they do is
 to split the population into two different populations which will be
 processed by an EA and a PSO algorithm; the new individuals generated
 are merged in a single population, which is then split all over again
 in the next iteration. This guarantees that none of the two algorithms
 is getting stuck, since the individuals will be randomly subjected to
-one or the other every generation.
+one or the other on every generation.
 
 
 \begin{figure*}
@@ -211,7 +211,8 @@ algorithm, by themselves, have good mechanisms for global
 exploration.
 
 Several other hybrid algorithms have been proposed more recently:
-Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization, which is a swarm intelligence algorithm,  and EAs to select
+Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization, 
+which is a swarm intelligence algorithm, and EAs to select
 software testing cases. ACO and EA are used serially, with GA acting
 to refine the test suite initially selected by the ant algorithm.
 
@@ -229,6 +230,13 @@ method explained next.
 %
 % 
 % Write a small introduction here - JJ
+% done - Mario 
+In this section, we present a model for the execution of multi-population based
+asynchronous algorithms. As a first step, we describe the general architecture,
+for handling a stream of continuously updated populations,  and then our
+approach for decoupling the processing in stateless functions, to finally give
+details of the migration mechanism.
+
 
 \subsection{Architecture}
 \label{arch}
