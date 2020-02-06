@@ -388,7 +388,7 @@ than a homogeneous setting.
 For the experiment, we have used five benchmark separable functions ($f_1 to f_5 $)
 from the Continuous Noiseless BBOB testbed, which is part of the Comparing
 Continuous Optimizers (COCO) framework \cite{hansen2016coco}. The functions are
-real-parameter, single-objective benchmark functions. We tested with fifteen
+real-parameter, single-objective benchmark functions. We have tested with fifteen
 instances of each function, each having a different optimal value. The standard
 benchmark of the testbed uses these 15 instances over 2, 3, 5, 10, 20, and 40
 dimensions. With the maximum number of function evaluations (\#FEs) increasing
@@ -396,26 +396,26 @@ with the dimension (D), using the expression $10^5 \cdot D$ (i.e. for $D = 2$,
 \#FEs is $200,000$).
 
 The COCO framework offers several tools to compare the performance of
-algorithms, generating data sets, tables, and reports for an experiment, we
+algorithms, generating data sets, tables, and reports for an experiment, we have
 compared using the average required time (aRT). There is a
 repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
 of more than 200 results for the noiseless BBOB testbed, collected from BBOB
 workshops and special sessions between the years 2009 and 2019. To test the
-heterogeneous multi-population capabilities, we compare the aRT between a
+heterogeneous multi-population capabilities, we have compared the aRT between a
 homogeneous and an ensemble of multi-populations, using Genetic Algorithms
-(GAs) and Particle Swarm Optimization (PSO). We used the DEAP framework for the
+(GAs) and Particle Swarm Optimization (PSO). We have used the DEAP framework for the
 GA stateless function \cite{fortin2012deap} and the EvoloPy library
 \cite{faris2016evolopy} for the PSO algorithm function. We show the parameters
 for each algorithm, in Tables \ref{tab:GAparams} and Table \ref{tab:PSOparams}
-for the GA and PSO, respectively. We obtained these parameters by following a
+for the GA and PSO, respectively. We have obtained these parameters by following a
 method we used in a previous work \cite{garcia2017benchmarking}. First, we
 tested the parameters for the Rastrigin separable function with five
 dimensions. After about fifteen experiments, the most challenging targets were
 achieved for this particular function. We tested again with functions one to
 three, and after obtaining favorable results, we set the PSO and GA algorithm
-parameters. We set the mutation and crossover probabilities of the GA randomly
-to have heterogeneous populations; the table shows the range of these
-parameters. We did not change these settings during the experiments, and we
+parameters. We have set the mutation and crossover probabilities of the GA randomly
+to have heterogeneous populations; the entry in the Table shows the range of these
+parameters. We have not changed these settings during the experiments, and we have
 only provided the population size and number of generations as parameters.
 
 \begin{table}
@@ -450,24 +450,25 @@ only provided the population size and number of generations as parameters.
   \end{tabular}
 \end{table}
 
-To run the experiments, we deployed the docker application with 8 worker
+To run the experiments, we have deployed the docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
-earlier and a total of 10 populations. Table \ref{tab:params:10} shows the
-parameters we used. The {\em GA-PSO Ratio} parameter specifies the proportion of
-populations that will use the GA algorithm. Next, we specify that the experiment
-will use only the first five functions, and how many instances. {\em Instances}
-has a default value of 15. We used this value because it is the standard for the
-BBOB benchmark \cite{hansen2016coco}. We define a list of the dimensions that we
-will test in the {\em Dimensions} parameter. Then, we defined for each
-dimension: the number of populations, and for each population,  the number of
-generations and population size. Finally, we define how many complete loops the
+earlier, and a total of 10 populations. Table \ref{tab:params:10} shows the
+parameters we have used. The {\em GA-PSO Ratio} parameter specifies the proportion 
+of populations that will be using the GA algorithm, with $0$ indicating all populations
+will run a PSO algorithm, and with $0.5$ the same proportion of PSO and GA populations, 
+and GA only it is specified with $1$. We have specified that the experiment
+will use only the first five functions. We have used 15 instances, because 
+this is the standard for the BBOB benchmark \cite{hansen2016coco}.
+The list of dimensions that we have tested is in the {\em Dimensions} parameter. 
+Then, we have defined for each dimension: the number of populations, and for each population,
+the number of generations and population size. Finally, we have defined how many complete loops the
 algorithm will perform. The product of these parameters gives us a maximum
 \#FEs. For example, for $D = 2$, the maximum number evaluations is $200,000$,
-this is the same as $40*50*10*10$.
+this is the same as the product of the parameters, that is $40*50*10*10$. 
 
 \begin{table}
   \small
-  \caption{Parameters used in the experiments with ten populations
+  \caption{Parameters used in the experiments, for ten populations and eight workers.
   }
   \label{tab:params:10}
   \vspace{0.25cm}
@@ -483,57 +484,48 @@ this is the same as $40*50*10*10$.
   \end{tabular}
 \end{table}
 
-\begin{figure}[h!tb]
-  \begin{tabular}
-      {c@{\hspace*{-0.00001\textwidth}}
-      % c@{\hspace*{-0.00001\textwidth}}
-      }
-     
-  \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
-  \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
-
-  \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
-  \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
-  
-  \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
-  \end{tabular}
-  \vspace{-3ex}
-   \caption{Average running time (in \#FEs as $log_{10}$ value),
-    divided by dimension for target function value $10^{-8}$ vs dimension. 
-    Algorithms legends are given in $f_1$. Light symbols give the maximum number of 
-    function evaluations from the longest trial divided by dimension. 
-    Black stars indicate a statistically better result compared to 
-    all other algorithms ($p < 0.01$) and Bonferroni 
-    correction number of dimensions (six).}
-\end{figure}  
-
-We deployed the container-based application in a
-Dell server,  with dual Intel CPUs E5-2640V3 @ 2.60 GHz, 32 threads,
-and 32 GB RAM. We used Docker version 2, in Ubuntu Linux 18.04, and Python
-(version 3.7) code. Container images and Docker compose file are available at
-(https://hub.docker.com/x/xx/), and (https://github.com/x/xx/). 
-The experiments were performed with COCO , version bbob.v15.03 in python, 
+We have deployed the container-based application in a
+Desktop PC with AMD Ryzen 9 3900x 12-core processor with 24 threads 
+and 16 GB RAM. We used Docker version 19.03.3, build a872fc2f86, and docker-compose version 1.21.0, 
+in Ubuntu Linux 18.04, and Python 3.7.5 code. Container images and Docker compose file are available at
+(https://hub.docker.com/x/x), and (https://github.com/x/). 
+The experiments were performed with COCO \cite{hansen2016coco} version bbob.v15.03 in python, 
 the plots were produced with version 2.3.2.
 
 
 \section{Results}
 \label{results}
 
-The results obtained show (see Figure ) that the proposed algorithm reaches the
-$10^{-8}$ target value on all functions ($f_1-f_5$), and scales well to higher
-dimensions. On the other hand, the GA algorithm has a hard time reaching even
-the $10^{-5}$ target value in functions ($f_1-f_4$) but performs well on
-function $f_5$. The multi-population PSO has a better performance, but it is not
-able to reach the  $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$.
+The results obtained by the experiment show (see Figure \ref{fig:coco:1}) how
+the runtime scales with dimension to reach certain target values $\Delta f$.
+The color of the lines indicates the average runtime, for each target reached
+at least one time. A red circle without a number on top indicates the algorithm
+has reached the $10^{-8}$ target on all instances for that dimension. If there
+is a number on the top, it indicates how many times the algorithm has reached
+the target. Fixed values of targets $\Delta f = 10^{k}$ with $k$ colors are
+given in the legend of $f_1$, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. Results
+from each configuration are presented in each column, GA, PSO, and GA\&PSO
+populations. We can see that the GA algorithm has a hard time reaching even the
+$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
+performance in 20 and 40 dimensions. Finally, it performs better on $f_5$
+reaching the $10^{-8}$ on all dimensions but with a higher runtime on lower
+dimensions. On the other hand, The multi-population PSO has better performance,
+reaching all targets for functions $f_1$ and $f_2$ but with a slightly higher
+runtime than the multi-strategy configuration. It is not able to reach the
+$10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
+multi-population has the best runtime for the lower dimensions of $f_5$.
+Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
+value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
+on $f_3$ and $f_4$. These results are also competitive when compared against
+other GA and PSO implementations of past BBOB workshops. In particular, the
+simple binary GA algorithm of Nicolau \cite{nicolau2009application}, the PSO
+algorithm by El-Abd and Kamel \cite{el2009black} and an EDA and PSO hybrid
+\cite{el2009blackHybrid}.
 
-These results are also competitive when compared against other GA and PSO
-implementations of past BBOB workshops. In particular, the simple binary GA algorithm
-of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
-and an EDA and PSO hybrid \cite{el2009blackHybrid}.
 
 
 % This will have to be expanded a tiny bit - JJ
-
+% expanded a bit - Mario
 
 % \subsection{Experiment}
 % \label{sec:exp_results}
@@ -597,7 +589,33 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}.
  %for the most difficult target. Horizontal lines mean linear scaling, slanted
  %grid lines depict quadratic scaling.
  }
+ \label{fig:coco:1}
 \end{figure*}
+
+\begin{figure}[h!tb]
+  \begin{tabular}
+      {c@{\hspace*{-0.00001\textwidth}}
+      % c@{\hspace*{-0.00001\textwidth}}
+      }
+     
+  \includegraphics[width=0.28\textwidth]{ppfigs_f001}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f002}\\
+
+  \includegraphics[width=0.28\textwidth]{ppfigs_f003}\\
+  \includegraphics[width=0.28\textwidth]{ppfigs_f004}\\
+  
+  \includegraphics[width=0.28\textwidth]{ppfigs_f005}\\
+  \end{tabular}
+  \vspace{-3ex}
+   \caption{Average running time (in \#FEs as $log_{10}$ value),
+    divided by dimension for target function value $10^{-8}$ vs dimension. 
+    Algorithms legends are given in $f_1$. Light symbols give the maximum number of 
+    function evaluations from the longest trial divided by dimension. 
+    Black stars indicate a statistically better result compared to 
+    all other algorithms ($p < 0.01$) and Bonferroni 
+    correction number of dimensions (six).}
+  \label{fig:coco:2}    
+\end{figure}  
 
 
 
@@ -606,14 +624,13 @@ and an EDA and PSO hybrid \cite{el2009blackHybrid}.
 \label{conclusions}
 
 
-
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
 kind of results they obtain and what could possible be the best
 possible mix. A way of automatically scaling to get the number of
 nodes needed would also be a very interesting feature.
 
-A extensive study on the real effects of the mix of algorithms should
+An extensive study on the real effects of the mix of algorithms should
 also be performed, with a theoretical basis if possible, using the
 size of the basins of attractions, for instance, or how different
 algorithms move along the fitness landscape.
