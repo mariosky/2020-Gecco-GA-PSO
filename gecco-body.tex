@@ -536,9 +536,7 @@ the plots were produced with version 2.3.2.
 
 The results obtained by the experiment show (see Figure \ref{fig:bbob}) how
 the runtime scales with dimension to reach certain target values $\Delta f$;
-Figure \ref{fig:avg} shows that the number of evaluations of {\sf GA-PSO-m} 
-is competitive with PSO in the same framework, although the success 
-rate is higher (Figure \ref{fig:bbob}). % Please check that this is true - JJ
+% Please check that this is true - JJ
 % One compares between our own multi-populations the other against the rest 
 % and only for the hardest target 10^(-8) - Mario
 % The last one, shows #FE vs Percentege of $10^{-8}$ targets reached
@@ -570,12 +568,33 @@ Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
 on $f_3$ and $f_4$ (charts on the lower rows). 
 
+
+
 These results are also competitive when compared against other GA and PSO
-implementations of past BBOB workshops. In particular, the simple binary GA algorithm
-of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
-and an EDA and PSO hybrid \cite{el2009blackHybrid} % Where are the results that support this? - JJ
-% They are on those papers, I woill try to include them on the next figure - Mario
-as Figure \ref{fig:bbob2} shows.
+implementations of past BBOB workshops. Figure \ref{fig:avg} shows 
+how the runtime scales with dimension to reach the most difficult target 
+for $\Delta f = 10^{-8}$ for each function. 
+The representative algorithms are:
+The simple binary GA algorithm of Nicolau \cite{nicolau2009application},
+the PSO algorithm by El-Abd and Kamel \cite{el2009black}, an EDA and PSO 
+hybrid \cite{el2009blackHybrid}, Differential Evolution (DE) with adaptive encoding \cite{povsik2012benchmarking}
+by {Po{\v{s}}{\'\i}k and Klem{\v{s}}, 
+the hybrid DE-PSO by Garc{\'\i}a-Nieto et al. \cite{garcia2009noiseless}, 
+and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this last algorithm has the
+best overall ($f_1-f_24$) performance on the BOBB-2009 benchmark,
+as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
+40, respectively. 
+ 
+We can see that the number of evaluations of {\sf GA-PSO-m} tents to be higher
+in most cases, but on the other hand, it could solve all functions.  As
+expected, the BIPOP-CMA-ES algorithm has the best running time on functions
+$f_1$, $f_2$ and $f_5$ and reaches three targets at search dimensions 20 and 40.
+It is worth to notice the performance of the DE algorithm, having the best
+running time on lower dimensions of  $f_3$ and $f_4$. Figure \ref{fig:bbob2}
+highlights for search space dimensions 10, 20 and 40. The fraction of
+functions-target pairs by number of FEs. An algorithm that requires less FEs to
+reach all targets will have more area under the curve. In this case, for higher
+dimensions, the GA-PSO multipopulation gives competitive results.
 
 
 \begin{figure*}[h!tb]
