@@ -367,11 +367,9 @@ of diversity.
 When \texttt{population\_mixer} unit receives a list of three populations, let us say
 [A, B, C], it calls the migration method shown in Algorithm \ref{alg:migration}
 for [A, B], [B, C] and [A, C]. The migration algorithm sorts the
-individuals of the merged population and generates a new population
-containing the best half from each. Finally, the 
-method pushes the three new generated populations to the \texttt{messages Observable}. From
-there, a \texttt{publish(population)} observer is responsible for pushing the
-newly generated populations back to the \texttt{input} message queue.
+individuals of each population and generates a new one by
+merging the best half from each. Finally, the \texttt{population\_mixer} 
+method pushes the three generated populations back to the \texttt{input} message queue.
 
 \begin{algorithm}
     \caption{Migration}
