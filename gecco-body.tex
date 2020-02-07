@@ -148,7 +148,7 @@ equivalence in the operators, but they are different enough to perform
 search in different ways. The fact that they use the same data
 structures means that you can apply them in turns, or simply start
 calling a ``chromosome'' a ``particle'' or the other way round,
-without any coversion, and keep working with it.
+without any conversion, and keep working with it.
 
 This is what the first papers to propose such a hybrid algorithm, by
 Robinson et al. \cite{Robinson2002}, explicitly played on this
@@ -176,7 +176,7 @@ algorithms in different directions, a hybrid algorithm might help the
 single-algorithm version to escape that.
 
 This better exploitation capability was used by Grimaldi et al.
-\cite{grimaldi2005genetical}, with the objetive of solving electromagnetic problems. What they do is
+\cite{grimaldi2005genetical}, with the objective of solving electromagnetic problems. What they do is
 to split the population into two different populations which will be
 processed by an EA and a PSO algorithm; the new individuals generated
 are merged in a single population, which is then split all over again
@@ -197,10 +197,10 @@ later extended by Li et al. \cite{li2008gene}; in this work,
 chromosomes/particles represent Support Vector Machines, which are
 optimized to find the most representative features of gene expression
 data sets. PSO and EAs are applied serially: 10 iterations of each,
-after which the finalization criterium is examined; first PSO, then
+after which the finalization criterion is examined; first PSO, then
 EA. Separate EA and PSO are tested against this hybrid algorithm,
 finding improvements of a few percent points in the accuracy over
-classification of the whole dataset. This marginal, but significative,
+classification of the whole dataset. This marginal, but significant,
 improvement is essentially the kind of results that should be
 expected. While improvements in diversity always boost the results by
 allowing the algorithms to find better solutions, an
@@ -330,9 +330,9 @@ reactive architecture; one of the reasons for this scalability is the use of
 stateless functions that have no secondary effects, or the need to read data
 from an external entity. Stateless functions do not need to read, keep, or
 modify data outside of the scope of the method, it will have no side
-effects reading inputs and producing an output, mapping input to ouput
+effects reading inputs and producing an output, mapping input to output
 as it were. If we implement population-based
-optimizarion algorithms using stateless functions, then to the system, there is
+optimization algorithms using stateless functions, then to the system, there is
 no difference between having one or many copies of the same function pulling
 work from the queue all at the same time, because there are no unwanted side
 effects, including problems of resource locking resulting from this
@@ -562,7 +562,7 @@ implementations of past BBOB workshops. In particular, the simple binary GA algo
 of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
 and an EDA and PSO hybrid \cite{el2009blackHybrid} % Where are the results that support this? - JJ
 % They are on those papers, I woill try to include them on the next figure - Mario
-as Figure \ref{fig:bbob2} shows.xs
+as Figure \ref{fig:bbob2} shows.
 
 
 \begin{figure*}[h!tb]
@@ -641,9 +641,9 @@ In this paper we are presenting a new multi-population, hybrid,
 stateless bioinspired algorithm that use different processing units to
 process sets of populations, which behave as a stream of continuously
 updated messages. Population and evolution (or any other kind of
-change) are totally decoupled, and its procsssing is stateless, which
+change) are totally decoupled, and its processing is stateless, which
 makes possible to create a mixture of processing algorithms that work
-asynchronously and in a way that's totally indepedent of each other.
+asynchronously and in a way that's totally independent of each other.
 
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better that those obtained by
