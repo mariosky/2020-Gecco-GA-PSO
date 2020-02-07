@@ -353,18 +353,23 @@ data is necessary to log the \#FE and current fitness values.
 \label{migration}
 
 As the controller is pulling population messages from the output queue, it waits
-until it takes three valid populations to trigger an event handled by the
-\texttt{population\_mixer}  function, that takes a list containing the three
-populations. This reactive design has the advantage of not needing to keep a
+until the message queue contains three valid populations to trigger an event handled by the
+\texttt{population\_mixer} function, which uses as an argument a list
+containing the three populations. This design has the advantage of not needing to keep a
 buffer in memory or external storage, and it follows the reactive paradigm. A
-possible disadvantage can be that it only mixes contiguous populations, but we
-could mitigate this with a larger buffer.
+possible disadvantage can be that it only mixes populations that have
+arrived sequentially to the message queue, but we
+could mitigate this with a larger buffer and in fact populations do
+not need to arrive to the buffer in the same order they were created
+or processed, so this shouldn't, in principle, contribute to any loss
+of diversity.
 
-The \texttt{population\_mixer} receives a list of three populations, let us say
-[A, B, C], and calls the migration method shown in Algorithm \ref{alg:migration}
-for [A, B], [B, C] and [A, C]. The migration algorithm sorts both populations
-and generates a new population containing the best half from each. Finally, the
-method pushes the new populations to the \texttt{messages Observable}. From
+When \texttt{population\_mixer} unit receives a list of three populations, let us say
+[A, B, C], it calls the migration method shown in Algorithm \ref{alg:migration}
+for [A, B], [B, C] and [A, C]. The migration algorithm sorts the
+individuals of the merged population and generates a new population
+containing the best half from each. Finally, the 
+method pushes the three new generated populations to the \texttt{messages Observable}. From
 there, a \texttt{publish(population)} observer is responsible for pushing the
 newly generated populations back to the \texttt{input} message queue.
 
