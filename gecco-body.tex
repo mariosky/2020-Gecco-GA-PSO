@@ -534,7 +534,7 @@ the plots were produced with version 2.3.2.
 \section{Results}
 \label{results}
 
-The results obtained by the experiment show (see Figure \ref{fig:bbob}) how
+The results obtained by the experiments show (see Figure \ref{fig:bbob}) how
 the runtime scales with dimension to reach certain target values $\Delta f$;
 Figure \ref{fig:avg} shows that the number of evaluations of {\sf GA-PSO-m} 
 is competitive with PSO in the same framework, although the success 
@@ -543,7 +543,8 @@ rate is higher (Figure \ref{fig:bbob}). % Please check that this is true - JJ
 % and only for the hardest target 10^(-8) - Mario
 % The last one, shows #FE vs Percentege of $10^{-8}$ targets reached
 % Our GA-PSO reaches almost all targets, but takes more #FE than others
-% That is why appears on top. It reaches but takes more evals on average. 
+% That is why appears on top. It reaches but takes more evals on average.
+% So please fix that... - JJ
 The color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
 has reached the $10^{-8}$ target on all instances for that dimension. If there
@@ -568,13 +569,12 @@ multi-population has the best runtime for the lower dimensions of $f_5$.
 
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
-on $f_3$ and $f_4$ (charts on the lower rows). 
+on $f_3$ and $f_4$ (charts on the lower rows), which are usually considered difficult functions. 
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. In particular, the simple binary GA algorithm
 of Nicolau \cite{nicolau2009application}, the PSO algorithm by El-Abd and Kamel \cite{el2009black} 
-and an EDA and PSO hybrid \cite{el2009blackHybrid} % Where are the results that support this? - JJ
-% They are on those papers, I woill try to include them on the next figure - Mario
+and an EDA and PSO hybrid \cite{el2009blackHybrid}
 as Figure \ref{fig:bbob2} shows.
 
 
