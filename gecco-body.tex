@@ -532,7 +532,7 @@ the plots were produced with version 2.3.2.
 \label{results}
 
 The results obtained by the experiment show (see Figures \ref{fig:avg} and \ref{fig:bbob}) how
-the runtime scales with dimension to reach certain target values $\Delta f$; Figure \ref{fig:avg} shows that the number of evaluations of {\sf GA-PSO-m} is competitive with PSO in the same framework, although the success rate is higher (Figure \ref{fig:bbob}. % Please check that this is true - JJ
+the runtime scales with dimension to reach certain target values $\Delta f$; Figure \ref{fig:avg} shows that the number of evaluations of {\sf GA-PSO-m} is competitive with PSO in the same framework, although the success rate is higher (Figure \ref{fig:bbob}). % Please check that this is true - JJ
 The color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
 has reached the $10^{-8}$ target on all instances for that dimension. If there
@@ -639,9 +639,9 @@ dimension (FEvals/DIM) for separable functions.
 \section{Conclusions and future lines of work}
 \label{conclusions}
 
-In this paper we are presenting a new multi-population, hybrid,
-stateless bioinspired algorithm that use different processing units to
-process sets of populations, which behave as a stream of continuously
+In this paper we have presented a new multi-population, hybrid,
+stateless bioinspired algorithm that uses different processing units to
+evolve sets of populations, which behave as a stream of continuously
 updated messages. Population and evolution (or any other kind of
 change) are totally decoupled, and its processing is stateless, which
 makes possible to create a mixture of processing algorithms that work
@@ -650,11 +650,18 @@ asynchronously and in a way that's totally independent of each other.
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better that those obtained by
 any of them separated. This confirms results obtained by previous
-authors, except that, in this case, the architecture is different and
+authors in hybrid algorithms, except that, in this case, the architecture is different and
 there are improvements all across the tested functions; besides,
 results are better than results that have been published for other
-functions, including a hybrid one, making the hybrid PSO/GA a firm
-contender in the function optimization arena.
+algorithms, including a hybrid one, making the hybrid PSO/GA a firm
+contender in the function optimization arena. % Probably add a bit of more stuff here, like ...
+It is interesting to note that this is done despite mixing both
+algorithms in a totally random way, so that it's really impossible to
+know whether an individual population will be processed by a GA or
+PSO, or how many cycles of each has undergone. The migration process,
+however, guarantees a mixing of results and is probably the key to the
+ultimate success of the algorithm proposed here. % Check that this
+                                % seems reasonable - JJ
 
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
