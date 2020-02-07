@@ -423,10 +423,12 @@ than a homogeneous setting.
 % Use present perfect more than past - JJ
 For the experiment, we have used five benchmark separable functions ($f_1 to f_5 $)
 from the Continuous Noiseless BBOB testbed, which is part of the Comparing
-Continuous Optimizers (COCO) framework \cite{hansen2016coco}. The functions are
-real-parameter, single-objective benchmark functions. We have tested with fifteen
-instances of each function, each having a different optimal value. The standard
-benchmark of the testbed uses these 15 instances over 2, 3, 5, 10, 20, and 40
+Continuous Optimizers (COCO) framework \cite{hansen2016coco}. % Say why only 5, and these 5 - JJ
+These functions are
+real-parameter, single-objective, and are usually employed as benchmarks. We have tested with fifteen
+instances of each function, each one having a different optimal value. The standard
+benchmark of the testbed % which testbed? 
+uses these 15 instances over 2, 3, 5, 10, 20, and 40
 dimensions. With the maximum number of function evaluations (\#FEs) increasing
 with the dimension (D), using the expression $10^5 \cdot D$ (i.e. for $D = 2$,
 \#FEs is $200,000$).
@@ -627,7 +629,7 @@ dimensions, the GA-PSO multipopulation gives competitive results.
     \end{tabular}
     \vspace{-3ex}
      \caption{
- Scaling of running with problem dimension to reach certain target values $\Delta f$. Lines:
+ Scaling of running time with problem dimension to reach certain target values $\Delta f$. Lines:
  average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
  the most difficult target that was reached at least once (but not always);
  Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
