@@ -1,0 +1,1 @@
+python3 -m cocopp -o /home/mariosky/coco-comp GA-PSO-m PSO-m GA-m BIPOP-CMA-ES DE DE-PSO EDA-PSO GA PSO 
