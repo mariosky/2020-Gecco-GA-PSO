@@ -588,17 +588,19 @@ best overall ($f_1-f_24$) performance on the BOBB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
 40, respectively. 
  
-We can see that the number of evaluations of {\sf GA-PSO-m} tents to be higher
-in most cases, but on the other hand, it could solve all functions.  As
-expected, the BIPOP-CMA-ES algorithm has the best running time on functions
+We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
+in most cases, but on the other hand, it could solve all functions 
+while others could not. As expected, the BIPOP-CMA-ES algorithm has the best running time on functions
 $f_1$, $f_2$ and $f_5$ and reaches three targets at search dimensions 20 and 40.
 It is worth to notice the performance of the DE algorithm, having the best
-running time on lower dimensions of  $f_3$ and $f_4$. Figure \ref{fig:bbob2}
-highlights for search space dimensions 10, 20 and 40. The fraction of
-functions-target pairs by number of FEs. An algorithm that requires less FEs to
-reach all targets will have more area under the curve. In this case, for higher
-dimensions, the GA-PSO multipopulation gives competitive results.
+running time on lower dimensions of  $f_3$ and $f_4$.
 
+Figure \ref{fig:bbob2}, highlights the performance of our proposal in search
+space dimensions 10, 20, and 40. The figure shows the fraction of
+functions-target pairs by the number of FEs. In this case, an algorithm that
+requires less FEs to reach all targets will have more area under the curve. For
+higher dimensions, the GA-PSO multi-population gives competitive results by
+reaching all targets within budget.
 
 \begin{figure*}[h!tb]
     \begin{tabular}
