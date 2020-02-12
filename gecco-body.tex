@@ -403,11 +403,21 @@ method pushes the three generated populations back to the \texttt{input} message
   \vspace{-3ex}
    \caption{Average running time (in \#FEs as $log_{10}$ value),
     divided by dimension for target function value $10^{-8}$ vs dimension. 
-    Algorithm legends are given in $f_1$. Light symbols give the maximum number of 
-    function evaluations from the longest trial divided by dimension. 
     Black stars indicate a statistically better result compared to 
     all other algorithms ($p < 0.01$) and Bonferroni 
-    correction number of dimensions.}
+    correction number of dimensions. 
+    Legend: {\color{NavyBlue}$\circ$}:GA-PSO-m, 
+    {\color{Magenta}$\diamondsuit$}:PSO-m, 
+    {\color{Orange}$\star$}:GA-m, 
+    {\color{CornflowerBlue}$\triangledown$}:BIPOP-CMA-ES,
+    {\color{red}$\varhexagon$}:DE, 
+    {\color{YellowGreen}$\triangle$}:DE-PSO, 
+    {\color{cyan}$\pentagon$}:EDA-PSO, 
+    {\color{GreenYellow}$\rightY$}:GA, 
+    {\color{ForestGreen}$\downY$}:PSO, 
+    {\color{Lavender}$\Diamond$}:LSstep, 
+    {\color{SkyBlue}$\triangleleft$}:BrentSTEP
+    } 
   \label{fig:avg}
 \end{figure}
 %
@@ -420,18 +430,24 @@ heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
 than a homogeneous setting.
 
-% Use present perfect more than past - JJ
-For the experiment, we have used five benchmark separable functions ($f_1 to f_5 $)
-from the Continuous Noiseless BBOB testbed, which is part of the Comparing
-Continuous Optimizers (COCO) framework \cite{hansen2016coco}. % Say why only 5, and these 5 - JJ
-These functions are
-real-parameter, single-objective, and are usually employed as benchmarks. We have tested with fifteen
-instances of each function, each one having a different optimal value. The standard
-benchmark of the testbed % which testbed? 
-uses these 15 instances over 2, 3, 5, 10, 20, and 40
-dimensions. With the maximum number of function evaluations (\#FEs) increasing
-with the dimension (D), using the expression $10^5 \cdot D$ (i.e. for $D = 2$,
-\#FEs is $200,000$).
+% Use present perfect more than past - JJ For the experiment, we have used five
+benchmark separable functions ($f_1 to f_5 $) from the Continuous Noiseless
+BBOB testbed, which is part of the Comparing Continuous Optimizers (COCO)
+framework \cite{hansen2016coco}. 
+
+Although there are not many real-world
+problems that are entirely separable, we wanted to focus on separable functions
+as a primary benchmark for testing the performance of a hybrid multi-population
+algorithm. And there is interest in solving such problems using more
+general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5, and these 5 - JJ 
+
+These functions are real-parameter, single-objective, and are
+usually employed as benchmarks. We have tested with fifteen instances of each
+function, each one having a different optimal value. The standard benchmark of
+the testbed % which testbed? uses these 15 instances over 2, 3, 5, 10, 20, and
+40 dimensions. With the maximum number of function evaluations (\#FEs)
+increasing with the dimension (D), using the expression $10^5 \cdot D$ (i.e.
+for $D = 2$, \#FEs is $200,000$).
 
 The COCO framework offers several tools to compare the performance of
 algorithms, generating data sets, tables, and reports for an experiment, we have
@@ -587,6 +603,12 @@ and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this las
 best overall ($f_1-f_24$) performance on the BOBB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
 40, respectively. 
+
+We also compare with two methods that are not population-based, but univariate
+solvers generalized for the optimization of separable functions, the
+line-search algorithm LSStep by Po{\v{s}}{\'\i}k \cite{povsik2009bbob}, and the Hybrid Brent-STEP by
+Po{\v{s}}{\'\i}k and Baudi{\v{s}} \cite{povsik2015dimension}. The performance for the Brent-STEP algorithm
+is the best for this group of functions, finding all targets with le FEs.
  
 We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
 in most cases, but on the other hand, it could solve all functions 
@@ -600,7 +622,8 @@ space dimensions 10, 20, and 40. The figure shows the fraction of
 functions-target pairs by the number of FEs. In this case, an algorithm that
 requires less FEs to reach all targets will have more area under the curve. For
 higher dimensions, the GA-PSO multi-population gives competitive results by
-reaching all targets within budget.
+reaching all targets within budget. The Brent-STEP algorithm did not provide
+results for 40D.
 
 \begin{figure*}[h!tb]
     \begin{tabular}
