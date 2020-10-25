@@ -104,7 +104,7 @@ Genetic Programming (GP) \cite{back1996evolutionary} are popular EAs, while exam
 A common characteristic of these kind of methods is the
 use of an initial set of random candidate solutions that are manipulated by the
 algorithm to generate a new set of candidates, and because of this, we commonly
-referred to them as population-based algorithms. 
+referred to them as population-based algorithms.
 There are other stochastic optimization methods, that even if they are not
 nature-inspired, they employ the concept of an evolving population. An example
 of this kind of methods is population-based incremental learning (PBIL)
@@ -115,7 +115,9 @@ obtain a fitness or score that will be used to select them (or not), a
 drawback of this kind of algorithms is that they can be computationally
 expensive since it is difficult to overcome that $n$ factor, where $n$
 is the population size, in the complexity of every iteration of the
-algorithm. That is why researchers have been proposing some form of
+algorithm.
+
+That is the reason why researchers have been proposing some form of
 parallelization since early on \cite{muhlenbein1988evolution} with 
 the goal of decreasing their execution time. % Not scalability, but wallclock timing - JJ
 One of the first methods of parallelization was the island
