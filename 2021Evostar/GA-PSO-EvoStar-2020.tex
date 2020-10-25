@@ -199,13 +199,13 @@ the direction of the best particle (exploitation); evolutionary
 algorithms use mutation and, to a certain point, crossover for
 exploration and crossover and selection procedures for
 exploitation. Since these mechanisms are fundamentally different,
-using several different algorithms at the same time might be
+using  different  and simultaneous algorithms might be
 considered a win-win situation by way of performing exploitation in
-several different directions at the same time, which will be able to
+several different directions, which will be able to
 get closer to the solution as well as generate new possibilities.
 
 This
-is why hybrid population-based algorithms have been repeatedly
+is why methods that mix several population-based algorithms have been repeatedly
 suggested in the literature: Pandi et al. \cite{pandi2011dynamic}
 suggest a combination of swarm intelligence and another algorithm
 denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
@@ -229,14 +229,14 @@ algorithms.
 %
 EAs and PSOs share another characteristic, besides the fact that they
 act on populations: they can use the same data structures to
-represent every member of the population. Please check Table
+represent  members of the population. Please check Table
 \ref{tab:equivalence} for equivalence of terms between PSO and EAs;
 additionally to the data structures used, there is a certain
 equivalence in the operators, but they are different enough to perform
 search in different ways. The fact that they use the same data
 structures means that you can apply them in turns, or simply start
 calling a ``chromosome'' a ``particle'' or the other way round,
-without any conversion, and keep working with it.
+without any conversion, and keep working with it with any of the algorithms.
 
 This is what the first papers to propose such a hybrid algorithm, by
 Robinson et al. \cite{Robinson2002}, explicitly played on this
@@ -245,7 +245,7 @@ running an algorithm on a population until it became stagnated, and
 then switching to the other one. This was done apparently only once,
 but eventually the mixture of the two algorithms was able to obtain
 better results in the design of a kind of antenna called ``horn'' than
-each one of them separately, although they report that the best value
+any of them separately, although they report that the best value
 was obtained by the algorithm that started as a PSO and terminated as
 an evolutionary one.
 
@@ -297,8 +297,8 @@ algorithm, by themselves, have good mechanisms for global
 exploration.
 
 Several other hybrid algorithms have been proposed more recently:
-Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization, 
-which is a swarm intelligence algorithm, and EAs to select
+Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization,
+which is a swarm intelligence algorithm, and EAs, to select
 software testing cases. ACO and EA are used serially, with GA acting
 to refine the test suite initially selected by the ant algorithm.
 
@@ -313,10 +313,7 @@ method explained next.
 
 \section{Proposed Method}
 \label{method}
-%
-% 
-% Write a small introduction here - JJ
-% done - Mario 
+
 In this section, we present a model for the execution of multi-population based
 asynchronous algorithms. As a first step, we describe the general architecture,
 for handling a stream of continuously updated populations,  and then our
