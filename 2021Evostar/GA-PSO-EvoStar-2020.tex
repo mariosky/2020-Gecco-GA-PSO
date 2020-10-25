@@ -1,7 +1,3 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
-% Version 2.20 of 2017/10/04
-%
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
@@ -66,27 +62,25 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-    Recently, in the field of nature-inspired optimization, 
-    researchers have proposed multi-population asynchronous 
-    algorithms that distribute the evolutionary process among 
-    heterogeneous search paradigms.These algorithms execute 
-    the search strategy by reading streams of populations 
-    from message queues, and replacing them with evolved versions of them.
-    Moreover, current studies suggest that when we have a high number of populations
-    interacting in parallel, the effect of the individual parameters
-    of each population is compensated by those selected in other
-    populations, 
-    improving the overall performance of the algorithm. In this work,
-    we propose a simple reactive migration method for the 
-    asynchronous execution of multi-population, multi-strategy 
-    algorithms that improves over homogeneous configurations.
-    We evaluate this method by comparing between % with? 
-    homogeneous and an ensemble of 
-    multi-populations, using Genetic Algorithms (GAs) and Particle 
-    Swarm Optimization (PSO) in the noiseless BBOB testbed for 
-    the optimization of continuous functions. Results show,
-    that this method offers better performance, even when compared
-    with other asynchronous population based algorithms. 
+    Recently, in the field of nature-inspired optimization,
+researchers have proposed multi-population asynchronous algorithms
+that distribute the evolutionary process among heterogeneous search
+paradigms. These algorithms execute the search strategy by reading
+streams of populations from message queues, and replacing them with
+evolved versions of them.  Moreover, current studies suggest that when
+we have a high number of populations interacting in parallel, the
+effect of the individual parameters of each population is compensated
+by those selected in other populations, improving the overall
+performance of the algorithm. In this work, we propose a simple
+reactive migration method for the asynchronous execution of
+multi-population, multi-strategy algorithms that improves over
+homogeneous configurations.  We evaluate this method by comparing with
+homogeneous and an ensemble of multi-populations, using Genetic
+Algorithms (GAs) and Particle Swarm Optimization (PSO) in the
+noiseless BBOB testbed for the optimization of continuous
+functions. Results show, that this method offers better performance,
+even when compared with other asynchronous population based
+algorithms.
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
  \and cloud-native systems.}
 \end{abstract}
@@ -276,8 +270,8 @@ is getting stuck, since the individuals will be randomly subjected to
 one or the other on every generation.
 
 
-\begin{figure*}
-\includegraphics[width=6in]{../images/kafkeo}
+\begin{figure*}[h!tb]
+\includegraphics[width=5in]{../images/kafkeo}
 \caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
 \label{fig:kafkeo}
 \end{figure*}
@@ -477,19 +471,19 @@ method pushes the three generated populations back to the \texttt{input} message
     \end{algorithmic}
 \end{algorithm}
 %
-\begin{figure}
+\begin{figure}[h!tb]
   \begin{tabular}
       {c@{\hspace*{-0.00001\textwidth}}
       % c@{\hspace*{-0.00001\textwidth}}
       }
      
-  \includegraphics[width=0.30\textwidth]{ppfigs_f001}\\
-  \includegraphics[width=0.30\textwidth]{ppfigs_f002}\\
+  \includegraphics[width=0.30\textwidth]{ppfigs_f001}
+  \includegraphics[width=0.30\textwidth]{ppfigs_f002}
 
   \includegraphics[width=0.30\textwidth]{ppfigs_f003}\\
-  \includegraphics[width=0.30\textwidth]{ppfigs_f004}\\
+  \includegraphics[width=0.30\textwidth]{ppfigs_f004}
   
-  \includegraphics[width=0.30\textwidth]{ppfigs_f005}\\
+  \includegraphics[width=0.30\textwidth]{ppfigs_f005}
   \end{tabular}
   \vspace{-3ex}
    \caption{Average running time (in \#FEs as $log_{10}$ value),
