@@ -66,19 +66,20 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 Recently, in the field of nature-inspired optimization, researchers have
 proposed multi-population asynchronous algorithms that distribute the
 evolutionary process among heterogeneous search paradigms. These algorithms
-execute the optimization strategy by reading streams of populations from
-message queues. After searching for a small number of iterations, replacing
-them with evolved versions of them. Moreover, current studies suggest that
-when we have a high number of populations interacting in parallel, each
-populations' parameters are compensated by those selected in other
-populations, improving the overall performance. In this work, we propose a
-simple reactive migration method for the asynchronous execution of
-multi-population, multi-strategy algorithms that improve over homogeneous
-configurations. We evaluate this method by comparing it with homogeneous and
-an ensemble of multi-populations, using Genetic Algorithms (GAs) and Particle
-Swarm Optimization (PSO) in the noiseless BBOB testbed for the optimization of
-continuous functions. Results show that this method offers better performance,
-even when compared with other asynchronous population based algorithms.
+execute the optimization strategy by reading streams of populations from message
+queues. After searching for a small number of iterations, replacing them with
+evolved versions of them. Moreover, current research suggests that when we have
+many populations communicating in parallel, each populations' parameters are
+compensated by those selected in other populations, improving the overall
+performance. In this work, we propose a simple reactive migration method for the
+asynchronous execution of multi-population, multi-strategy algorithms that
+improve over homogeneous configurations. We evaluate this method by comparing a
+heterogeneous ensemble of multi-populations against a homogeneous solution
+consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization (PSO)
+populations. We evaluate both solutions using five problems from the noiseless
+BBOB testbed for the optimization of continuous functions. Results show that
+this method offers better performance, even when compared with other
+asynchronous population-based algorithms.
 
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
  \and cloud-native systems.}
@@ -101,7 +102,7 @@ artificial bee colony (ABC) \cite{karaboga2005idea}, and Grey Wolf Optimization 
 These methods are known as population-based algorithms
 because they share the characteristic of using a set of random candidate
 solutions that are initially random. This population is then used by the
-Algorithm to generate a new set of candidates considering each candidate
+Algorithm to produce a new set of candidates considering each candidate
 solutions' fitness. Other stochastic optimization methods still employ the
 concept of an evolving population while not being nature-inspired. An example of
 this kind of method is population-based incremental learning (PBIL)
@@ -129,34 +130,36 @@ operation's parallelism \cite{ALBA20027}.
 
 Having many populations offers researchers many configuration choices and
 additional challenges when designing efficient multi-population algorithms.
-Options include the number and size of populations, the type of interaction
+Options include the size and number of populations, the type of interaction
 between them, each population's search area, the search strategy, and its
 parametrization. In this paper, we are interested in the latter, having multiple
 populations running with distinct parameters and optimization algorithms. In the
 literature, we can find several heterogeneous multi-population algorithms that
 integrate variations of optimization algorithms, and these often perform better
-than single-population or homogeneous multi-population optimization
-algorithms \cite{wu2016differential,nseef2016adaptive}. Heterogeneous algorithms put
-an additional burden on the tuning of parameters for each population; some
-parameters affect the accuracy of the solution and the convergence speed of the
-individual algorithms, tipping the balance between exploration and exploitation
-of the search space. On the other hand, current studies show that by having a
-high number of populations communicating in parallel, the effect of each
-population's parameters can be compensated by those selected in other
-populations \cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be
-implemented by just changing each population's configuration parameters, but in
-this case, we are interested in heterogeneous search strategies. Therefore, in
-this paper, we implemented an asynchronous multi-population algorithm version,
-using a message queue for inter-process communication \cite{guervos2018introducing}
-and a reactive migration procedure. We compare three heterogeneous
-configurations using a randomized parameter technique. We experimented with all
-populations using a GA or PSO search strategies versus an ensemble
-multi-population with both GA and PSO algorithms, using as a benchmark the
-separable functions of the BBOB noiseless testbed \cite{hansen2009real}. We compare
-the options by measuring the average running time (aRT) as the number of
-functions (\#FEs), as the objective is to prove that the advantage of
-heterogeneous configurations resides not only in the increased scalability but
-also in the search performance.
+than single-population or homogeneous multi-population optimization algorithms
+\cite{wu2016differential,nseef2016adaptive}. 
+
+Heterogeneous algorithms put an
+additional burden on the tuning of parameters for each population; some
+parameters influence the solution's accuracy while others affect the convergence
+speed of individual algorithms, tipping the balance between exploring or
+exploiting the solution space. On the other hand, current literature shows that
+having a high number of populations that communicate in parallel compensates for
+the effect of individual population's parameters
+\cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be implemented
+by just changing each population's configuration parameters, but in this work,
+we are interested in evaluating the compensating effect that heterogeneous
+search strategies have. Therefore, in this paper, we implemented an asynchronous
+multi-population algorithm version, using a message queue for inter-process
+communication \cite{guervos2018introducing} and a reactive migration procedure.
+We compare three heterogeneous configurations using a randomized parameter
+technique. We experimented with all populations using a GA or PSO search
+strategies versus an ensemble multi-population with both GA and PSO algorithms,
+using as a benchmark the separable functions of the BBOB noiseless testbed
+\cite{hansen2009real}. We compare the options by measuring the average running
+time (aRT) as the number of functions (\#FEs), as the objective is to prove that
+the advantage of heterogeneous configurations resides not only in the increased
+scalability but also in the search performance.
 
 
 The organization of the paper is as follows: First, Section \ref{soa} presents
