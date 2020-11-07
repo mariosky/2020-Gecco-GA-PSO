@@ -63,22 +63,26 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 %
 \begin{abstract}
 
-Recently, in the field of nature-inspired optimization, researchers have
+Researchers in the field of nature-inspired optimization have recently
 proposed multi-population asynchronous algorithms that distribute the
 evolutionary process among heterogeneous search paradigms. These algorithms
 execute the optimization strategy by reading streams of populations from message
-queues. After searching for a small number of iterations, replacing them with
-evolved versions of them. Moreover, current research suggests that when we have
-many populations communicating in parallel, each populations' parameters are
+queues. After searching for a small number of iterations, new messages with
+evolved versions of them are generated. Current research suggests that when we have
+many populations communicating in parallel, each populations'
+parameters are % what do you mean by parameters? - JJ
 compensated by those selected in other populations, improving the overall
-performance. In this work, we propose a simple reactive migration method for the
+performance. % You should clarify this sentence. - JJ
+In this work, we propose a simple reactive migration method for the
 asynchronous execution of multi-population, multi-strategy algorithms that
-improve over homogeneous configurations. We evaluate this method by comparing a
+manages to achieve an improvement over homogeneous configurations. We
+evaluate this method by comparing a
 heterogeneous ensemble of multi-populations against a homogeneous solution
 consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization (PSO)
 populations. We evaluate both solutions using five problems from the noiseless
 BBOB testbed for the optimization of continuous functions. Results show that
-this method offers better performance, even when compared with other
+this method offers better performance, % in which aspect? - JJ
+even when compared with other
 asynchronous population-based algorithms.
 
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
@@ -89,7 +93,8 @@ asynchronous population-based algorithms.
 %
 \section{Introduction}
 
-According to a recent survey by Yang et al. \cite{yang2014nature}, nature-inspired optimization
+According to a survey by Yang et al. \cite{yang2014nature}, % not so recent
+nature-inspired optimization
 algorithms have been used successfully in the last decades to tackle complex
 problems. These algorithms include evolutionary (EAs) and swarm
 intelligence (SI) algorithms \cite{back1996evolutionary,kennedy2006swarm}. Popular
