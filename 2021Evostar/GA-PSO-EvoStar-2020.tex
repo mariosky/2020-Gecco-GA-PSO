@@ -70,9 +70,11 @@ execute the optimization strategy by reading streams of populations from message
 queues. After searching for a small number of iterations, new messages with
 evolved versions of them are generated. Current research suggests that when we have
 many populations communicating in parallel, each populations'
-parameters are % what do you mean by parameters? - JJ
-compensated by those selected in other populations, improving the overall
-performance. % You should clarify this sentence. - JJ
+algorithm parameters intensifying exploration or exploitation of the 
+search space are compensated by those selected in 
+other populations, % what do you mean by parameters? - JJ
+improving the overall performance. % You should clarify this sentence. - JJ 
+% I change this a bit, check if this is clear now - Mario
 In this work, we propose a simple reactive migration method for the
 asynchronous execution of multi-population, multi-strategy algorithms that
 manages to achieve an improvement over homogeneous configurations. We
@@ -81,9 +83,10 @@ heterogeneous ensemble of multi-populations against a homogeneous solution
 consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization (PSO)
 populations. We evaluate both solutions using five problems from the noiseless
 BBOB testbed for the optimization of continuous functions. Results show that
-this method offers better performance, % in which aspect? - JJ
-even when compared with other
-asynchronous population-based algorithms.
+compared with other asynchronous population-based algorithms,
+this method offers better performance in terms of the number of evaluations needed 
+to find a solution and the number of instances where it found it. % in which aspect? - JJ
+% clarified - Mario
 
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
  \and cloud-native systems.}
@@ -93,7 +96,8 @@ asynchronous population-based algorithms.
 %
 \section{Introduction}
 
-According to a survey by Yang et al. \cite{yang2014nature}, % not so recent
+According to a survey by Yang et al. \cite{yang2014nature}, % not so recent 
+% not at all - M,  but I all ways fool my self that something after 2000 is new or recent :)
 nature-inspired optimization
 algorithms have been used successfully in the last decades to tackle complex
 problems. These algorithms include evolutionary (EAs) and swarm
