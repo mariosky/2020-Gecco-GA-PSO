@@ -99,79 +99,108 @@ to find a solution and the number of instances where it found it.
 %
 \section{Introduction}
 
-According to a survey by Yang et al. \cite{yang2014nature}, % not so recent 
-% not at all - M,  but I all ways fool my self that something after 2000 is new or recent :)
-nature-inspired optimization
-algorithms have been used successfully in the last decades to tackle complex
-problems. These algorithms include evolutionary (EAs) and swarm
+% -----------------
+% According to a survey by Yang et al. \cite{yang2014nature}, 
+% nature-inspired optimization
+% algorithms have been used successfully in the last decades to tackle complex
+% problems. % This is information-free. Should probably be eliminated.
+
+The class of algorithms generically denominated nature inspired
+\cite{yang2014nature}, have a lot of characteristics in common.
+These algorithms include evolutionary (EAs) and swarm
 intelligence (SI) algorithms \cite{back1996evolutionary,kennedy2006swarm}. Popular
 EAs include Genetic Algorithms (GAs) \cite{holland1992adaptation,eiben2003genetic}
 and Differential Evolution (DE) \cite{karabouga2004simple}. Examples of SI algorithms
 \cite{kennedy2006swarm} are particle swarm optimization (PSO) \cite{clerc2010particle},
 artificial bee colony (ABC) \cite{karaboga2005idea}, and Grey Wolf Optimization (GWO)
-\cite{mirjalili2014grey}. 
+\cite{mirjalili2014grey}.
 
-These methods are known as population-based algorithms
-because they share the characteristic of using a set of random candidate
-solutions that are initially random. This population is then used by the
-Algorithm to produce a new set of candidates considering each candidate
-solutions' fitness. Other stochastic optimization methods still employ the
-concept of an evolving population while not being nature-inspired. An example of
-this kind of method is population-based incremental learning (PBIL)
-\cite{baluja1994population}, an optimization and distribution estimation algorithm.
-Since all population members have to be evaluated to obtain a fitness or score
-that will be used to select them (or not), a disadvantage of this kind of
-algorithms is that they can be computationally expensive. 
+These nature inspired algorithms, together with others like PBIL
+(Population Based Incremental Learning) \cite{baluja1994population}
+and EDAs (Estimation of Distribution algorithms)
+\cite{larranaga2001estimation} use a set of (initially) random
+candidate solutions, that is then used by the algorithm to produce a
+new set of candidates considering each candidate solutions'
+fitness. Since all population members have to be evaluated to obtain a
+fitness or score that will be used to select them (or not), a
+disadvantage of this kind of algorithms is that they can be
+computationally expensive: every candidate solution needs to be
+evaluated, and the different strategies to efficiently explore the
+search space might eventually lead to lots of evaluations.
 
-Researchers have been
-proposing some form of parallelization from the start \cite{muhlenbein1988evolution}
-to decrease their execution time. One of the first parallelization methods was
-the island model, which led to an increased performance
-\cite{gorges1990explicit,grosso1985computer}. The idea was to divide the population
-into smaller populations that interacted with each other. Since then, other
-researchers have adopted the idea and found additional advantages besides a
-reduced execution speed; these include avoiding a premature convergence and
-maintaining the global population's diversity \cite{li2015multi}. We are going to
-call these kinds of methods, multi-population algorithms \cite{Ma2019}. The relative
-isolation in which the Algorithm manages populations, together with the
-synchronous or asynchronous communication, helps increase the overall diversity
-since each population can search in a particular area, at least between
-communications \cite{li2016multi,wu2016differential}. Even in some cases, a
-multi-population based algorithm scales better due to these interactions and the
-operation's parallelism \cite{ALBA20027}.
+This fact, together with the a priori ease of simultaneous evaluation
+of different segments of the population, have spawned proposals of
+some form of parallelization from the start
+\cite{muhlenbein1988evolution} to decrease their execution time, at
+least in the area of evolutionary algorithms. One of the first
+parallelization methods was the island model, which led to an
+increased performance
+\cite{gorges1990explicit,grosso1985computer}. The idea was to divide
+the population into smaller segments that interacted with each
+other. Since then, other researchers have adopted the idea and found
+additional advantages besides a reduced execution speed; these include
+avoiding a premature convergence and maintaining the global
+population's diversity \cite{li2015multi}. We are going to call these
+kinds of methods, multi-population algorithms \cite{Ma2019}. The
+relative isolation in which the Algorithm manages populations,
+together with the synchronous or asynchronous communication, helps
+increase the overall diversity since each population can search in a
+particular area, at least between communications
+\cite{li2016multi,wu2016differential}. In some cases, even a
+multi-population based algorithm is able to scale better due to these
+interactions and the operation's parallelism \cite{ALBA20027}.
 
-Having many populations offers researchers many configuration choices and
-additional challenges when designing efficient multi-population algorithms.
-Options include the size and number of populations, the type of interaction
-between them, each population's search area, the search strategy, and its
-parametrization. In this paper, we are interested in the latter, having multiple
-populations running with distinct parameters and optimization algorithms. In the
-literature, we can find several heterogeneous multi-population algorithms that
-integrate variations of optimization algorithms, and these often perform better
-than single-population or homogeneous multi-population optimization algorithms
-\cite{wu2016differential,nseef2016adaptive}. 
+The obvious first step is replicating the same parameters in all
+segments (often called {\em demes}) in which the population is
+divided. But this is not really mandatory: Having many populations
+offers researchers many configuration choices and additional
+challenges when designing efficient multi-population algorithms.
+Options include the size and number of populations, the type of
+interaction between them, each population's search area, the search
+strategy, its parametrization and, of course, the actual algorithm
+that every segment is running. In the literature, we can find several
+heterogeneous mixed-algorithm multi-population methods that integrate
+variations of optimization algorithms, and these often perform better
+than single-population or homogeneous multi-population optimization
+algorithms \cite{wu2016differential,nseef2016adaptive}. In this paper,
+we will focus in this aspect, with multiple populations running with
+distinct parameters and optimization algorithms.
 
-Heterogeneous algorithms put an
-additional burden on the tuning of parameters for each population; some
+% We shouldn't use algorithms, since it's mixed-algorithm. We should
+% use methods. 
+Mixed-algorithm parallel methods put an
+additional burden on the tuning of parameters for each population,
+since the space of free parameters (and its possible interactions)
+blows up; some
 parameters influence the solution's accuracy while others affect the convergence
 speed of individual algorithms, tipping the balance between exploring or
 exploiting the solution space. On the other hand, current literature shows that
-having a high number of populations that communicate in parallel compensates for
+having a high number of populations that communicate in parallel
+compensates % compensates, in which sense? - JJ
+for
 the effect of individual population's parameters
 \cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be implemented
 by just changing each population's configuration parameters, but in this work,
 we are interested in evaluating the compensating effect that heterogeneous
-search strategies have. Therefore, in this paper, we implemented an asynchronous
+search strategies have. % We should make a stronger statement on why
+                        % we are going to do this here. It's the first
+                        % mention, it should be a bit stronger. - JJ
+
+Therefore, in this paper, we implemented an asynchronous
 multi-population algorithm version, using a message queue for inter-process
-communication \cite{guervos2018introducing} and a reactive migration procedure.
+communication (in a way similar as the one used in
+\cite{guervos2018introducing}) and a reactive migration procedure. % Also first time, we should make a statement with motivation for this procedure- JJ
+
 We compare three heterogeneous configurations using a randomized parameter
-technique. We experimented with all populations using a GA or PSO search
+technique. % Why do we do this? - JJ
+We experimented with all populations using a GA or PSO search
 strategies versus an ensemble multi-population with both GA and PSO algorithms,
 using as a benchmark the separable functions of the BBOB noiseless testbed
 \cite{hansen2009real}. We compare the options by measuring the average running
 time (aRT) as the number of functions (\#FEs), as the objective is to prove that
 the advantage of heterogeneous configurations resides not only in the increased
-scalability but also in the search performance.
+scalability but also in the search performance. % Objectives should go
+                                % first, not last - JJ
 
 
 The organization of the paper is as follows: First, Section \ref{soa} presents
