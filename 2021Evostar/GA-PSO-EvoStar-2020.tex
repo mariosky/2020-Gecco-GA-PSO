@@ -128,7 +128,37 @@ computationally expensive: every candidate solution needs to be
 evaluated, and the different strategies to efficiently explore the
 search space might eventually lead to lots of evaluations.
 
-This fact, together with the a priori ease of simultaneous evaluation
+% --- I have moved this up from SoA. But we need to integrate it better
+\begin{table}[h!tb]
+    \caption{Equivalence of terms between particle swarm optimization
+    and evolutionary algorithms. \label{tab:equivalence}}
+\centering
+\begin{tabular}{|c|c|}
+  \hline
+  PSO & EA \\ \hline
+  Position vector & {\em genes} in a chromosome \\ \hline
+  Move towards better & Selection  \\ \hline
+  Random motion & Mutation \\ \hline
+  Move towards centroid & Crossover \\ \hline
+\end{tabular}
+\end{table}
+%
+EAs and PSOs share another characteristic, besides the fact that they
+act on populations: they can use the same data structures to
+represent  members of the population. Please check Table
+\ref{tab:equivalence} for equivalence of terms between PSO and EAs;
+additionally to the data structures used, there is a certain
+equivalence in the operators, but they are different enough to perform
+search in different ways. The fact that they use the same data
+structures means that you can apply them in turns, or simply start
+calling a ``chromosome'' a ``particle'' or the other way round,
+without any conversion, and keep working with it with any of the
+algorithms.
+% --- moved down to here.
+
+This fact, % two paragraphs have been introduced, so we need to change
+           % this - JJ
+together with the a priori ease of simultaneous evaluation
 of different segments of the population, have spawned proposals of
 some form of parallelization from the start
 \cite{muhlenbein1988evolution} to decrease their execution time, at
@@ -166,7 +196,7 @@ algorithms \cite{wu2016differential,nseef2016adaptive}. In this paper,
 we will focus in this aspect, with multiple populations running with
 distinct parameters and optimization algorithms.
 
-% We shouldn't use algorithms, since it's mixed-algorithm. We should
+% We shouldn't use the term "algorithms", since it's mixed-algorithm. We should
 % use methods. 
 Mixed-algorithm parallel methods put an
 additional burden on the tuning of parameters for each population,
@@ -215,6 +245,8 @@ conclusions of this paper and suggestions on future work in Section
 \section{State of the Art}
 \label{soa}
 
+% I miss a sentence here explaining why we're talking about
+% this. Maybe referring back to something in the introduction - JJ
 In general, population based algorithms have to keep a balance between
 exploration and exploitation via the clever use of selection and
 variation operators \cite{vcrepinvsek2013exploration}. In pursuit of
@@ -227,45 +259,23 @@ the direction of the best particle (exploitation); evolutionary
 algorithms use mutation and, to a certain point, crossover for
 exploration and crossover and selection procedures for
 exploitation. Since these mechanisms are fundamentally different,
-using  different  and simultaneous algorithms might be
+mixing different algorithms might be
 considered a win-win situation by way of performing exploitation in
 several different directions, which will be able to
 get closer to the solution as well as generate new possibilities.
 
-This
-is why methods that mix several population-based algorithms have been repeatedly
+This is why methods that mix several population-based algorithms have been repeatedly
 suggested in the literature: Pandi et al. \cite{pandi2011dynamic}
 suggest a combination of swarm intelligence and another algorithm
 denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
 particle swarm optimization with bee colony algorithms, while Zhao et
 al. \cite{zhao2010hybrid} combine the latter with evolutionary
-algorithms.
+algorithms. % But we need to justify that the reason why they've have
+            % done it is the same we have mentioned before - JJ
 
-\begin{table}[h!tb]
-    \caption{Equivalence of terms between particle swarm optimization
-    and evolutionary algorithms. \label{tab:equivalence}}
-\centering
-\begin{tabular}{|c|c|}
-  \hline
-  PSO & EA \\ \hline
-  Position vector & {\em genes} in a chromosome \\ \hline
-  Move towards better & Selection  \\ \hline
-  Random motion & Mutation \\ \hline
-  Move towards centroid & Crossover \\ \hline
-\end{tabular}
-\end{table}
-%
-EAs and PSOs share another characteristic, besides the fact that they
-act on populations: they can use the same data structures to
-represent  members of the population. Please check Table
-\ref{tab:equivalence} for equivalence of terms between PSO and EAs;
-additionally to the data structures used, there is a certain
-equivalence in the operators, but they are different enough to perform
-search in different ways. The fact that they use the same data
-structures means that you can apply them in turns, or simply start
-calling a ``chromosome'' a ``particle'' or the other way round,
-without any conversion, and keep working with it with any of the algorithms.
-
+% a paragraph on the similarity of PSO and GA was moved up, taking out
+% the meaning of "this". We need to revise that. Probably swap the
+% previous paragraph and this one - JJ
 This is what the first papers to propose such a hybrid algorithm, by
 Robinson et al. \cite{Robinson2002}, explicitly played on this
 fact and also on what we might call diversity of local minima by
@@ -301,12 +311,6 @@ is getting stuck, since the individuals will be randomly subjected to
 one or the other on every generation.
 
 
-\begin{figure*}[h!tb]
-\includegraphics[width=5in]{../images/kafkeo}
-\caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
-\label{fig:kafkeo}
-\end{figure*}
-%
 Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
 later extended by Li et al. \cite{li2008gene}; in this work,
@@ -341,6 +345,13 @@ method explained next.
 
 \section{Proposed Method}
 \label{method}
+%
+\begin{figure*}[h!tb]
+\includegraphics[width=5in]{../images/kafkeo}
+\caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
+\label{fig:kafkeo}
+\end{figure*}
+%
 
 In this section, we present a model for the execution of multi-population based
 asynchronous algorithms. As a first step, we describe the general architecture,
