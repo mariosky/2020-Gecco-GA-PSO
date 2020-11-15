@@ -360,18 +360,19 @@ method explained next.
 \end{figure*}
 %
 
-In this section, we present a model for the execution of multi-population based
-asynchronous algorithms. As a first step, we describe the general architecture,
-for handling a stream of continuously updated populations,  and then our
-approach for decoupling the processing in stateless functions, to finally give
-details of the migration mechanism.
+% --------------------- Suppresses intro and subsections -------------------------
+% In this section, we present a model for the execution of multi-population based
+% asynchronous algorithms. As a first step, we describe the general architecture,
+% for handling a stream of continuously updated populations,  and then our
+% approach for decoupling the processing in stateless functions, to finally give
+% details of the migration mechanism.
 
 
-\subsection{Architecture}
-\label{arch}
 
-In this section we present our proposed model for the execution of
-multi-population based asynchronous algorithms. As we have mentioned before, when
+% In this section we present our proposed model for the execution of
+% multi-population based asynchronous algorithms.
+
+As we have mentioned before, when
 designing efficient multi-population algorithms, we need to consider additional
 issues \cite{Ma2019}, including the number and size of populations, how they
 interact or communicate between them, and the search strategy and parametrization of
@@ -452,8 +453,8 @@ implemented as a single multi-threaded program, or as a highly scalable
 serverless cloud application.
 \end{itemize}
 
-\subsection{Stateless functions} 
-\label{functions} 
+%\subsection{Stateless functions} 
+%\label{functions} 
 
 % Maybe mention that before? You have already mentioned them above - JJ
 This message queue pattern is an essential component of a highly scalable
@@ -480,8 +481,8 @@ of the population, with additional data describing the local execution. This
 data is necessary to log the \#FE and current fitness values.
 
 
-\subsection{Migration}
-\label{migration}
+%\subsection{Migration}
+%\label{migration}
 
 As the controller is pulling population messages from the output queue, it waits
 until the message queue contains three valid populations to trigger an event handled by the
