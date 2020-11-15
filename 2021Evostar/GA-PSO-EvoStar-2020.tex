@@ -694,23 +694,24 @@ the runtime scales with dimension to reach certain target values $\Delta f$;
 % That is why appears on top. It reaches but takes more evals on average.
 % So please fix that... - JJ
 % ping here - JJ
-The color of the lines indicates the average runtime, for each target reached
+the color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
-has reached the $10^{-8}$ target on all instances for that dimension. If there
-is a number on the top, it indicates how many times the algorithm has reached
+has reached the $10^{-8}$ target on all instances for that dimension;
+with a number, it indicates how many times the algorithm has reached
 the target. Fixed values of targets $\Delta f = 10^{k}$ with $k$ colors are
 given in the legend of $f_1$, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. Results
 from each configuration are presented in each column, GA, PSO, and GA\&PSO
 populations.
 
-We can see that the GA algorithm (on the left column) has a hard time reaching even the
-$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
+We can see that the GA algorithm (on the left-most column) has a hard time reaching even the
+$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and yields the worst
 performance in 20 and 40 dimensions. Finally, it performs better on $f_5$
 reaching the $10^{-8}$ on all dimensions but with a higher runtime on lower
-dimensions.
+dimensions. % Maybe some comments on why these 5 functions and what
+            % makes f5 special? - JJ
 
-On the other hand, the multi-population PSO (taking the column on the middle) 
-has better performance; its results take a smaller range,
+On the other hand, the multi-population PSO (shown in the column on the middle)
+has better performance; its results are less apread
 reaching all targets for functions $f_1$ and $f_2$ but with a slightly higher
 runtime than the multi-strategy configuration. It is not able to reach the
 $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
@@ -718,7 +719,8 @@ multi-population has the best runtime for the lower dimensions of $f_5$.
 
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
-on $f_3$ and $f_4$ (charts on the lower rows), which are usually considered difficult functions. 
+on $f_3$ and $f_4$ (charts on the lower rows), which are usually
+considered difficult functions. % Maybe a reference for this? - JJ
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows 
@@ -743,13 +745,16 @@ is the best for this group of functions, finding all targets with le FEs.
  
 We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
 in most cases, but on the other hand, it could solve all functions 
-while others could not. As expected, the BIPOP-CMA-ES algorithm has the best running time on functions
+while others could not. % We should refer back to our hypothesis of
+                        % better exploration of the search space here
+                        % - JJ
+As expected, the BIPOP-CMA-ES algorithm has the best running time on functions
 $f_1$, $f_2$ and $f_5$ and reaches three targets at search dimensions 20 and 40.
 It is worth to notice the performance of the DE algorithm, having the best
 running time on lower dimensions of  $f_3$ and $f_4$.
 
-Figure \ref{fig:bbob2}, highlights the performance of our proposal in search
-space dimensions 10, 20, and 40. The figure shows the fraction of
+Figure \ref{fig:bbob2} highlights the performance of our proposal in search
+space of dimensions 10, 20, and 40. The figure shows the fraction of
 functions-target pairs by the number of FEs. In this case, an algorithm that
 requires less FEs to reach all targets will have more area under the curve. For
 higher dimensions, the GA-PSO multi-population gives competitive results by
