@@ -484,17 +484,18 @@ data is necessary to log the \#FE and current fitness values.
 %\subsection{Migration}
 %\label{migration}
 
-As the controller is pulling population messages from the output queue, it waits
-until the message queue contains three valid populations to trigger an event handled by the
+As the controller is pulling population messages from the output
+queue, it waits until the message queue contains three valid
+populations to trigger an event handled by the
 \texttt{population\_mixer} function, which uses as an argument a list
-containing the three populations. This design has the advantage of not needing to keep a
-buffer in memory or external storage, and it follows the reactive paradigm. A
-possible disadvantage can be that it only mixes populations that have
-arrived sequentially to the message queue, but we
-could mitigate this with a larger buffer and in fact populations do
-not need to arrive to the buffer in the same order they were created
-or processed, so this shouldn't, in principle, contribute to any loss
-of diversity.
+containing the three populations. This design has the advantage of not
+needing to keep a buffer in memory or external storage, and it follows
+the reactive paradigm. A possible disadvantage can be that it only
+mixes populations that have arrived sequentially to the message queue,
+but we could mitigate this with a larger buffer and in fact
+populations do not need to arrive to the buffer in the same order they
+were created or processed, so this shouldn't, in principle, contribute
+to any loss of diversity.
 
 When \texttt{population\_mixer} unit receives a list of three populations, let us say
 [A, B, C], it calls the migration method shown in Algorithm \ref{alg:migration}
@@ -562,12 +563,11 @@ heterogeneous populations and the support for mixing search strategies,
 increases the performance of the search by needing fewer function evaluations
 than a homogeneous setting.
 
-% Use present perfect more than past - JJ For the experiment, we have used five
+% Use present perfect more than past - JJ
+For the experiment, we have used five
 benchmark separable functions ($f_1 to f_5 $) from the Continuous Noiseless
 BBOB testbed, which is part of the Comparing Continuous Optimizers (COCO)
-framework \cite{hansen2016coco}. 
-
-Although there are not many real-world
+framework \cite{hansen2016coco}. Although there are not many real-world
 problems that are entirely separable, we wanted to focus on separable functions
 as a primary benchmark for testing the performance of a hybrid multi-population
 algorithm. And there is interest in solving such problems using more
