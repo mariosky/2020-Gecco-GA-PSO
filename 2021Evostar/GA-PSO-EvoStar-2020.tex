@@ -105,30 +105,28 @@ to find a solution and the number of instances where it found it.
 % algorithms have been used successfully in the last decades to tackle complex
 % problems. % This is information-free. Should probably be eliminated.
 
-The class of algorithms generically denominated nature inspired
-\cite{yang2014nature}, have a lot of characteristics in common.
-These algorithms include evolutionary (EAs) and swarm
-intelligence (SI) algorithms \cite{back1996evolutionary,kennedy2006swarm}. Popular
-EAs include Genetic Algorithms (GAs) \cite{holland1992adaptation,eiben2003genetic}
-and Differential Evolution (DE) \cite{karabouga2004simple}. Examples of SI algorithms
-\cite{kennedy2006swarm} are particle swarm optimization (PSO) \cite{clerc2010particle},
-artificial bee colony (ABC) \cite{karaboga2005idea}, and Grey Wolf Optimization (GWO)
-\cite{mirjalili2014grey}.
+The class of algorithms generically denominated nature-inspired
+\cite{yang2014nature}, which  include evolutionary (EAs) and swarm
+intelligence (SI) algorithms
+\cite{back1996evolutionary,kennedy2006swarm}, have a lot of
+characteristics in common.
 
-These nature inspired algorithms, together with others like PBIL
-(Population Based Incremental Learning) \cite{baluja1994population}
-and EDAs (Estimation of Distribution algorithms)
-\cite{larranaga2001estimation} use a set of (initially) random
-candidate solutions, that is then used by the algorithm to produce a
-new set of candidates considering each candidate solutions'
-fitness. Since all population members have to be evaluated to obtain a
-fitness or score that will be used to select them (or not), a
-disadvantage of this kind of algorithms is that they can be
-computationally expensive: every candidate solution needs to be
-evaluated, and the different strategies to efficiently explore the
-search space might eventually lead to lots of evaluations.
+% -------------------------- Does not fit in -----------------------------------------
+% Popular
+% EAs include Genetic Algorithms (GAs) \cite{holland1992adaptation,eiben2003genetic}
+% and Differential Evolution (DE) \cite{karabouga2004simple}. Examples of SI algorithms
+% \cite{kennedy2006swarm} are particle swarm optimization (PSO) \cite{clerc2010particle},
+% artificial bee colony (ABC) \cite{karaboga2005idea}, and Grey Wolf Optimization (GWO)
+% \cite{mirjalili2014grey}.
+% ----------------------------------------------------------------------------------
 
-% --- I have moved this up from SoA. But we need to integrate it better
+Together with others like PBIL (Population Based Incremental Learning)
+\cite{baluja1994population} and EDAs (Estimation of Distribution
+algorithms) \cite{larranaga2001estimation} use (or generate, in the
+case of EDA) a set of (initially) random candidate solutions to
+produce a new set of candidates considering each candidate solutions'
+fitness.
+
 \begin{table}[h!tb]
     \caption{Equivalence of terms between particle swarm optimization
     and evolutionary algorithms. \label{tab:equivalence}}
@@ -143,7 +141,7 @@ search space might eventually lead to lots of evaluations.
 \end{tabular}
 \end{table}
 %
-EAs and PSOs share another characteristic, besides the fact that they
+Additionally, EAs and PSOs share another characteristic, besides the fact that they
 act on populations: they can use the same data structures to
 represent  members of the population. Please check Table
 \ref{tab:equivalence} for equivalence of terms between PSO and EAs;
@@ -153,12 +151,17 @@ search in different ways. The fact that they use the same data
 structures means that you can apply them in turns, or simply start
 calling a ``chromosome'' a ``particle'' or the other way round,
 without any conversion, and keep working with it with any of the
-algorithms.
-% --- moved down to here.
+algorithms. We will get back to this a bit later.
 
-This fact, % two paragraphs have been introduced, so we need to change
-           % this - JJ
-together with the a priori ease of simultaneous evaluation
+
+They also face common challenges: Since all population members have to
+be evaluated to obtain a fitness or score that will be used to select
+them (or not), a disadvantage of this kind of algorithms is that they
+can be computationally expensive: every candidate solution needs to be
+evaluated, and the different strategies to efficiently explore the
+search space might eventually lead to lots of evaluations.
+
+This fact, together with the a priori ease of simultaneous evaluation
 of different segments of the population, have spawned proposals of
 some form of parallelization from the start
 \cite{muhlenbein1988evolution} to decrease their execution time, at
@@ -180,7 +183,8 @@ particular area, at least between communications
 multi-population based algorithm is able to scale better due to these
 interactions and the operation's parallelism \cite{ALBA20027}.
 
-The obvious first step is replicating the same parameters in all
+These initial procedures replicate the same parameters (and,
+implicitly, the same algorithm) in all
 segments (often called {\em demes}) in which the population is
 divided. But this is not really mandatory: Having many populations
 offers researchers many configuration choices and additional
@@ -196,8 +200,6 @@ algorithms \cite{wu2016differential,nseef2016adaptive}. In this paper,
 we will focus in this aspect, with multiple populations running with
 distinct parameters and optimization algorithms.
 
-% We shouldn't use the term "algorithms", since it's mixed-algorithm. We should
-% use methods. 
 Mixed-algorithm parallel methods put an
 additional burden on the tuning of parameters for each population,
 since the space of free parameters (and its possible interactions)
@@ -206,32 +208,37 @@ parameters influence the solution's accuracy while others affect the convergence
 speed of individual algorithms, tipping the balance between exploring or
 exploiting the solution space. On the other hand, current literature shows that
 having a high number of populations that communicate in parallel
-compensates % compensates, in which sense? - JJ
-for
-the effect of individual population's parameters
+evens out
+for the effect of individual population's parameters
 \cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be implemented
 by just changing each population's configuration parameters, but in this work,
-we are interested in evaluating the compensating effect that heterogeneous
-search strategies have. % We should make a stronger statement on why
+we are interested in evaluating the compensating effect that
+heterogeneous, mixed-algorithm search strategies have. % We should make a stronger statement on why
                         % we are going to do this here. It's the first
                         % mention, it should be a bit stronger. - JJ
 
-Therefore, in this paper, we implemented an asynchronous
+Our hypothesis here is that expanding the search space exploration
+capabilities of the algorithm by mixing different algorithms might on
+one hand reduce the need to fine-tune single-algorithm parameters,
+and, on the other hand, get better results than single-algorithm
+methods by leveraging synergies between the exploration and
+exploitation capabilities of the algorithms involved. Our objective is to prove that
+the advantage of heterogeneous configurations resides not only in the increased
+scalability but also in the search performance.
+Therefore, in this paper, we  have implemented an asynchronous
 multi-population algorithm version, using a message queue for inter-process
 communication (in a way similar as the one used in
-\cite{guervos2018introducing}) and a reactive migration procedure. % Also first time, we should make a statement with motivation for this procedure- JJ
+\cite{guervos2018introducing}) and a reactive migration procedure.
 
-We compare three heterogeneous configurations using a randomized parameter
-technique. % Why do we do this? - JJ
-We experimented with all populations using a GA or PSO search
-strategies versus an ensemble multi-population with both GA and PSO algorithms,
-using as a benchmark the separable functions of the BBOB noiseless testbed
-\cite{hansen2009real}. We compare the options by measuring the average running
-time (aRT) as the number of functions (\#FEs), as the objective is to prove that
-the advantage of heterogeneous configurations resides not only in the increased
-scalability but also in the search performance. % Objectives should go
-                                % first, not last - JJ
-
+We compare three heterogeneous configurations using a randomized
+parameter technique, since our intention is to get close to minimal or
+no configuration parameters.  We experimented with all populations
+using a GA or PSO search strategies versus an ensemble
+multi-population with both GA and PSO algorithms, using as a benchmark
+the separable functions of the BBOB noiseless testbed
+\cite{hansen2009real}. We compare the options by measuring the average
+running time (aRT) as the number of functions (\#FEs), in order to
+prove the advantage of this kind of heterogeneous configurations.
 
 The organization of the paper is as follows: First, Section \ref{soa} presents
 state of the art relevant to our work. In Section \ref{method}, we present the
