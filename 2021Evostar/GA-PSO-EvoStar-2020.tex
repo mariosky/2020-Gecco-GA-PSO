@@ -571,7 +571,7 @@ framework \cite{hansen2016coco}. Although there are not many real-world
 problems that are entirely separable, we wanted to focus on separable functions
 as a primary benchmark for testing the performance of a hybrid multi-population
 algorithm. And there is interest in solving such problems using more
-general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5, and these 5 - JJ 
+general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5, and these 5 - JJ
 
 These functions are real-parameter, single-objective, and are
 usually employed as benchmarks. We have tested with fifteen instances of each
@@ -693,6 +693,7 @@ the runtime scales with dimension to reach certain target values $\Delta f$;
 % Our GA-PSO reaches almost all targets, but takes more #FE than others
 % That is why appears on top. It reaches but takes more evals on average.
 % So please fix that... - JJ
+% ping here - JJ
 The color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
 has reached the $10^{-8}$ target on all instances for that dimension. If there
@@ -718,8 +719,6 @@ multi-population has the best runtime for the lower dimensions of $f_5$.
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
 on $f_3$ and $f_4$ (charts on the lower rows), which are usually considered difficult functions. 
-
-
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows 
@@ -829,13 +828,14 @@ dimension (FEvals/DIM) for separable functions.
 \section{Conclusions and future lines of work}
 \label{conclusions}
 
-In this paper we have presented a new multi-population, hybrid,
+In this paper we have presented a new multi-population, mixed-algorithm,
 stateless bioinspired algorithm that uses different processing units to
 evolve sets of populations, which behave as a stream of continuously
-updated messages. Population and evolution (or any other kind of
+updated messages. Populations and evolution (or any other kind of
 change) are totally decoupled, and its processing is stateless, which
 makes possible to create a mixture of processing algorithms that work
-asynchronously and in a way that's totally independent of each other.
+asynchronously (and possibly concurrently) and in a way that's totally
+independent of each other.
 
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better that those obtained by
@@ -871,20 +871,6 @@ their valuable comments and helpful suggestions. The work is
 supported by the so and so.
 
 
-
-
-
-%
-% the environments 'definition', 'lemma', 'proposition', 'corollary',
-% 'remark', and 'example' are defined in the LLNCS documentclass as well.
-%
-
-%
-% ---- Bibliography ----
-%
-% BibTeX users should specify bibliography style 'splncs04'.
-% References will then be sorted and formatted in the correct style.
-%
 \bibliographystyle{splncs04}
 \bibliography{multipopulation,hybrid} 
 
