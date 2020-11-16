@@ -481,7 +481,9 @@ including problems of resource locking resulting from this
 concurrency. This architecture has been implemented successfully for
 developing cloud-native multi-population algorithms, using serverless
 functions \cite{garcia2018modern}, and concurrent programming
-\cite{guervos2019improving}.
+\cite{guervos2019improving}. % Probably add something about how this
+                             % goes beyond the state of the art, by
+                             % adding additional diversity- JJ
 
 
 To have a stateless version of a population-based algorithm, we only need to
@@ -500,13 +502,15 @@ queue, it waits until the message queue contains three valid
 populations to trigger an event handled by the
 \texttt{population\_mixer} function, which uses as an argument a list
 containing the three populations. This design has the advantage of not
-needing to keep a buffer in memory or external storage, and it follows
+needing to keep a buffer in memory or external storage, and following
 the reactive paradigm. A possible disadvantage can be that it only
 mixes populations that have arrived sequentially to the message queue,
 but we could mitigate this with a larger buffer and in fact
 populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
-to any loss of diversity.
+to any loss of diversity. % Possibly say something about how these
+                          % have been generated? Are they from PSO?
+                          % GA? Are they guaranteed to be different? - JJ
 
 When the \texttt{population\_mixer} unit receives a list of three
 populations, let us say [A, B, C], it calls the migration method shown
