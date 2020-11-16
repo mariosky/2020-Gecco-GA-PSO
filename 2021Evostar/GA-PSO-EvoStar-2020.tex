@@ -499,28 +499,25 @@ populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
 to any loss of diversity.
 
-When the \texttt{population\_mixer} unit receives a list of three populations, let us say
-[A, B, C], it calls the migration method shown in Algorithm \ref{alg:migration}
-for [A, B], [B, C] and [A, C]. The migration algorithm sorts the
-individuals of each population and generates a new one by
-merging the best half from each. Finally, the \texttt{population\_mixer}
-method pushes the three generated populations back to the \texttt{input} message queue.
-
+When the \texttt{population\_mixer} unit receives a list of three
+populations, let us say [A, B, C], it calls the migration method shown
+in Algorithm \ref{alg:migration} for [A, B], [B, C] and [A, C]. The
+migration algorithm ranks the individuals of each population and
+generates a new one by merging the best half from each. Finally, the
+\texttt{population\_mixer} method pushes the three generated
+populations back to the \texttt{input} message queue.
+%
 \begin{algorithm} % I don't really think this is necessary; candidate
                   % for removing if space is needed - JJ
     \caption{Migration}
     \label{alg:migration}
     \begin{algorithmic}[1]
-        \Procedure{cxBestFromEach}{$pop_1,pop_2$}
-            \State $pop_1.sort()$
-            \State $pop_2.sort()$ % If you call this procedure twice
-                                % for every population, wouldn't it be
-                                % better to have them sorted before
-                                % invoking it? - JJ
-            \State $size\gets min(len(pop_1), len(pop_2))$
+      \Procedure{cxBestFromEach}{$rankedpop_1,rankedpop_2$}
+            \State $mixedpop \gets rankedpop_1.clone$
+            \State $size\gets min(len(rankedpop_1), len(rankedpop_2))$
             \State $cxpoint\gets (size-1)/2$
-            \State $pop_1[cxpoint:]\gets pop_2[:cxpoint+2]$
-            \State \textbf{return} $pop_1$
+            \State $mixedpop[cxpoint:]\gets rankedpop_2[:cxpoint+2]$
+            \State \textbf{return} $mixedpop$
         \EndProcedure 
     \end{algorithmic}
 \end{algorithm}
