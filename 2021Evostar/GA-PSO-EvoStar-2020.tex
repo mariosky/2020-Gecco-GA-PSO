@@ -457,21 +457,23 @@ serverless cloud application.
 %\label{functions} 
 
 % Maybe mention that before? You have already mentioned them above - JJ
-This message queue pattern is an essential component of a highly scalable
-reactive architecture; one of the reasons for this scalability is the use of
-stateless functions that have no secondary effects, or the need to read data
-from an external entity. Stateless functions do not need to read, keep, or
-modify data outside of the scope of the method, it will have no side
-effects reading inputs and producing an output, mapping input to output
-as it were. If we implement population-based
-optimization algorithms using stateless functions, then to the system, there is
-no difference between having one or many copies of the same function pulling
-work from the queue all at the same time, because there are no unwanted side
-effects, including problems of resource locking resulting from this
-concurrency. This architecture has been implemented successfully for 
-developing cloud-native multi-population algorithms,
-using serverless functions \cite{garcia2018modern}, and concurrent programming \cite{guervos2019improving}.  
-% Add a few references to our papers, anonymized or not - JJ
+This message queue pattern is an essential component of a highly
+scalable reactive architecture; one of the reasons for this
+scalability is the use of stateless functions that have no secondary
+effects, or the need to read data from an external entity. Stateless
+functions do not need to read, keep, or modify data outside of the
+scope of the method, it will have no side effects reading inputs and
+producing an output, mapping input to output as it were. If we
+implement population-based optimization algorithms using stateless
+functions, then to the system, there is no difference between having
+one or many copies of the same function pulling work from the queue
+all at the same time, because there are no unwanted side effects,
+including problems of resource locking resulting from this
+concurrency. This architecture has been implemented successfully for
+developing cloud-native multi-population algorithms, using serverless
+functions \cite{garcia2018modern}, and concurrent programming
+\cite{guervos2019improving}.
+
 
 To have a stateless version of a population-based algorithm, we only need to
 skip the step of creating a random population. Instead, the function receives
@@ -497,20 +499,24 @@ populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
 to any loss of diversity.
 
-When \texttt{population\_mixer} unit receives a list of three populations, let us say
+When the \texttt{population\_mixer} unit receives a list of three populations, let us say
 [A, B, C], it calls the migration method shown in Algorithm \ref{alg:migration}
 for [A, B], [B, C] and [A, C]. The migration algorithm sorts the
 individuals of each population and generates a new one by
-merging the best half from each. Finally, the \texttt{population\_mixer} 
+merging the best half from each. Finally, the \texttt{population\_mixer}
 method pushes the three generated populations back to the \texttt{input} message queue.
 
-\begin{algorithm}
+\begin{algorithm} % I don't really think this is necessary; candidate
+                  % for removing if space is needed - JJ
     \caption{Migration}
     \label{alg:migration}
     \begin{algorithmic}[1]
         \Procedure{cxBestFromEach}{$pop_1,pop_2$}
             \State $pop_1.sort()$
-            \State $pop_2.sort()$
+            \State $pop_2.sort()$ % If you call this procedure twice
+                                % for every population, wouldn't it be
+                                % better to have them sorted before
+                                % invoking it? - JJ
             \State $size\gets min(len(pop_1), len(pop_2))$
             \State $cxpoint\gets (size-1)/2$
             \State $pop_1[cxpoint:]\gets pop_2[:cxpoint+2]$
