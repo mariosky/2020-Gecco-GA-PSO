@@ -351,7 +351,8 @@ what we are going to do in this paper.
 %
 \begin{figure*}[h!tb]
 \includegraphics[width=5in]{../images/kafkeo}
-\caption{General scheme of the architecture of this method. Numbers will be used to refer to its different elements in text.}
+\caption{General scheme of the architecture of this method. Please
+  refer to text for the explanation of the different numbers.}
 \label{fig:kafkeo}
 \end{figure*}
 %
@@ -368,29 +369,33 @@ what we are going to do in this paper.
 % In this section we present our proposed model for the execution of
 % multi-population based asynchronous algorithms.
 
-As we have mentioned before, when
-designing efficient multi-population algorithms, we need to consider additional
-issues \cite{Ma2019}, including the number and size of populations, how they
-interact or communicate between them, and the search strategy and parametrization of
-populations. We have considered these requirements and, in this paper,
-propose a cloud-native
-multi-population solution. In this model, populations are the primary data
-structures, and we package them as messages that are part of a continuous stream flow
-from one computing node, performing an algorithm, to the next. To achieve this ``continuous stream,''
-everything must happen asynchronously without computing nodes needing to wait for
-others, and becoming available as soon as it is needed.
+As we have mentioned before, when designing efficient multi-population
+algorithms, we need to consider additional issues \cite{Ma2019},
+including the number and size of populations, how they interact or
+communicate between them, and the search strategy and parametrization
+of populations. We have considered these requirements and, in this
+paper, propose a cloud-native hybrid-algorithm, multi-population
+solution. In this model, populations are the primary data structures,
+and we package them as messages that are part of a continuous stream
+flow from one computing node, that performs a kind of allgorithm, to
+the next. To achieve this ``continuous stream,'' everything must
+happen asynchronously without. Computing nodes running an algorithm
+``wake up'' when they receive a message, with no idle time between the
+processing of messages arriving from the stream.
 
 We have implemented this streaming functionality by using a message queue
 system, whose general architecture is shown in Figure \ref{fig:kafkeo}. We can explain
 the model by using an analogy of producers and consumers of messages. There are
-two queues, one labeled \texttt{input}, and the other one \texttt{output}. In a
+two queues, one labeled \texttt{input}, which mainly holds populations
+that are going to be evolved, and the other called \texttt{output}
+which is where algorithm nodes send their population messages. In a
 queue, {\em push} operations are represented by solid arrows connecting to the
 left side and pull or pop operations as solid arrows leaving from the right
 side. The \texttt{controller} process, is responsible for the migration of
 individuals from one population to the other, and keeping track of the
 iterations of the algorithm. There is at least one \texttt{stateless function}
 worker process responsible for running the isolated algorithms. The two
-processes \texttt{PSO} and \texttt{GA}, are shown.
+processes \texttt{PSO} and \texttt{GA}, are shown in red.
 
 We can follow the path of messages as follows:
 
@@ -407,25 +412,33 @@ indicated.
 queue so that they can be consumed by stateless functions responsible for the
 execution of the search.
 
-% before you have used Function in caps - JJ - corrected - Mario
 \item One or more \texttt{stateless functions} are constantly pulling
 population messages from the \texttt{input} queue. These functions have the
 task of executing the optimization algorithm. They take the current state of
-the population and start to run the specified algorithm for a certain number of
-iterations.
+the population and run the specified algorithm for a certain number of
+iterations. % Explain here how the algorithm is selected: do you
+            % simply fire it up randomly, or first come first served,
+            % or how? - JJ
 
-\item Once they finish the execution, the resulting populations are pushed to
+\item Once they finish the execution of a pre-fixed number of
+  generations, % If you say "they" it looks like they work
+               % asynchronously - JJ
+  the resulting populations are pushed to
 the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
-% You are using also caps here for the queue name - JJ  - corrected - Mario
 \item The \texttt{controller} pulls populations from the \texttt{output} queue,
 inspects the metadata describing the current state of the populations, and if
 the algorithm has found an optimal solution or the maximum number of iteration
 has been reached it stops the execution.
 
-\item Otherwise, it passes the stream of messages to a migration function,
-where populations are mixed. Migration generates new populations, and they are
+\item Otherwise, it passes the stream of messages to a ``migration'' function,
+  where populations are mixed. It generates new populations, % This
+                                % step is important, because it also
+                                % selects the best. it generates 3
+                                % populations, with the best half of
+                                % the previous three populations. - JJ
+  and they are
 again pushed to the \texttt{input} queue to continue in a loop. The
 \texttt{controller} is also responsible for logging the metadata.
 
