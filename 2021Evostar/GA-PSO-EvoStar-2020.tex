@@ -723,28 +723,33 @@ on $f_3$ and $f_4$ (charts on the lower rows), which are usually
 considered difficult functions. % Maybe a reference for this? - JJ
 
 These results are also competitive when compared against other GA and PSO
-implementations of past BBOB workshops. Figure \ref{fig:avg} shows 
-how the runtime scales with dimension to reach the most difficult target 
-for $\Delta f = 10^{-8}$ for each function. 
+implementations of past BBOB workshops. Figure \ref{fig:avg} shows
+how the runtime scales with dimension to reach the most difficult target
+for $\Delta f = 10^{-8}$ for each function.
 The representative algorithms are:
 The simple binary GA algorithm of Nicolau \cite{nicolau2009application},
-the PSO algorithm by El-Abd and Kamel \cite{el2009black}, an EDA and PSO 
-hybrid \cite{el2009blackHybrid}, Differential Evolution (DE) with adaptive encoding \cite{povsik2012benchmarking}
-by {Po{\v{s}}{\'\i}k and Klem{\v{s}}, 
-the hybrid DE-PSO by Garc{\'\i}a-Nieto et al. \cite{garcia2009noiseless}, 
+the PSO algorithm by El-Abd and Kamel \cite{el2009black}, an EDA and PSO
+hybrid \cite{el2009blackHybrid}, % We need to mention it in the state
+                                % of the art - JJ
+Differential Evolution (DE) with adaptive encoding \cite{povsik2012benchmarking}
+by {Po{\v{s}}{\'\i}k and Klem{\v{s}},
+the hybrid DE-PSO by Garc{\'\i}a-Nieto et
+al. \cite{garcia2009noiseless}, % Mention also this in the SoA - JJ
 and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this last algorithm has the
 best overall ($f_1-f_24$) performance on the BBOB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
-40, respectively. 
+40, respectively. % Something to add about this one? It uses two
+                  % populations or something like that? Also: explain
+                  % why these specific algorithms were chosen.
 
 We also compare with two methods that are not population-based, but univariate
 solvers generalized for the optimization of separable functions, the
 line-search algorithm LSStep by Po{\v{s}}{\'\i}k \cite{povsik2009bbob}, and the Hybrid Brent-STEP by
 Po{\v{s}}{\'\i}k and Baudi{\v{s}} \cite{povsik2015dimension}. The performance for the Brent-STEP algorithm
 is the best for this group of functions, finding all targets with le FEs.
- 
+
 We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
-in most cases, but on the other hand, it could solve all functions 
+in most cases, but on the other hand, it could solve all functions
 while others could not. % We should refer back to our hypothesis of
                         % better exploration of the search space here
                         % - JJ
