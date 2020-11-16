@@ -252,12 +252,10 @@ conclusions of this paper and suggestions on future work in Section
 \section{State of the Art}
 \label{soa}
 
-% I miss a sentence here explaining why we're talking about
-% this. Maybe referring back to something in the introduction - JJ
-In general, population based algorithms have to keep a balance between
-exploration and exploitation via the clever use of selection and
-variation operators \cite{vcrepinvsek2013exploration}. In pursuit of
-that objective, it is important to keep diversity high
+Designing a population-based algorithm always relies on achieving a
+good exploration-exploitation balance via the clever use of selection
+and variation operators \cite{vcrepinvsek2013exploration}. In pursuit
+of that objective, it is important to keep diversity high
 \cite{yuan2005importance}, but different algorithms have different
 mechanisms for increasing diversity (exploration) or decreasing it
 (exploitation). PSO has two constants that rule in which direction the
@@ -266,26 +264,15 @@ the direction of the best particle (exploitation); evolutionary
 algorithms use mutation and, to a certain point, crossover for
 exploration and crossover and selection procedures for
 exploitation. Since these mechanisms are fundamentally different,
-mixing different algorithms might be
-considered a win-win situation by way of performing exploitation in
-several different directions, which will be able to
-get closer to the solution as well as generate new possibilities.
+mixing different algorithms might be considered a win-win situation by
+way of performing exploitation in several different directions,
+implying, at the same time, exploration, which will be able to get
+closer to the solution as well as generate new possibilitiesm as gas
+beeb indicated previously in the introduction.
 
-This is why methods that mix several population-based algorithms have been repeatedly
-suggested in the literature: Pandi et al. \cite{pandi2011dynamic}
-suggest a combination of swarm intelligence and another algorithm
-denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
-particle swarm optimization with bee colony algorithms, while Zhao et
-al. \cite{zhao2010hybrid} combine the latter with evolutionary
-algorithms. % But we need to justify that the reason why they've have
-            % done it is the same we have mentioned before - JJ
-
-% a paragraph on the similarity of PSO and GA was moved up, taking out
-% the meaning of "this". We need to revise that. Probably swap the
-% previous paragraph and this one - JJ
 This is what the first papers to propose such a hybrid algorithm, by
-Robinson et al. \cite{Robinson2002}, explicitly played on this
-fact and also on what we might call diversity of local minima by
+Robinson et al. \cite{Robinson2002} leveraged, explicitly playing on this
+fact, and also on what we might call diversity of local minima, by
 running an algorithm on a population until it became stagnated, and
 then switching to the other one. This was done apparently only once,
 but eventually the mixture of the two algorithms was able to obtain
@@ -294,9 +281,9 @@ any of them separately, although they report that the best value
 was obtained by the algorithm that started as a PSO and terminated as
 an evolutionary one.
 
-Another kind of hybrid was proposed independently by 
+Another kind of hybrid was proposed independently by
 Shi et al. \cite{shi2003hybrid}, citing the ``local optimum'' problem,
-that is, the same as the previous one; it mixes both algorithms
+that is, the same one as before; it mixes both algorithms
 testing in different configurations: ``parallel'' and ``serial''
 testing which configuration works better and is able to avoid
 that. Their results on benchmark functions are mixed;
@@ -309,14 +296,14 @@ algorithms in different directions, a hybrid algorithm might help the
 single-algorithm version to escape that.
 
 This better exploitation capability was used by Grimaldi et al.
-\cite{grimaldi2005genetical}, with the objective of solving electromagnetic problems. What they do is
+\cite{grimaldi2005genetical}, with the objective of solving
+electromagnetic problems. What they do is
 to split the population into two different populations which will be
 processed by an EA and a PSO algorithm; the new individuals generated
 are merged in a single population, which is then split all over again
 in the next iteration. This guarantees that none of the two algorithms
 is getting stuck, since the individuals will be randomly subjected to
 one or the other on every generation.
-
 
 Later on, Esmin et al. \cite{esmin2006hybrid} leveraged to design their
 algorithms; this idea was
@@ -335,8 +322,15 @@ order-of-magnitude difference is not usually  achieved, since both
 algorithm, by themselves, have good mechanisms for global
 exploration.
 
-Several other hybrid algorithms have been proposed more recently:
-Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization,
+Other methods have later been suggested: Pandi et al. \cite{pandi2011dynamic}
+suggest a combination of swarm intelligence and another algorithm
+denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
+particle swarm optimization with bee colony algorithms, while Zhao et
+al. \cite{zhao2010hybrid} combine the latter with evolutionary
+algorithms.
+
+Hybrid algorithms are still able to perform beyond the state of the
+art: Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization,
 which is a swarm intelligence algorithm, and EAs, to select
 software testing cases. ACO and EA are used serially, with GA acting
 to refine the test suite initially selected by the ant algorithm.
@@ -345,10 +339,9 @@ The state of the art is, then, use swarm intelligence and evolutionary
 algorithms coupled to a population to which they are applied either
 one after the other, or splitting the population so that every one is
 applied to a part. In our case, however, population and algorithms are
-decoupled, and this decoupled architecture allows to mix algorithms in
+decoupled, and this architecture allows to mix algorithms in
 several different ways, which will be tested in this paper using the
 method explained next.
-
 
 \section{Proposed Method}
 \label{method}
