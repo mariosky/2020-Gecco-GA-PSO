@@ -513,7 +513,7 @@ to any loss of diversity. % Possibly say something about how these
                           % GA? Are they guaranteed to be different? - JJ
 
 When the \texttt{population\_mixer} unit receives a list of three
-populations, let us say [A, B, C], it calls the migration method shown
+populations, let us say [A, B, C], it calls the ``migration'' method shown
 in Algorithm \ref{alg:migration} for [A, B], [B, C] and [A, C]. The
 migration algorithm ranks the individuals of each population and
 generates a new one by merging the best half from each. Finally, the
@@ -534,7 +534,10 @@ populations back to the \texttt{input} message queue.
         \EndProcedure 
     \end{algorithmic}
 \end{algorithm}
-%
+
+We will use this set up to perform a series of experiments destined to
+measure the performance of this hybrid algorithm. We will do this next.
+
 \begin{figure}[h!tb]
   \begin{tabular}
       {c@{\hspace*{-0.00001\textwidth}}
