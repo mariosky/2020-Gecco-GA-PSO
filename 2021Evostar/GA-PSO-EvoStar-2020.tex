@@ -375,7 +375,7 @@ interact or communicate between them, and the search strategy and parametrizatio
 populations. We have considered these requirements and, in this paper,
 propose a cloud-native
 multi-population solution. In this model, populations are the primary data
-structure, and we package them as messages that are part of a continuous stream flowing
+structures, and we package them as messages that are part of a continuous stream flow
 from one computing node, performing an algorithm, to the next. To achieve this ``continuous stream,''
 everything must happen asynchronously without computing nodes needing to wait for
 others, and becoming available as soon as it is needed.
@@ -746,7 +746,7 @@ We also compare with two methods that are not population-based, but univariate
 solvers generalized for the optimization of separable functions, the
 line-search algorithm LSStep by Po{\v{s}}{\'\i}k \cite{povsik2009bbob}, and the Hybrid Brent-STEP by
 Po{\v{s}}{\'\i}k and Baudi{\v{s}} \cite{povsik2015dimension}. The performance for the Brent-STEP algorithm
-is the best for this group of functions, finding all targets with le FEs.
+is the best for this group of functions, finding all targets with less FEs.
 
 We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
 in most cases, but on the other hand, it could solve all functions
@@ -848,7 +848,7 @@ asynchronously (and possibly concurrently) and in a way that's totally
 independent of each other.
 
 We have tested this combination of algorithms on the BBOB benchmark
-functions, obtaining results that are better that those obtained by
+functions, obtaining results that are better than those obtained by
 any of them separated. This confirms results obtained by previous
 authors in hybrid algorithms, except that, in this case, the architecture is different and
 there are improvements all across the tested functions; besides,
