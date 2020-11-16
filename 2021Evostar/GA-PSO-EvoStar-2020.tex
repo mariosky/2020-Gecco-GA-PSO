@@ -333,15 +333,18 @@ Hybrid algorithms are still able to perform beyond the state of the
 art: Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization,
 which is a swarm intelligence algorithm, and EAs, to select
 software testing cases. ACO and EA are used serially, with GA acting
-to refine the test suite initially selected by the ant algorithm.
+to refine the test suite initially selected by the ant algorithm. A
+very recent article \cite{sangeeta2020comprehensive} compare how
+different hybrid algorithms, including GA-PSO hybrids, are applied to
+software reliability problems.
 
 The state of the art is, then, use swarm intelligence and evolutionary
 algorithms coupled to a population to which they are applied either
 one after the other, or splitting the population so that every one is
-applied to a part. In our case, however, population and algorithms are
-decoupled, and this architecture allows to mix algorithms in
-several different ways, which will be tested in this paper using the
-method explained next.
+applied to a part. This is, however, not done in a parallel and
+asynchronous way, or decoupling population and algorithms and applying
+them in a non-deterministic and mostly parameter-free way. This is
+what we are going to do in this paper.
 
 \section{Proposed Method}
 \label{method}
