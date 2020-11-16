@@ -868,14 +868,16 @@ dimension (FEvals/DIM) for separable functions.
 \section{Conclusions and future lines of work}
 \label{conclusions}
 
-In this paper we have presented a new multi-population, mixed-algorithm,
-stateless bioinspired algorithm that uses different processing units to
-evolve sets of populations, which behave as a stream of continuously
-updated messages. Populations and evolution (or any other kind of
+In this paper we have presented a new method that uses concurrent,
+cloud native methods to evolve populations using a mix of different algorithms. Populations and evolution (or any other kind of
 change) are totally decoupled, and its processing is stateless, which
 makes possible to create a mixture of processing algorithms that work
 asynchronously (and possibly concurrently) and in a way that's totally
-independent of each other.
+independent of each other. % Clarify "possibly" - JJ
+
+% A paragraph trying to explain results, looking at the results for
+% different functions. Why does it work better? Does it really
+% increase diversity? - JJ
 
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better than those obtained by
