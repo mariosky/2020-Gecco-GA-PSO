@@ -638,19 +638,22 @@ To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
 earlier, and a total of 10 populations. % Maybe quote our FGCS paper?
                                 % - JJ
-Table \ref{tab:params:10} shows the
-parameters we have used. The {\em GA-PSO Ratio} parameter specifies the proportion 
-of populations that will be processed using the GA algorithm, with $0$ indicating all populations
-will run a PSO algorithm, and with $0.5$ the same proportion of PSO and GA populations, 
-and GA only it is specified with $1$. We have specified that the experiment
-will use only the first five functions. We have used 15 instances, because 
-this is the standard for the BBOB benchmark \cite{hansen2016coco}.
-The list of dimensions that we have tested is in the {\em Dimensions} parameter. 
-Then, we have defined for each dimension: the number of populations, and for each population,
-the number of generations and population size. Finally, we have defined how many complete loops the
-algorithm will perform. The product of these parameters gives us a maximum
-\#FEs. For example, for $D = 2$, the maximum number evaluations is $200,000$,
-this is the same as the product of the parameters, that is $40*50*10*10$. 
+Table \ref{tab:params:10} shows the parameters we have used. The {\em
+GA-PSO Ratio} parameter specifies the proportion of populations that
+will be processed using the GA algorithm, with $0$ indicating all
+populations will run a PSO algorithm, and with $0.5$ the same
+proportion of PSO and GA populations, and GA only it is specified with
+$1$. We have specified that the experiment will use only the first
+five functions. We have used 15 instances, because this is the
+standard for the BBOB benchmark \cite{hansen2016coco}.  The list of
+dimensions that we have tested is in the {\em Dimensions} parameter.
+Then, we have defined for each dimension: the number of populations,
+and for each population, the number of generations and population
+size. Finally, we have defined how many complete loops the algorithm
+will perform. The product of these parameters gives us a maximum
+\#FEs. For example, for $D = 2$, the maximum number of evaluations is
+$200,000$, this is the same as the product of the parameters, that is
+$40*50*10*10$.
 
 \begin{table}[h!tb]
   \small
@@ -679,6 +682,71 @@ The experiments were performed with COCO \cite{hansen2016coco} version bbob.v15.
 the plots were produced with version 2.3.2.
 
 
+
+\begin{figure*}[h!tb]
+    \begin{tabular}
+        {c@{\hspace*{-0.00001\textwidth}}
+         c@{\hspace*{-0.00001\textwidth}}
+         c@{\hspace*{-0.00001\textwidth}}
+        }
+    GA  &  PSO & GA \& PSO\\   
+    \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
+
+    \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
+
+    \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
+
+    \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
+
+    \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
+    \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
+    \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
+    \end{tabular}
+    \vspace{-3ex}
+     \caption{
+ Scaling of running time with problem dimension to reach certain target values $\Delta f$. Lines:
+ average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
+ the most difficult target that was reached at least once (but not always);
+ Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
+ interquartile range with median of simulated runs; all values are divided by
+ dimension and plotted as $log_{10}$ values versus dimension. 
+ %Shown is the aRT for
+ %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
+ %Numbers above aRT-symbols
+ %(if appearing) indicate the number of trials reaching the respective target.
+ %The light thick line with diamonds indicates the best algorithm from BBOB 2009
+ %for the most difficult target. Horizontal lines mean linear scaling, slanted
+ %grid lines depict quadratic scaling.
+}
+\label{fig:bbob}
+\end{figure*}
+
+
+\begin{figure*}[h!tb]
+  \begin{tabular}
+      {c@{\hspace*{-0.00001\textwidth}}
+       c@{\hspace*{-0.00001\textwidth}}
+       c@{\hspace*{-0.00001\textwidth}}
+      }
+  10D &  20D & 40D\\   
+  \includegraphics[width=0.30\textwidth]{pprldmany_10D_separ}&
+  \includegraphics[width=0.30\textwidth]{pprldmany_20D_separ}&
+  \includegraphics[width=0.30\textwidth]{pprldmany_40D_separ}\\
+
+\end{tabular} \vspace{-3ex} \caption{Bootstrapped empirical cumulative
+distribution of the number of objective function evaluations divided by
+dimension (FEvals/DIM) for separable functions.  
+ } \label{fig:bbob2} 
+\end{figure*}
+%
 \section{Results}
 \label{results}
 
@@ -798,70 +866,6 @@ requires less FEs to reach all targets will have more area under the curve. For
 higher dimensions, the GA-PSO multi-population gives competitive results by
 reaching all targets within budget. The Brent-STEP algorithm did not provide
 results for 40D.
-
-\begin{figure*}[h!tb]
-    \begin{tabular}
-        {c@{\hspace*{-0.00001\textwidth}}
-         c@{\hspace*{-0.00001\textwidth}}
-         c@{\hspace*{-0.00001\textwidth}}
-        }
-    GA  &  PSO & GA \& PSO\\   
-    \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
-
-    \includegraphics[width=0.28\textwidth]{GAOnly_f002}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f002}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f002}\\
-
-    \includegraphics[width=0.28\textwidth]{GAOnly_f003}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f003}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f003}\\
-
-    \includegraphics[width=0.28\textwidth]{GAOnly_f004}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f004}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f004}\\
-
-    \includegraphics[width=0.28\textwidth]{GAOnly_f005}&
-    \includegraphics[width=0.28\textwidth]{PSOOnly_f005}&
-    \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
-    \end{tabular}
-    \vspace{-3ex}
-     \caption{
- Scaling of running time with problem dimension to reach certain target values $\Delta f$. Lines:
- average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
- the most difficult target that was reached at least once (but not always);
- Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
- interquartile range with median of simulated runs; all values are divided by
- dimension and plotted as $log_{10}$ values versus dimension. 
- %Shown is the aRT for
- %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
- %Numbers above aRT-symbols
- %(if appearing) indicate the number of trials reaching the respective target.
- %The light thick line with diamonds indicates the best algorithm from BBOB 2009
- %for the most difficult target. Horizontal lines mean linear scaling, slanted
- %grid lines depict quadratic scaling.
-}
-\label{fig:bbob}
-\end{figure*}
-
-
-\begin{figure*}[h!tb]
-  \begin{tabular}
-      {c@{\hspace*{-0.00001\textwidth}}
-       c@{\hspace*{-0.00001\textwidth}}
-       c@{\hspace*{-0.00001\textwidth}}
-      }
-  10D &  20D & 40D\\   
-  \includegraphics[width=0.30\textwidth]{pprldmany_10D_separ}&
-  \includegraphics[width=0.30\textwidth]{pprldmany_20D_separ}&
-  \includegraphics[width=0.30\textwidth]{pprldmany_40D_separ}\\
-
-\end{tabular} \vspace{-3ex} \caption{Bootstrapped empirical cumulative
-distribution of the number of objective function evaluations divided by
-dimension (FEvals/DIM) for separable functions.  
- } \label{fig:bbob2} 
-\end{figure*}
 
 
 \section{Conclusions and future lines of work}
