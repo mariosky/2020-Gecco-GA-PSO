@@ -538,42 +538,6 @@ populations back to the \texttt{input} message queue.
 We will use this set up to perform a series of experiments destined to
 measure the performance of this hybrid algorithm. We will do this next.
 
-\begin{figure}[h!tb]
-  \begin{tabular}
-      {c@{\hspace*{-0.00001\textwidth}}
-      % c@{\hspace*{-0.00001\textwidth}}
-      }
-     
-  \includegraphics[width=0.30\textwidth]{ppfigs_f001}
-  \includegraphics[width=0.30\textwidth]{ppfigs_f002}
-
-  \includegraphics[width=0.30\textwidth]{ppfigs_f003}\\
-  \includegraphics[width=0.30\textwidth]{ppfigs_f004}
-  
-  \includegraphics[width=0.30\textwidth]{ppfigs_f005}
-  \end{tabular}
-  \vspace{-3ex}
-   \caption{Average running time (in \#FEs as $log_{10}$ value),
-    divided by dimension for target function value $10^{-8}$ vs dimension. 
-    Black stars indicate a statistically better result compared to 
-    all other algorithms ($p < 0.01$) and Bonferroni 
-    correction number of dimensions. 
-    Legend: {\color{NavyBlue}$\circ$}:GA-PSO-m, 
-    {\color{Magenta}$\diamondsuit$}:PSO-m, 
-    {\color{Orange}$\star$}:GA-m, 
-    {\color{CornflowerBlue}$\triangledown$}:BIPOP-CMA-ES,
-    {\color{red}$\varhexagon$}:DE, 
-    {\color{YellowGreen}$\triangle$}:DE-PSO, 
-    {\color{cyan}$\pentagon$}:EDA-PSO, 
-    {\color{GreenYellow}$\rightY$}:GA, 
-    {\color{ForestGreen}$\downY$}:PSO, 
-    {\color{Lavender}$\Diamond$}:LSstep, 
-    {\color{SkyBlue}$\triangleleft$}:BrentSTEP
-    } 
-  \label{fig:avg}
-\end{figure}
-%
-
 % Maybe add an anonymous link to GitHub? - JJ
 
 \section{Experimental setup}
@@ -751,6 +715,41 @@ runtime than the multi-strategy configuration. It is not able to reach the
 $10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
 multi-population has the best runtime for the lower dimensions of $f_5$.
 
+\begin{figure}[h!tb]
+  \begin{tabular}
+      {c@{\hspace*{-0.00001\textwidth}}
+      % c@{\hspace*{-0.00001\textwidth}}
+      }
+     
+  \includegraphics[width=0.30\textwidth]{ppfigs_f001}
+  \includegraphics[width=0.30\textwidth]{ppfigs_f002}
+
+  \includegraphics[width=0.30\textwidth]{ppfigs_f003}\\
+  \includegraphics[width=0.30\textwidth]{ppfigs_f004}
+  
+  \includegraphics[width=0.30\textwidth]{ppfigs_f005}
+  \end{tabular}
+  \vspace{-3ex}
+   \caption{Average running time (in \#FEs as $log_{10}$ value),
+    divided by dimension for target function value $10^{-8}$ vs dimension. 
+    Black stars indicate a statistically better result compared to 
+    all other algorithms ($p < 0.01$) and Bonferroni 
+    correction number of dimensions. 
+    Legend: {\color{NavyBlue}$\circ$}:GA-PSO-m, 
+    {\color{Magenta}$\diamondsuit$}:PSO-m, 
+    {\color{Orange}$\star$}:GA-m, 
+    {\color{CornflowerBlue}$\triangledown$}:BIPOP-CMA-ES,
+    {\color{red}$\varhexagon$}:DE, 
+    {\color{YellowGreen}$\triangle$}:DE-PSO, 
+    {\color{cyan}$\pentagon$}:EDA-PSO, 
+    {\color{GreenYellow}$\rightY$}:GA, 
+    {\color{ForestGreen}$\downY$}:PSO, 
+    {\color{Lavender}$\Diamond$}:LSstep, 
+    {\color{SkyBlue}$\triangleleft$}:BrentSTEP
+    } 
+  \label{fig:avg}
+\end{figure}
+%
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
 on $f_3$ and $f_4$ (charts on the lower rows), which are usually
@@ -858,7 +857,7 @@ results for 40D.
   \includegraphics[width=0.30\textwidth]{pprldmany_20D_separ}&
   \includegraphics[width=0.30\textwidth]{pprldmany_40D_separ}\\
 
-\end{tabular} \vspace{-3ex} \caption{ Bootstrapped empirical cumulative
+\end{tabular} \vspace{-3ex} \caption{Bootstrapped empirical cumulative
 distribution of the number of objective function evaluations divided by
 dimension (FEvals/DIM) for separable functions.  
  } \label{fig:bbob2} 
