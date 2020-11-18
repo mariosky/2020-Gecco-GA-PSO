@@ -29,29 +29,14 @@
 \definecolor{LimeGreen}{HTML}{32CD32}
 
 
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
-% If you use the hyperref package, please uncomment the following line
-% to display URLs in blue roman font according to Springer's eBook style:
-% \renewcommand\UrlFont{\color{blue}\rmfamily}
-
 \begin{document}
-%
 \title{Event-driven multi-population optimization: mixing Swarm and Evolutionary strategies}
-%
-%\titlerunning{Abbreviated paper title}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
-%
 \author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
 Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
 Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
 %
 \authorrunning{F. Author et al.}
-% First names are abbreviated in the running head.
-% If there are more than two authors, 'et al.' is used.
-%
+
 \institute{Princeton University, Princeton NJ 08544, USA \and
 Springer Heidelberg, Tiergartenstr. 17, 69121 Heidelberg, Germany
 \email{lncs@springer.com}\\
@@ -67,14 +52,15 @@ Researchers in the field of nature-inspired optimization have recently
 proposed multi-population asynchronous algorithms that distribute the
 evolutionary process among heterogeneous search paradigms. These algorithms
 execute the optimization strategy by reading streams of messages
-containing solution populations from the queues. After searching for a
+containing solution populations from message queues. After searching for a
 small number of iterations, new evolved populations are generated and
-sent back to the message queue. Current research suggests that when we have
-many population-processing algorithms communicating in parallel, each populations'
-algorithm parameters intensifying exploration or exploitation of the
-search space are compensated by those selected in
-other populations,
-improving the overall performance. % You should clarify this sentence. - JJ
+sent back to a queue. Current research suggests that when we have many 
+population-processing algorithms communicating in parallel, parameters 
+intensifying exploration or exploitation in each population strike a 
+dynamic that balances the two, exploring and exploiting simultaneously,
+maintaining an overall diversity, and improving the search. 
+% Change it again - Mario 
+% You should clarify this sentence. - JJ
 % I change this a bit, check if this is clear now - Mario
 % it's better but what do you mean by "compensated" Do you mean evened
 % out? Balanced? They improve on each other?
@@ -87,7 +73,8 @@ heterogeneous ensemble of multi-populations against a homogeneous solution
 consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization (PSO)
 populations. We evaluate both solutions using five problems from the noiseless
 BBOB testbed for the optimization of continuous functions. Results show that
-compared with other asynchronous population-based algorithms, % Asynchronous but not mixed? - JJ
+compared with other asynchronous homogeneous population-based algorithms, % Asynchronous but not mixed? - JJ
+% Yes - Mario
 this method offers better performance in terms of the number of evaluations needed
 to find a solution and the number of instances where it found it.
 
