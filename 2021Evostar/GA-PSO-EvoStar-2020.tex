@@ -200,10 +200,18 @@ for the effect of individual population's parameters
 \cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be implemented
 by just changing each population's configuration parameters, but in this work,
 we are interested in evaluating the compensating effect that
-heterogeneous, mixed-algorithm search strategies have. % We should make a stronger statement on why
+heterogeneous, mixed-algorithm search strategies have. 
+%%
+Having multiple search strategies can further improve the heterogeneous effect
+because different methods explore the search space differently. For instance, a
+PSO method creates new candidate solutions by moving towards promising
+candidates, while a GA interchanges portions of solutions with better fitness.
+This line of research can bring light to the type of benefits this type of
+mixing can bring to the field.
+% We should make a stronger statement on why
                         % we are going to do this here. It's the first
                         % mention, it should be a bit stronger. - JJ
-
+% Added a paragraph - M
 Our hypothesis here is that expanding the search space exploration
 capabilities of the algorithm by mixing different algorithms might on
 one hand reduce the need to fine-tune single-algorithm parameters,
@@ -405,12 +413,19 @@ task of executing the optimization algorithm. They take the current state of
 the population and run the specified algorithm for a certain number of
 iterations. % Explain here how the algorithm is selected: do you
             % simply fire it up randomly, or first come first served,
-            % or how? - JJ
+            % or how? - JJ 
+            % Added below - M
+When creating a population message, the setup function randomly
+selects an optimization algorithm and parameters. These parameters
+are part of the population's metadata read by the stateless
+functions executing the algorithm. In the current configuration, all
+types of algorithms have the same probability of been chosen.
 
-\item Once they finish the execution of a pre-fixed number of
+\item Once a stateless function finishes the execution of a pre-fixed number of
   generations, % If you say "they" it looks like they work
                % asynchronously - JJ
-  the resulting populations are pushed to
+               % They do - Mario 
+  the resulting population is pushed to
 the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
@@ -424,30 +439,35 @@ has been reached it stops the execution.
                                 % step is important, because it also
                                 % selects the best. it generates 3
                                 % populations, with the best half of
-                                % the previous three populations. - JJ
+                                % the previous three populations. - JJ 
+                                % We should uncomment this comment - M
   and they are
 again pushed to the \texttt{input} queue to continue in a loop. The
 \texttt{controller} is also responsible for logging the metadata.
 
 \end{enumerate}
 
-This reactive architecture has the following advantages:
-\begin{itemize}
 
-\item It decouples the population and the population-based algorithm. In this
-design, we can have one or many processing nodes, each running a different
-search strategy.
+%% Maybe is not important to highlight these advantages in this paper 
+%% This could be form the previous paper. We can remove it - M 
 
-\item Also, the reactive controller gives designers more control over the
-multi-population algorithm. In this process, designers can dynamically change
-the number of populations, population parameters, and migration details
-on-the-fly.
+% This reactive architecture has the following advantages:
+% \begin{itemize}
 
-\item Another advantage is that algorithm designers have many options for
-implementing this simple architecture. The same basic components can be
-implemented as a single multi-threaded program, or as a highly scalable
-serverless cloud application.
-\end{itemize}
+% \item It decouples the population and the population-based algorithm. In this
+% design, we can have one or many processing nodes, each running a different
+% search strategy.
+
+% \item Also, the reactive controller gives designers more control over the
+% multi-population algorithm. In this process, designers can dynamically change
+% the number of populations, population parameters, and migration details
+% on-the-fly.
+
+% \item Another advantage is that algorithm designers have many options for
+% implementing this simple architecture. The same basic components can be
+% implemented as a single multi-threaded program, or as a highly scalable
+% serverless cloud application.
+% \end{itemize}
 
 %\subsection{Stateless functions} 
 %\label{functions} 
@@ -468,10 +488,11 @@ including problems of resource locking resulting from this
 concurrency. This architecture has been implemented successfully for
 developing cloud-native multi-population algorithms, using serverless
 functions \cite{garcia2018modern}, and concurrent programming
-\cite{guervos2019improving}. % Probably add something about how this
+\cite{guervos2019improving}.
+                             % Probably add something about how this
                              % goes beyond the state of the art, by
                              % adding additional diversity- JJ
-
+                             % Should we reference the journal paper also? - M
 
 To have a stateless version of a population-based algorithm, we only need to
 skip the step of creating a random population. Instead, the function receives
@@ -495,9 +516,22 @@ mixes populations that have arrived sequentially to the message queue,
 but we could mitigate this with a larger buffer and in fact
 populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
-to any loss of diversity. % Possibly say something about how these
+to any loss of diversity.  
+                         % Possibly say something about how these
                           % have been generated? Are they from PSO?
                           % GA? Are they guaranteed to be different? - JJ
+                          % Added something below ' M
+
+The output queue composition depends on two factors:
+The number or ratio between each type of algorithm and
+the amount of time required to finish the required
+number of iterations specified for each population.
+For instance, if the implementation of a PSO algorithm
+could finish faster than a GA implementation for the
+same number of iterations, or if we have more
+functions executing a particular algorithm, we will
+have more messages from one of the algorithms in the
+output queue.
 
 When the \texttt{population\_mixer} unit receives a list of three
 populations, let us say [A, B, C], it calls the ``migration'' method shown
@@ -507,25 +541,15 @@ generates a new one by merging the best half from each. Finally, the
 \texttt{population\_mixer} method pushes the three generated
 populations back to the \texttt{input} message queue.
 %
-\begin{algorithm} % I don't really think this is necessary; candidate
+%\begin{algorithm} % I don't really think this is necessary; candidate
                   % for removing if space is needed - JJ
-    \caption{Migration}
-    \label{alg:migration}
-    \begin{algorithmic}[1]
-      \Procedure{cxBestFromEach}{$rankedpop_1,rankedpop_2$}
-            \State $mixedpop \gets rankedpop_1.clone$
-            \State $size\gets min(len(rankedpop_1), len(rankedpop_2))$
-            \State $cxpoint\gets (size-1)/2$
-            \State $mixedpop[cxpoint:]\gets rankedpop_2[:cxpoint+2]$
-            \State \textbf{return} $mixedpop$
-        \EndProcedure 
-    \end{algorithmic}
-\end{algorithm}
+                  % Removing it, this is included in the journal paper. - M
 
 We will use this set up to perform a series of experiments destined to
 measure the performance of this hybrid algorithm. We will do this next.
 
 % Maybe add an anonymous link to GitHub? - JJ
+% Ok - M 
 
 \section{Experimental setup}
 \label{setup}
