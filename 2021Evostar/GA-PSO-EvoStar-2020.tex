@@ -81,27 +81,11 @@ solution and the number of instances where it found it.
 %
 \section{Introduction}
 
-% -----------------
-% According to a survey by Yang et al. \cite{yang2014nature}, 
-% nature-inspired optimization
-% algorithms have been used successfully in the last decades to tackle complex
-% problems. % This is information-free. Should probably be eliminated.
-
 The class of algorithms generically denominated nature-inspired
 \cite{yang2014nature}, which  include evolutionary (EAs) and swarm
 intelligence (SI) algorithms
 \cite{back1996evolutionary,kennedy2006swarm}, have a lot of
 characteristics in common.
-
-% -------------------------- Does not fit in -----------------------------------------
-% Popular
-% EAs include Genetic Algorithms (GAs) \cite{holland1992adaptation,eiben2003genetic}
-% and Differential Evolution (DE) \cite{karabouga2004simple}. Examples of SI algorithms
-% \cite{kennedy2006swarm} are particle swarm optimization (PSO) \cite{clerc2010particle},
-% artificial bee colony (ABC) \cite{karaboga2005idea}, and Grey Wolf Optimization (GWO)
-% \cite{mirjalili2014grey}.
-% ----------------------------------------------------------------------------------
-
 Together with others like PBIL (Population Based Incremental Learning)
 \cite{baluja1994population} and EDAs (Estimation of Distribution
 algorithms) \cite{larranaga2001estimation} use (or generate, in the
@@ -134,15 +118,12 @@ structures means that you can apply them in turns, or simply start
 calling a ``chromosome'' a ``particle'' or the other way round,
 without any conversion, and keep working with it with any of the
 algorithms. We will get back to this a bit later.
-
-
 They also face common challenges: Since all population members have to
 be evaluated to obtain a fitness or score that will be used to select
 them (or not), a disadvantage of this kind of algorithms is that they
 can be computationally expensive: every candidate solution needs to be
 evaluated, and the different strategies to efficiently explore the
 search space might eventually lead to lots of evaluations.
-
 This fact, together with the a priori ease of simultaneous evaluation
 of different segments of the population, have spawned proposals of
 some form of parallelization from the start
@@ -308,7 +289,7 @@ improvement is essentially the kind of results that should be
 expected. While improvements in diversity always boost the results by
 allowing the algorithms to find better solutions, an
 order-of-magnitude difference is not usually  achieved, since both
-algorithm, by themselves, have good mechanisms for global
+algorithms, by themselves, have good mechanisms for global
 exploration.
 
 Other methods have later been suggested: Pandi et al. \cite{pandi2011dynamic}
@@ -316,14 +297,25 @@ suggest a combination of swarm intelligence and another algorithm
 denominated harmony search; Lien et al. \cite{lien2012hybrid} combine
 particle swarm optimization with bee colony algorithms, while Zhao et
 al. \cite{zhao2010hybrid} combine the latter with evolutionary
-algorithms.
+algorithms. 
 
+Some authors have proposed the combination of search methods for 
+continuous function optimization, in particular for the black-box
+optimization benchmark. PSO it is often chosen for the combination,
+Garc{\'\i}a-Nieto et al. \cite{garcia2009noiseless} combined PSO with 
+Differential Evolution. El-Abd and Kamel proposed a PSO hybrid \cite{el2009blackHybrid}
+with a Estimation of Distribution Algorithm (EDA), that works by
+sampling an independent univariate Gaussian distribution based 
+on the best half of the swarm. They choose with a certain probability,
+whether to update the particle using the normal PSO equations or 
+to sample the particle using the estimated distribution.
+ 
 Hybrid algorithms are still able to perform beyond the state of the
 art: Gulia et al. \cite{gulia2019hybrid} mix ant colony optimization,
 which is a swarm intelligence algorithm, and EAs, to select
 software testing cases. ACO and EA are used serially, with GA acting
 to refine the test suite initially selected by the ant algorithm. A
-very recent article \cite{sangeeta2020comprehensive} compare how
+very recent article \cite{sangeeta2020comprehensive} compares how
 different hybrid algorithms, including GA-PSO hybrids, are applied to
 software reliability problems.
 
@@ -373,9 +365,7 @@ migration of individuals from one population to the other, and keeping
 track of the iterations of the algorithm. There is at least one
 \texttt{stateless function} worker process responsible for running the
 isolated algorithms. The two processes \texttt{PSO} and \texttt{GA},
-are shown in red.
-
-We can follow the path of messages as follows:
+are shown in red. We can follow the path of messages as follows:
 
 \begin{enumerate}
 
@@ -402,6 +392,7 @@ types of algorithms have the same probability of been chosen. % What
                                 % happens then with this when
                                 % populations are mixed? Which
                                 % algorithm is chosen? 
+                                % Answered above - M 
 
 \item Once a stateless function finishes the execution of a pre-fixed number of
   generations, the resulting population is pushed to
@@ -427,7 +418,6 @@ processed by different algorithms, though.
 
 \end{enumerate}
 
-% Maybe mention that before? You have already mentioned them above - JJ
 This message queue pattern is an essential component of a highly
 scalable reactive architecture; one of the reasons for this
 scalability is the use of stateless functions that have no secondary
@@ -458,7 +448,6 @@ iterations (specified in the parameters), the function returns the current state
 of the population, with additional data describing the local execution. This
 data is necessary to log the \#FE and current fitness values.
 
-
 As the controller is pulling population messages from the output
 queue, it waits until the message queue contains three valid
 populations to trigger an event handled by the
@@ -470,9 +459,7 @@ mixes populations that have arrived sequentially to the message queue,
 but we could mitigate this with a larger buffer and in fact
 populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
-to any loss of diversity.
-
-The output queue composition depends on two factors:
+to any loss of diversity. The output queue composition depends on two factors:
 The number or ratio between each type of algorithm and
 the amount of time required to finish the required
 number of iterations specified for each population.
@@ -506,7 +493,7 @@ heterogeneous populations and the support for mixing search strategies,
 increases the performance of single-algorithm search by needing fewer function evaluations
 than a homogeneous setting. % Maybe say something about the parallel
                             % setup too? - JJ
-                            % yes:  async - Mario
+                            % added the async - Mario
 
 % Use present perfect more than past - JJ
 % ok - M
@@ -517,24 +504,27 @@ framework \cite{hansen2016coco}. Although there are not many real-world
 problems that are entirely separable, we want to focus on these five separable functions
 as a primary benchmark for testing the performance of a hybrid multi-population
 algorithm. And there is interest in solving such problems using more
-general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5, and these 5 - JJ
+general methods \cite{doerr2013evolutionary,swarzberg1994step}. 
+% Say why only 5, and these 5 - JJ
+% Answered above, short answer: it's a start  - M
 
 These functions are real-parameter, single-objective, and are
 usually employed as benchmarks. We have tested with fifteen instances of each
 function, each one having a different optimal value. The standard benchmark of
-the BBOB testbed % which testbed?
+the BBOB testbed % which testbed? % BBOB -M
 uses these 15 instances over 2, 3, 5, 10, 20, and
 40 dimensions. With the maximum number of function evaluations (\#FEs)
 increasing with the dimension (D), using the expression $10^5 \cdot D$ (i.e.
 for $D = 2$, \#FEs is $200,000$).
 
-The COCO framework offers several tools to compare the performance of
-algorithms, generating data sets, tables, and reports for an experiment, we have
-compared  using the average required time (aRT). There is a
-repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
-of more than 200 results for the noiseless BBOB testbed, collected from BBOB
-workshops and special sessions between the years 2009 and 2019. To test the
-heterogeneous multi-population capabilities, we have compared the aRT between a
+% Not that important remong for space - M
+%The COCO framework offers several tools to compare the performance of
+%algorithms, generating data sets, tables, and reports for an experiment, we have
+%compared  using the average required time (aRT). There is a
+%repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
+%of more than 200 results for the noiseless BBOB testbed, collected from BBOB
+%workshops and special sessions between the years 2009 and 2019.
+To test the heterogeneous multi-population capabilities, we have compared the aRT between a
 homogeneous and an ensemble of multi-populations, using Genetic Algorithms
 (GAs) and Particle Swarm Optimization (PSO).
 
@@ -543,10 +533,7 @@ GA stateless function \cite{fortin2012deap} and the EvoloPy library
 \cite{faris2016evolopy} for the PSO algorithm function. 
 We selected these libraries because they are open source
 and written in python, and easily deployable in our 
-framework or in the cloud.  % Say
-                                % why. They are written in Python, and
-                                % are easily deployable in our
-                                % framework - JJ
+framework or in the cloud.  
 We show the parameters for each algorithm in Table \ref{tab:GAparams};
 these were obtained by following a
 method proposed by García et al. in \cite{garcia2017benchmarking:anon}. First, we
@@ -557,9 +544,12 @@ three, and after obtaining favorable results, we set the PSO and GA algorithm
 parameters. We have set the mutation and crossover probabilities of the GA randomly
 to have heterogeneous populations; and also less parameters to tune,
 we did not follow the same tactic for PSO, as we choose the same parameters
-as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009black}.   % and also less parameters to tune?
+as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009blackHybrid}.   
+                                % and also less parameters to tune?
                                 % Why didn't you do the same for PSO?
                                 % - JJ
+                                % Mentioned above and there is no answer for why not doing the 
+                                % same for PSO, I missed that - M 
 the entry in the Table shows the range of these
 parameters. We have not changed these settings during the experiments, and we have
 only provided the population size and number of generations as parameters.
@@ -665,14 +655,7 @@ bbob.v15.03 in python, the plots were produced with version 2.3.2.
  Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
  interquartile range with median of simulated runs; all values are divided by
  dimension and plotted as $log_{10}$ values versus dimension. 
- %Shown is the aRT for
- %fixed values of $\Delta f = 10k$ with $k$ given in the legend. 
- %Numbers above aRT-symbols
- %(if appearing) indicate the number of trials reaching the respective target.
- %The light thick line with diamonds indicates the best algorithm from BBOB 2009
- %for the most difficult target. Horizontal lines mean linear scaling, slanted
- %grid lines depict quadratic scaling.
-}
+ }
 \label{fig:bbob}
 \end{figure*}
 
@@ -708,22 +691,25 @@ the runtime scales with dimension to reach certain target values $\Delta f$;
 % So please fix that... - JJ
 % ping here - JJ
 % TO DO - M
+% Was fixed in another commit - M
 the color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
 has reached the $10^{-8}$ target on all instances for that dimension;
-with a number, it indicates how many times the algorithm has reached
+if it has a number, it indicates how many times the algorithm has reached
 the target. Fixed values of targets $\Delta f = 10^{k}$ with $k$ colors are
 given in the legend of $f_1$, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. Results
 from each configuration are presented in each column, GA, PSO, and GA\&PSO
 populations.
-
 We can see that the GA algorithm (on the left-most column) has a hard time reaching even the
 $10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and yields the worst
 performance in 20 and 40 dimensions. Finally, it performs better on $f_5$
 reaching the $10^{-8}$ on all dimensions but with a higher runtime on lower
-dimensions. % Maybe some comments on why these 5 functions and what
-            % makes f5 special? - JJ
+dimensions. 
 
+            % Maybe some comments on why these 5 functions and what
+            % makes f5 special? - JJ
+            % This was mentioned earlier, F5 I think is more deceptive, but I'm not sure will check that - M   
+            % TO DO
 On the other hand, the multi-population PSO (shown in the column on the middle)
 has better performance; its results are less spread
 reaching all targets for functions $f_1$ and $f_2$ but with a slightly higher
@@ -769,28 +755,33 @@ multi-population has the best runtime for the lower dimensions of $f_5$.
 Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
 value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
 on $f_3$ and $f_4$ (charts on the lower rows), which are usually
-considered difficult functions. % Maybe a reference for this? - JJ
-
+considered difficult functions \cite{hansen2010comparing}.  % Maybe a reference for this? - JJ
+% I will add the paper of BBOB results showing less algorithms finding the solution.
+% Reference added - M
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows
 how the runtime scales with dimension to reach the most difficult target
 for $\Delta f = 10^{-8}$ for each function.
-The representative algorithms are:
-The simple binary GA algorithm of Nicolau \cite{nicolau2009application},
-the PSO algorithm by El-Abd and Kamel \cite{el2009black}, an EDA and PSO
+We chose two types of representative algorithms, first, Evolutionary 
+an Swarm based and  not population-based. We chose a simple binary GA algorithm of Nicolau \cite{nicolau2009application},
+the PSO algorithm by El-Abd and Kamel \cite{el2009blackHybrid}, an EDA and PSO
 hybrid \cite{el2009blackHybrid}, % We need to mention it in the state
-                                % of the art - JJ
+                                 % of the art - JJ
+                                 % done - M
 Differential Evolution (DE) with adaptive encoding \cite{povsik2012benchmarking}
 by {Po{\v{s}}{\'\i}k and Klem{\v{s}},
 the hybrid DE-PSO by Garc{\'\i}a-Nieto et
-al. \cite{garcia2009noiseless}, % Mention also this in the SoA - JJ
+al. \cite{garcia2009noiseless}, % Mention also this in the SoA - JJ % done - M
 and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this last algorithm has the
 best overall ($f_1-f_24$) performance on the BBOB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
-40, respectively. % Something to add about this one? It uses two
+40, respectively.  The algorith uses two interlaced restart strategies, 
+one with an increasing population size and one with varying small population sizes using
+a covariance matrix adaptation evolution strategy (CMA-ES). 
+                  % Something to add about this one? It uses two
                   % populations or something like that? Also: explain
                   % why these specific algorithms were chosen.
-
+                  % Done - M
 We also compare with two methods that are not population-based, but univariate
 solvers generalized for the optimization of separable functions, the
 line-search algorithm LSStep by Po{\v{s}}{\'\i}k \cite{povsik2009bbob}, and the Hybrid Brent-STEP by
@@ -799,14 +790,19 @@ is the best for this group of functions, finding all targets with less FEs.
 
 We can see that the number of evaluations of {\sf GA-PSO-m} tends to be higher
 in most cases, but on the other hand, it could solve all functions
-while others could not. % We should refer back to our hypothesis of
+while others could not. This fact is in accordance with our hypothesis
+that a having a combination of methods, gives as a result an 
+exploration that keeps diversity in balance with exploitation.
+It can take more evaluations, but it explores other areas of the search space, avoiding 
+local minima in more cases.
+                        % We should refer back to our hypothesis of
                         % better exploration of the search space here
                         % - JJ
+                        % done - M
 As expected, the BIPOP-CMA-ES algorithm has the best running time on functions
 $f_1$, $f_2$ and $f_5$ and reaches three targets at search dimensions 20 and 40.
 It is worth to notice the performance of the DE algorithm, having the best
 running time on lower dimensions of  $f_3$ and $f_4$.
-
 Figure \ref{fig:bbob2} highlights the performance of our proposal in search
 space of dimensions 10, 20, and 40. The figure shows the fraction of
 functions-target pairs by the number of FEs. In this case, an algorithm that
@@ -815,20 +811,25 @@ higher dimensions, the GA-PSO multi-population gives competitive results by
 reaching all targets within budget. The Brent-STEP algorithm did not provide
 results for 40D.
 
-
 \section{Conclusions and future lines of work}
 \label{conclusions}
 
 In this paper we have presented a new method that uses concurrent,
-cloud native methods to evolve populations using a mix of different algorithms. Populations and evolution (or any other kind of
+cloud native methods to evolve populations using a mix of different algorithms.
+Populations and evolution (or any other kind of
 change) are totally decoupled, and its processing is stateless, which
 makes possible to create a mixture of processing algorithms that work
 asynchronously (and possibly concurrently) and in a way that's totally
-independent of each other. % Clarify "possibly" - JJ
+independent of each other. More methods can be added to the mix by simply 
+adding another stateless function that listens to the population queue.
+% Clarify "possibly" - JJ
+% Don -M
 
 % A paragraph trying to explain results, looking at the results for
 % different functions. Why does it work better? Does it really
 % increase diversity? - JJ
+% We did not actually tested diversity, will added as a future work - M
+% added below - M
 
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better than those obtained by
@@ -845,22 +846,22 @@ PSO, or how many cycles of each has undergone. The migration process,
 however, guarantees a mixing of results and is probably the key to the
 ultimate success of the algorithm proposed here. % Check that this
                                 % seems reasonable - JJ
+                                % looks good - M
 
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
 kind of results they obtain and what could possible be the best
 possible mix. A way of automatically scaling to get the number of
 nodes needed would also be a very interesting feature.
-
 An extensive study on the real effects of the mix of algorithms should
 also be performed, with a theoretical basis if possible, using the
 size of the basins of attractions, for instance, or how different
-algorithms move along the fitness landscape.
-
+algorithms move along the fitness landscape. We can also measure how 
+diversity is maintained by the combination of methods and random parameters,
+and propose new ways to adapt this diversity to the state of the search. 
 
 \section*{Acknowledgments}
 The authors would also like to thank the anonymous referees for
-their valuable comments and helpful suggestions. The work is
 supported by the so and so.
 
 
