@@ -549,24 +549,28 @@ We will use this set up to perform a series of experiments destined to
 measure the performance of this hybrid algorithm. We will do this next.
 
 % Maybe add an anonymous link to GitHub? - JJ
-% Ok - M 
+% Ok, This needs to be a functional link? To see the best option, some things in the 
+% actual repo are not anonymous - M 
+
 
 \section{Experimental setup}
 \label{setup}
 
 In this section, we present the experimental setup needed 
-to verify if having a multi-population algorithm, with
+to verify if having a multi-population algorithm, with asynchronous
 heterogeneous populations and the support for mixing search strategies,
 increases the performance of single-algorithm search by needing fewer function evaluations
 than a homogeneous setting. % Maybe say something about the parallel
                             % setup too? - JJ
+                            % yes:  async - Mario
 
 % Use present perfect more than past - JJ
-For the experiment, we have used five
+% ok - M
+For the experiment, we use five
 benchmark separable functions ($f_1 to f_5 $) from the Continuous Noiseless
 BBOB testbed, which is part of the Comparing Continuous Optimizers (COCO)
 framework \cite{hansen2016coco}. Although there are not many real-world
-problems that are entirely separable, we wanted to focus on separable functions
+problems that are entirely separable, we want to focus on these five separable functions
 as a primary benchmark for testing the performance of a hybrid multi-population
 algorithm. And there is interest in solving such problems using more
 general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5, and these 5 - JJ
@@ -574,7 +578,7 @@ general methods \cite{doerr2013evolutionary,swarzberg1994step}. % Say why only 5
 These functions are real-parameter, single-objective, and are
 usually employed as benchmarks. We have tested with fifteen instances of each
 function, each one having a different optimal value. The standard benchmark of
-the testbed % which testbed?
+the BBOB testbed % which testbed?
 uses these 15 instances over 2, 3, 5, 10, 20, and
 40 dimensions. With the maximum number of function evaluations (\#FEs)
 increasing with the dimension (D), using the expression $10^5 \cdot D$ (i.e.
@@ -582,7 +586,7 @@ for $D = 2$, \#FEs is $200,000$).
 
 The COCO framework offers several tools to compare the performance of
 algorithms, generating data sets, tables, and reports for an experiment, we have
-compared using the average required time (aRT). There is a
+compared  using the average required time (aRT). There is a
 repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
 of more than 200 results for the noiseless BBOB testbed, collected from BBOB
 workshops and special sessions between the years 2009 and 2019. To test the
@@ -592,7 +596,11 @@ homogeneous and an ensemble of multi-populations, using Genetic Algorithms
 
 We have used the DEAP framework for the
 GA stateless function \cite{fortin2012deap} and the EvoloPy library
-\cite{faris2016evolopy} for the PSO algorithm function. % Say
+\cite{faris2016evolopy} for the PSO algorithm function. 
+We selected these libraries because they are open source
+and written in python, and easily deployable in our 
+framework or in the cloud.
+                                % Say
                                 % why. They are written in Python, and
                                 % are easily deployable in our
                                 % framework - JJ
@@ -606,7 +614,11 @@ dimensions. After about fifteen experiments, the most challenging targets were
 achieved for this particular function. We tested again with functions one to
 three, and after obtaining favorable results, we set the PSO and GA algorithm
 parameters. We have set the mutation and crossover probabilities of the GA randomly
-to have heterogeneous populations; % and also less parameters to tune?
+to have heterogeneous populations; and also less parameters to tune,
+we did not follow the same tactic for PSO, as we choose the same parameters
+as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009black}.
+
+                                % and also less parameters to tune?
                                 % Why didn't you do the same for PSO?
                                 % - JJ
 the entry in the Table shows the range of these
@@ -649,6 +661,7 @@ To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
 earlier, and a total of 10 populations. % Maybe quote our FGCS paper?
                                 % - JJ
+                                % TODO - M
 Table \ref{tab:params:10} shows the parameters we have used. The {\em
 GA-PSO Ratio} parameter specifies the proportion of populations that
 will be processed using the GA algorithm, with $0$ indicating all
@@ -771,6 +784,7 @@ the runtime scales with dimension to reach certain target values $\Delta f$;
 % That is why appears on top. It reaches but takes more evals on average.
 % So please fix that... - JJ
 % ping here - JJ
+% TO DO - M
 the color of the lines indicates the average runtime, for each target reached
 at least one time. A red circle without a number on top indicates the algorithm
 has reached the $10^{-8}$ target on all instances for that dimension;
