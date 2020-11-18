@@ -238,7 +238,6 @@ evaluation we designed to assess the effectiveness of the method, and in Section
 conclusions of this paper and suggestions on future work in Section
 \ref{conclusions}.
 
-
 \section{State of the Art}
 \label{soa}
 
@@ -345,19 +344,6 @@ what we are going to do in this paper.
   refer to text for the explanation of the different numbers.}
 \label{fig:kafkeo}
 \end{figure*}
-%
-
-% --------------------- Suppresses intro and subsections -------------------------
-% In this section, we present a model for the execution of multi-population based
-% asynchronous algorithms. As a first step, we describe the general architecture,
-% for handling a stream of continuously updated populations,  and then our
-% approach for decoupling the processing in stateless functions, to finally give
-% details of the migration mechanism.
-
-
-
-% In this section we present our proposed model for the execution of
-% multi-population based asynchronous algorithms.
 
 As we have mentioned before, when designing efficient multi-population
 algorithms, we need to consider additional issues \cite{Ma2019},
@@ -406,11 +392,7 @@ execution of the search.
 population messages from the \texttt{input} queue. These functions have the
 task of executing the optimization algorithm. They take the current state of
 the population and run the specified algorithm for a certain number of
-iterations. % Explain here how the algorithm is selected: do you
-            % simply fire it up randomly, or first come first served,
-            % or how? - JJ 
-            % Added below - M
-When creating a population message, the setup function randomly
+iterations. When creating a population message, the setup function randomly
 selects an optimization algorithm and parameters. These parameters
 are part of the population's metadata read by the stateless
 functions executing the algorithm. In the current configuration, all
