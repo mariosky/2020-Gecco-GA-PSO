@@ -50,33 +50,28 @@ ABC Institute, Rupert-Karls-University Heidelberg, Heidelberg, Germany\\
 
 Researchers in the field of nature-inspired optimization have recently
 proposed multi-population asynchronous algorithms that distribute the
-evolutionary process among heterogeneous search paradigms. These algorithms
-execute the optimization strategy by reading streams of messages
-containing solution populations from message queues. After searching for a
-small number of iterations, new evolved populations are generated and
-sent back to a queue. Current research suggests that when we have many 
-population-processing algorithms communicating in parallel, parameters 
-intensifying exploration or exploitation in each population strike a 
-dynamic that balances the two, exploring and exploiting simultaneously,
-maintaining an overall diversity, and improving the search. 
-% Change it again - Mario 
-% You should clarify this sentence. - JJ
-% I change this a bit, check if this is clear now - Mario
-% it's better but what do you mean by "compensated" Do you mean evened
-% out? Balanced? They improve on each other?
-In this work, we propose a simple reactive migration, that is,
-population-generation and processing, method for the
-asynchronous execution of multi-population, multi-strategy algorithms that
-manages to achieve an improvement over homogeneous configurations. We
-evaluate this method by comparing a
-heterogeneous ensemble of multi-populations against a homogeneous solution
-consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization (PSO)
-populations. We evaluate both solutions using five problems from the noiseless
-BBOB testbed for the optimization of continuous functions. Results show that
-compared with other asynchronous homogeneous population-based algorithms, % Asynchronous but not mixed? - JJ
-% Yes - Mario
-this method offers better performance in terms of the number of evaluations needed
-to find a solution and the number of instances where it found it.
+evolutionary process among heterogeneous search paradigms. These
+algorithms execute the optimization strategy by reading streams of
+messages containing solution populations from message queues. After
+searching for a small number of iterations, new evolved populations
+are generated and sent back to a queue. Current research suggests that
+when we have many population-processing algorithms communicating in
+parallel, parameters intensifying exploration or exploitation in each
+population strike a dynamic that balances the two, exploring and
+exploiting simultaneously, maintaining an overall diversity, and
+improving the search.  In this work, we propose a simple reactive
+migration, that is, population-generation and processing, method for
+the asynchronous execution of multi-population, multi-strategy
+algorithms that manages to achieve an improvement over homogeneous
+configurations. We evaluate this method by comparing a heterogeneous
+ensemble of multi-populations against a homogeneous solution
+consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization
+(PSO) populations. We evaluate both solutions using five problems from
+the noiseless BBOB testbed for the optimization of continuous
+functions. Results show that compared with other asynchronous
+homogeneous population-based algorithms, this method offers better
+performance in terms of the number of evaluations needed to find a
+solution and the number of instances where it found it.
 
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
  \and cloud-native systems.}
@@ -262,8 +257,8 @@ exploitation. Since these mechanisms are fundamentally different,
 mixing different algorithms might be considered a win-win situation by
 way of performing exploitation in several different directions,
 implying, at the same time, exploration, which will be able to get
-closer to the solution as well as generate new possibilitiesm as gas
-beeb indicated previously in the introduction.
+closer to the solution as well as generate new possibilities as has
+been indicated previously in the introduction.
 
 This is what the first papers to propose such a hybrid algorithm, by
 Robinson et al. \cite{Robinson2002} leveraged, explicitly playing on this
