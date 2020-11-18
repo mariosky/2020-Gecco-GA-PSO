@@ -359,19 +359,21 @@ happen asynchronously without. Computing nodes running an algorithm
 ``wake up'' when they receive a message, with no idle time between the
 processing of messages arriving from the stream.
 
-We have implemented this streaming functionality by using a message queue
-system, whose general architecture is shown in Figure \ref{fig:kafkeo}. We can explain
-the model by using an analogy of producers and consumers of messages. There are
-two queues, one labeled \texttt{input}, which mainly holds populations
-that are going to be evolved, and the other called \texttt{output}
-which is where algorithm nodes send their population messages. In a
-queue, {\em push} operations are represented by solid arrows connecting to the
-left side and pull or pop operations as solid arrows leaving from the right
-side. The \texttt{controller} process, is responsible for the migration of
-individuals from one population to the other, and keeping track of the
-iterations of the algorithm. There is at least one \texttt{stateless function}
-worker process responsible for running the isolated algorithms. The two
-processes \texttt{PSO} and \texttt{GA}, are shown in red.
+We have implemented this streaming functionality by using a message
+queue system, whose general architecture is shown in Figure
+\ref{fig:kafkeo}. We can explain the model by using an analogy of
+producers and consumers of messages. There are two queues, one labeled
+\texttt{input}, which mainly holds populations that are going to be
+evolved, and the other called \texttt{output} which is where algorithm
+nodes send their population messages. In a queue, {\em push}
+operations are represented by solid arrows connecting to the left side
+and pull or pop operations as solid arrows leaving from the right
+side. The \texttt{controller} process, is responsible for the
+migration of individuals from one population to the other, and keeping
+track of the iterations of the algorithm. There is at least one
+\texttt{stateless function} worker process responsible for running the
+isolated algorithms. The two processes \texttt{PSO} and \texttt{GA},
+are shown in red.
 
 We can follow the path of messages as follows:
 
@@ -396,13 +398,13 @@ iterations. When creating a population message, the setup function randomly
 selects an optimization algorithm and parameters. These parameters
 are part of the population's metadata read by the stateless
 functions executing the algorithm. In the current configuration, all
-types of algorithms have the same probability of been chosen.
+types of algorithms have the same probability of been chosen. % What
+                                % happens then with this when
+                                % populations are mixed? Which
+                                % algorithm is chosen? 
 
 \item Once a stateless function finishes the execution of a pre-fixed number of
-  generations, % If you say "they" it looks like they work
-               % asynchronously - JJ
-               % They do - Mario 
-  the resulting population is pushed to
+  generations, the resulting population is pushed to
 the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
@@ -412,42 +414,18 @@ the algorithm has found an optimal solution or the maximum number of iteration
 has been reached it stops the execution.
 
 \item Otherwise, it passes the stream of messages to a ``migration'' function,
-  where populations are mixed. It generates new populations, % This
-                                % step is important, because it also
-                                % selects the best. it generates 3
-                                % populations, with the best half of
-                                % the previous three populations. - JJ 
-                                % We should uncomment this comment - M
-  and they are
+  where populations are mixed. It generates new populations, and they are
 again pushed to the \texttt{input} queue to continue in a loop. The
-\texttt{controller} is also responsible for logging the metadata.
+\texttt{controller} is also responsible for logging the
+metadata. Although this steps corresponds roughly to the classical
+{\em migration}, since it mixes different populations, it is actually
+a selection procecure, since it ranks the individuals of the mixed
+population according to fitness and selects the best half of them,
+eventually generating three new populations. Without this step, there
+would be no real parallel algorithm; populations would be sequentially
+processed by different algorithms, though.
 
 \end{enumerate}
-
-
-%% Maybe is not important to highlight these advantages in this paper 
-%% This could be form the previous paper. We can remove it - M 
-
-% This reactive architecture has the following advantages:
-% \begin{itemize}
-
-% \item It decouples the population and the population-based algorithm. In this
-% design, we can have one or many processing nodes, each running a different
-% search strategy.
-
-% \item Also, the reactive controller gives designers more control over the
-% multi-population algorithm. In this process, designers can dynamically change
-% the number of populations, population parameters, and migration details
-% on-the-fly.
-
-% \item Another advantage is that algorithm designers have many options for
-% implementing this simple architecture. The same basic components can be
-% implemented as a single multi-threaded program, or as a highly scalable
-% serverless cloud application.
-% \end{itemize}
-
-%\subsection{Stateless functions} 
-%\label{functions} 
 
 % Maybe mention that before? You have already mentioned them above - JJ
 This message queue pattern is an essential component of a highly
@@ -469,7 +447,9 @@ functions \cite{garcia2018modern}, and concurrent programming
                              % Probably add something about how this
                              % goes beyond the state of the art, by
                              % adding additional diversity- JJ
-                             % Should we reference the journal paper also? - M
+                             % Should we reference the journal paper
+                             % also? - M
+% Maybe, anonymously and if there's space for it - JJ
 
 To have a stateless version of a population-based algorithm, we only need to
 skip the step of creating a random population. Instead, the function receives
@@ -478,9 +458,6 @@ iterations (specified in the parameters), the function returns the current state
 of the population, with additional data describing the local execution. This
 data is necessary to log the \#FE and current fitness values.
 
-
-%\subsection{Migration}
-%\label{migration}
 
 As the controller is pulling population messages from the output
 queue, it waits until the message queue contains three valid
@@ -493,11 +470,7 @@ mixes populations that have arrived sequentially to the message queue,
 but we could mitigate this with a larger buffer and in fact
 populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
-to any loss of diversity.  
-                         % Possibly say something about how these
-                          % have been generated? Are they from PSO?
-                          % GA? Are they guaranteed to be different? - JJ
-                          % Added something below ' M
+to any loss of diversity.
 
 The output queue composition depends on two factors:
 The number or ratio between each type of algorithm and
@@ -511,23 +484,17 @@ have more messages from one of the algorithms in the
 output queue.
 
 When the \texttt{population\_mixer} unit receives a list of three
-populations, let us say [A, B, C], it calls the ``migration'' method shown
-in Algorithm \ref{alg:migration} for [A, B], [B, C] and [A, C]. The
-migration algorithm ranks the individuals of each population and
-generates a new one by merging the best half from each. Finally, the
-\texttt{population\_mixer} method pushes the three generated
+populations, let us say [A, B, C], ranking the union of two
+populations and generating new ones by merging the best half from
+each. Finally, the three generated 
 populations back to the \texttt{input} message queue.
-%
-%\begin{algorithm} % I don't really think this is necessary; candidate
-                  % for removing if space is needed - JJ
-                  % Removing it, this is included in the journal paper. - M
-
 We will use this set up to perform a series of experiments destined to
 measure the performance of this hybrid algorithm. We will do this next.
 
 % Maybe add an anonymous link to GitHub? - JJ
 % Ok, This needs to be a functional link? To see the best option, some things in the 
-% actual repo are not anonymous - M 
+% actual repo are not anonymous - M
+% Nor really. Just the hint of a link - JJ
 
 
 \section{Experimental setup}
@@ -576,16 +543,13 @@ GA stateless function \cite{fortin2012deap} and the EvoloPy library
 \cite{faris2016evolopy} for the PSO algorithm function. 
 We selected these libraries because they are open source
 and written in python, and easily deployable in our 
-framework or in the cloud.
-                                % Say
+framework or in the cloud.  % Say
                                 % why. They are written in Python, and
                                 % are easily deployable in our
                                 % framework - JJ
-We show the parameters
-for each algorithm in Tables \ref{tab:GAparams} and Table
-\ref{tab:PSOparams} 
-for the GA and PSO, respectively. We have obtained these parameters by following a
-method used by García et al. in \cite{garcia2017benchmarking:anon}. First, we
+We show the parameters for each algorithm in Table \ref{tab:GAparams};
+these were obtained by following a
+method proposed by García et al. in \cite{garcia2017benchmarking:anon}. First, we
 tested the parameters for the Rastrigin separable function with five
 dimensions. After about fifteen experiments, the most challenging targets were
 achieved for this particular function. We tested again with functions one to
@@ -593,9 +557,7 @@ three, and after obtaining favorable results, we set the PSO and GA algorithm
 parameters. We have set the mutation and crossover probabilities of the GA randomly
 to have heterogeneous populations; and also less parameters to tune,
 we did not follow the same tactic for PSO, as we choose the same parameters
-as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009black}.
-
-                                % and also less parameters to tune?
+as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009black}.   % and also less parameters to tune?
                                 % Why didn't you do the same for PSO?
                                 % - JJ
 the entry in the Table shows the range of these
@@ -604,33 +566,18 @@ only provided the population size and number of generations as parameters.
 
 \begin{table}
   \small
-  \caption{ DEAP GA EvoWorker Parameters }
+  \caption{ DEAP GA and EvoloPy PSO Parameters }
   \label{tab:GAparams} 
   \centering
   \small
-  \begin{tabular}{|l|c|}
+  \begin{tabular}{|l|c||l|c|}
     \hline
-    Selection & Tournament size=12                            \\ \hline
-    Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05   \\ \hline
-    Mutation Probability & [0.1,0.3]                          \\ \hline
-    Crossover & Two Point                                     \\ \hline
-    Crossover Probability  & [0.2,0.6]                        \\ \hline
-  \end{tabular}
-\end{table}
-
-\begin{table}
-  \small
-  \caption{ EvoloPy PSO Parameters }
-  \label{tab:PSOparams} 
-  \centering
-  \small
-  \begin{tabular}{|l|c|}
-    \hline
-    $V_{max}$ & 6 \\ \hline
-    $W_{max}$ & $0.9$ \\ \hline
-    $W_{min}$ & $0.2$ \\ \hline
-    $C_1$ & 2 \\ \hline
-    $C_2$ & 2 \\ \hline
+    \multicolumn{2}{|c||}{GA} & \multicolumn{2}{c|}{PSO} \\ \hline
+    Selection & Tournament size=12 &      $V_{max}$ & 6                  \\ \hline
+    Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05 & $W_{max}$ & $0.9$     \\ \hline
+    Mutation Probability & [0.1,0.3] &   $W_{min}$ & $0.2$                      \\ \hline
+    Crossover & Two Point   &       $C_1$ & 2                             \\ \hline
+    Crossover Probability  & [0.2,0.6] & $C_2$ & 2  \\ \hline
   \end{tabular}
 \end{table}
 
