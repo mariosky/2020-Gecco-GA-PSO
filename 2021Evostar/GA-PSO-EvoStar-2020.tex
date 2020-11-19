@@ -798,17 +798,11 @@ independent of each other. More methods can be added to the mix by simply
 adding another stateless function that listens to the population queue
 and writes back to it.
 
-
-% A paragraph trying to explain results, looking at the results for
-% different functions. Why does it work better? Does it really
-% increase diversity? - JJ
-% We did not actually tested diversity, will added as a future work - M
-% added below - M
-
 We have tested this combination of algorithms on the BBOB benchmark
 functions, obtaining results that are better than those obtained by
 any of them separated. This confirms results obtained by previous
-authors in hybrid algorithms, except that, in this case, the architecture is different and
+authors in hybrid algorithms, except that, in this case, the
+architecture is different and 
 there are improvements all across the tested functions; besides,
 results are better than results that have been published for other
 algorithms, including a hybrid one, making the hybrid PSO/GA a firm
@@ -820,15 +814,25 @@ PSO, or how many cycles of each has undergone. The migration process,
 however, guarantees a mixing of results and is probably the key to the
 ultimate success of the algorithm proposed here.
 
+We can conclude, then, than our experiments prove that the mixed-algorithm method is able to
+outperform single-algorithm methods in the same setup, reaching
+success more often, and needing less evaluations; this effectively
+overcomes the excessive exploration that might occur in PSO and the
+excessive exploitation that sometimes GA suffer.
+
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
 kind of results they obtain and what could possible be the best
-possible mix. An extensive study on the real effects of the mix of
-algorithms should also be performed, with a theoretical basis if possible, using the
-size of the basins of attractions, for instance, or how different
-algorithms move along the fitness landscape. We can also measure how
-diversity is maintained by the combination of methods and random parameters,
-and propose new ways to adapt this diversity to the state of the search.
+possible mix; this will be needed to prove that it's this specific
+combination of algorithms, and not simply the fact that the algorithms
+are different, the key to its performance. . An extensive study on the
+real effects of the mix of algorithms should also be performed, with a
+theoretical basis if possible, using the size of the basins of
+attractions, the evolution of entropy in every population, or how
+different algorithms move along the fitness landscape. This will help
+us understand how diversity is maintained by the combination of
+methods and random parameters, which will help us to propose new ways
+to adapt this diversity to the state of the search.
 
 \section*{Acknowledgments}
 The authors would also like to thank the anonymous referees for their
