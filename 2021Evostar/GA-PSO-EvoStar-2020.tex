@@ -588,7 +588,7 @@ $200,000$, which is equal to $40*50*10*10$ (first column in \autoref{tab:params:
     Generations      & 40 & 25 & 28 & 50 & 66  & 80  \\ \hline
     Population Size  & 50 & 60 & 60 & 70 & 100 & 125 \\ \hline
     Populations      & 10 & 10 & 10 & 10 & 10  & 10  \\ \hline
-    Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline  
+    Iterations       & 10 & 20 & 30 & 30 & 30  & 40  \\ \hline
   \end{tabular}
 \end{table}
 
@@ -629,14 +629,13 @@ bbob.v15.03 in python, the plots were produced with version 2.3.2.
     \includegraphics[width=0.28\textwidth]{GAPSO_f005}\\
     \end{tabular}
     \vspace{-3ex}
-     \caption{
- Scaling of running time with problem dimension to reach certain target values $\Delta f$. Lines:
- average runtime (aRT); Cross ($+$): median runtime of successful runs to reach
- the most difficult target that was reached at least once (but not always);
- Cross (\textcolor{red}{$\times$}): maximum number of f-evaluations in any trial. Notched boxes:
- interquartile range with median of simulated runs; all values are divided by
- dimension and plotted as $log_{10}$ values versus dimension. 
- }
+     \caption{ Running time needed to reach $\Delta f$ ($y$, in log$_{10}$
+       scale, divided by dimension) vs. dimension ($x$). Lines:
+ average runtime (aRT); ($+$): median runtime of successful runs to reach
+ the most difficult target that was reached at least once;
+ (\textcolor{red}{$\times$}): maximum number of evaluations in any trial. Notched boxes:
+ interquartile range with median of simulated runs. Please note that
+ $y$ in the same row, generated automatically by COCO, can be different.}
 \label{fig:bbob}
 \end{figure*}
 
@@ -654,8 +653,7 @@ bbob.v15.03 in python, the plots were produced with version 2.3.2.
 
 \end{tabular} \vspace{-3ex} \caption{Bootstrapped empirical cumulative
 distribution of the number of objective function evaluations divided by
-dimension (FEvals/DIM) for separable functions.  
- } \label{fig:bbob2} 
+dimension (FEvals/DIM) for the functions used in this paper. } \label{fig:bbob2} 
 \end{figure*}
 %
 \section{Results}
@@ -743,23 +741,17 @@ for $\Delta f = 10^{-8}$ for each function.
 We chose two types of representative algorithms, first, Evolutionary 
 an Swarm based and  not population-based. We chose a simple binary GA algorithm of Nicolau \cite{nicolau2009application},
 the PSO algorithm by El-Abd and Kamel \cite{el2009blackHybrid}, an EDA and PSO
-hybrid \cite{el2009blackHybrid}, % We need to mention it in the state
-                                 % of the art - JJ
-                                 % done - M
+hybrid \cite{el2009blackHybrid}, 
 Differential Evolution (DE) with adaptive encoding \cite{povsik2012benchmarking}
 by {Po{\v{s}}{\'\i}k and Klem{\v{s}},
 the hybrid DE-PSO by Garc{\'\i}a-Nieto et
-al. \cite{garcia2009noiseless}, % Mention also this in the SoA - JJ % done - M
+al. \cite{garcia2009noiseless},
 and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this last algorithm has the
-best overall ($f_1-f_24$) performance on the BBOB-2009 benchmark,
+best overall ($f_1-f_2$) performance on the BBOB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
 40, respectively.  The algorith uses two interlaced restart strategies, 
 one with an increasing population size and one with varying small population sizes using
-a covariance matrix adaptation evolution strategy (CMA-ES). 
-                  % Something to add about this one? It uses two
-                  % populations or something like that? Also: explain
-                  % why these specific algorithms were chosen.
-                  % Done - M
+a covariance matrix adaptation evolution strategy (CMA-ES).
 We also compare with two methods that are not population-based, but univariate
 solvers generalized for the optimization of separable functions, the
 line-search algorithm LSStep by Po{\v{s}}{\'\i}k \cite{povsik2009bbob}, and the Hybrid Brent-STEP by
