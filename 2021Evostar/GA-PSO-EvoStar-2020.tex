@@ -671,25 +671,29 @@ this paper. These functions have also been used in
 
 \autoref{fig:bbob} shows the classical COCO comparison, which is
 related to the number of evaluations needed to reach the target values
-$\Delta f$. Values of targets $\Delta f = 10^{k}$ with $k$ colors are
-given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$.  
-Line colors indicate the average of FEs for targets reached
-at least one time. A red circle means that the algorithm
-has reached the most challenging target $10^{-8}$ on all instances for that dimension,
-if it has a number, this tell us how many times it was reached. Results for GA, PSO, and GA\&PSO methods 
-are presented in each column, in that order. 
-The GA algorithm (on the left column) finds it difficult to reach the
-$10^{-5}$ target in functions ($f_1-f_4$), and has the worst
-performance of the three on higher dimensions, but it has a better performance in $f_5$
-where it reaches the $10^{-8}$ target, in this case it has the highest runtime when compared to the others. 
-
-            % Maybe some comments on why these 5 functions and what
-            % makes f5 special? - JJ
-            % This was mentioned earlier, F5 I think is more deceptive, but I'm not sure will check that - M   
-            % TO DO
-The PSO variant on the other hand, has a better performance; reaching all targets for functions $f_1$ and $f_2$ but 
-it has a higher runtime in most cases when compared against the multi-strategy method. 
-PSO does not reach the $10^{-8}$ target on for the higher dimensions of functions $f_3$ and $f_4$ ; 
+$\Delta f$. Line colors indicate the average of FEs for targets reached
+at least one time, while a red circle without a number on top indicates the algorithm
+has reached the most difficult target $10^{-8}$ on all instances for that dimension;
+if it has a number, this indicates how many times the target was
+reached. For instance, you can see numbers in $f_2$ to $f_5$ for the
+evolutionary algorithm, implying there are, in fact, few cases where
+the target was reached, for instance, just 1 for dimension = 10,
+$\delta_f = 10^{-3}$ and $f_2$. Values of targets $\Delta f = 10^{k}$ with $k$ colors are
+given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$.
+Each column presents the results for GA, PSO, and GA\&PSO methods.
+In general, and in this framework, the GA (on the left column) hardly reaches even the
+$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
+performance in 20 and 40 dimensions. However, it's quite competitive for $f_5$
+where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
+dimensions. As indicated in \cite{hansen2009real}, this function shows
+the ability of the algorithm to adapt the size of changes in
+individual solutions and also be
+able to get out of a local optimum; a GA is able to perform reasonably
+well (and definitely better than on the other functions).
+The multi-population PSO on the other hand (shown in the middle column),
+has, in general, better performance, reaching all targets for
+functions $f_1$ and $f_2$; however it needs a high number of evaluations.
+PSO is not able to reach the $10^{-8}$ target on functions $f_3$ and $f_4$ for higher dimensions; 
 but it has the best overall runtime for the lower dimensions of $f_5$.
 
 \begin{figure}[h!tb]
@@ -726,12 +730,19 @@ but it has the best overall runtime for the lower dimensions of $f_5$.
   \label{fig:avg}
 \end{figure}
 %
-Finally, the proposed PSO\&GA multi-strategy method reaches the most difficult $10^{-8}$ target
-on all functions ($f_1-f_5$) scaling well to higher dimensions, even
+Finally, the proposed PSO\&GA mixed-algorithm method, shown on the
+rightmost column in \autoref{fig:bbob}, reaches the most difficult $10^{-8}$ target
+for all functions ($f_1-f_5$) scaling well to higher dimensions, even
 on $f_3$ and $f_4$, which are usually
-considered difficult functions \cite{hansen2010comparing}.  % Maybe a reference for this? - JJ
-% I will add the paper of BBOB results showing less algorithms finding the solution.
-% Reference added - M
+considered difficult functions \cite{hansen2010comparing}. Please bear
+in mind that the scale of the $y$ axis, corresponding to the number of
+evaluations, has a smaller span in this column, in some cases two
+orders of magnitude less than for the single-algorithm methods, thus
+showing a more robust, and consistently higher, performance. % I have
+                                % added this discussion. Please check
+                                % it - JJ
+
+
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows
 how the runtime scales with dimension to reach the most difficult target
