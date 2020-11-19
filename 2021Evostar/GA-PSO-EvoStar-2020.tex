@@ -62,9 +62,9 @@ parallel, parameters intensifying exploration or exploitation in each
 population strike a dynamic that balances the two, exploring and
 exploiting simultaneously, maintaining an overall diversity, and
 improving the search.  In this work, we propose a simple reactive
-migration, that is, population-generation and processing, method for
-the asynchronous execution of multi-population, multi-strategy
-algorithms that manages to achieve an improvement over homogeneous
+migration, population-generation, and processing method for
+the asynchronous processing of multi-population, multi-strategy
+algorithms that achieves an improvement over homogeneous
 configurations. We evaluate this method by comparing a heterogeneous
 ensemble of multi-populations against a homogeneous solution
 consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization
@@ -142,8 +142,8 @@ population's diversity \cite{li2015multi}. We are going to call these
 kinds of methods, multi-population algorithms \cite{Ma2019}. The
 relative isolation in which the Algorithm manages populations,
 together with the synchronous or asynchronous communication, helps
-increase the overall diversity since each population can search in a
-particular area, at least between communications
+increase the global diversity since each population searches in a
+distinct area, at least between communications
 \cite{li2016multi,wu2016differential}. In some cases, even a
 multi-population based algorithm is able to scale better due to these
 interactions and the operation's parallelism \cite{ALBA20027}.
@@ -153,15 +153,15 @@ implicitly, the same algorithm) in all
 segments (often called {\em demes}) in which the population is
 divided. But this is not really mandatory: Having many populations
 offers researchers many configuration choices and additional
-challenges when designing efficient multi-population algorithms.
-Options include the size and number of populations, the type of
-interaction between them, each population's search area, the search
-strategy, its parametrization and, of course, the actual algorithm
+challenges when designing scalable multi-population algorithms.
+Design options include the size and number of populations, the type of
+communication between them, each population's search area, the search
+strategy, its parametrization, and, of course, the actual algorithm
 that every segment is running. In the literature, we can find several
 heterogeneous mixed-algorithm multi-population methods that integrate
-variations of optimization algorithms, and these often perform better
-than single-population or homogeneous multi-population optimization
-algorithms \cite{wu2016differential,nseef2016adaptive}. In this paper,
+variations of optimization algorithms, and these often have a better performance
+than single-population or homogeneous multi-population algorithms 
+\cite{wu2016differential,nseef2016adaptive}. In this paper,
 we will focus in this aspect, with multiple populations running with
 distinct parameters and optimization algorithms.
 
@@ -173,10 +173,9 @@ parameters influence the solution's accuracy while others affect the convergence
 speed of individual algorithms, tipping the balance between exploring or
 exploiting the solution space. On the other hand, current literature shows that
 having a high number of populations that communicate in parallel
-evens out
-for the effect of individual population's parameters
-\cite{li2016multi,tanabe2013evaluation}. Some heterogeneity can be implemented
-by just changing each population's configuration parameters, but in this work,
+evens out for the effect of individual population's parameters
+\cite{li2016multi,tanabe2013evaluation}. We can add some heterogeneity 
+by just altering each population's parameters, but in this work,
 we are interested in evaluating the compensating effect that
 heterogeneous, mixed-algorithm search strategies have. 
 %%
@@ -209,12 +208,12 @@ the separable functions of the BBOB noiseless testbed
 running time (aRT) as the number of functions (\#FEs), in order to
 prove the advantage of this kind of heterogeneous configurations.
 
-The organization of the paper is as follows: First, Section \ref{soa} presents
-state of the art relevant to our work. In Section \ref{method}, we present the
-proposed method.  Section \ref{setup} describes the design of the empirical
+The organization of the paper is as follows: First, in Section \ref{soa} we present
+the relevant state of the art. In Section \ref{method}, we describe in detail the
+framework used in this work.  Section \ref{setup} describes the design of the empirical
 evaluation we designed to assess the effectiveness of the method, and in Section
-\ref{results}, we report and discuss the results. Finally, we offer the
-conclusions of this paper and suggestions on future work in Section
+\ref{results}, we report and discuss the results. Finally, we present the
+conclusions of this work and offer suggestions on future work in Section
 \ref{conclusions}.
 
 \section{State of the Art}
@@ -672,28 +671,25 @@ this paper. These functions have also been used in
 
 \autoref{fig:bbob} shows the classical COCO comparison, which is
 related to the number of evaluations needed to reach the target values
-$\Delta f$. Line colors indicate the average of FEs for targets reached
-at least one time, while a red circle without a number on top indicates the algorithm
-has reached the most difficult target $10^{-8}$ on all instances for that dimension;
-if it has a number, this indicates how many times the target was
-reached.
-Values of targets $\Delta f = 10^{k}$ with $k$ colors are
-given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. 
-Each column presents the results for GA, PSO, and GA\&PSO methods.
-The GA algorithm (on the left column) has more difficulty even to reach the
-$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
-performance in 20 and 40 dimensions. It performs better on function five $f_5$
-where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
-dimensions. 
+$\Delta f$. Values of targets $\Delta f = 10^{k}$ with $k$ colors are
+given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$.  
+Line colors indicate the average of FEs for targets reached
+at least one time. A red circle means that the algorithm
+has reached the most challenging target $10^{-8}$ on all instances for that dimension,
+if it has a number, this tell us how many times it was reached. Results for GA, PSO, and GA\&PSO methods 
+are presented in each column, in that order. 
+The GA algorithm (on the left column) finds it difficult to reach the
+$10^{-5}$ target in functions ($f_1-f_4$), and has the worst
+performance of the three on higher dimensions, but it has a better performance in $f_5$
+where it reaches the $10^{-8}$ target, in this case it has the highest runtime when compared to the others. 
 
             % Maybe some comments on why these 5 functions and what
             % makes f5 special? - JJ
             % This was mentioned earlier, F5 I think is more deceptive, but I'm not sure will check that - M   
             % TO DO
-The multi-population PSO on the other hand (shown in the middle),
-has better performance; reaching all targets for functions $f_1$ and $f_2$ but 
+The PSO variant on the other hand, has a better performance; reaching all targets for functions $f_1$ and $f_2$ but 
 it has a higher runtime in most cases when compared against the multi-strategy method. 
-PSO is not able to reach the $10^{-8}$ target on functions $f_3$ and $f_4$ for higher dimensions; 
+PSO does not reach the $10^{-8}$ target on for the higher dimensions of functions $f_3$ and $f_4$ ; 
 but it has the best overall runtime for the lower dimensions of $f_5$.
 
 \begin{figure}[h!tb]
@@ -732,7 +728,7 @@ but it has the best overall runtime for the lower dimensions of $f_5$.
 %
 Finally, the proposed PSO\&GA multi-strategy method reaches the most difficult $10^{-8}$ target
 on all functions ($f_1-f_5$) scaling well to higher dimensions, even
-on $f_3$ and $f_4$ (charts on the last row), which are usually
+on $f_3$ and $f_4$, which are usually
 considered difficult functions \cite{hansen2010comparing}.  % Maybe a reference for this? - JJ
 % I will add the paper of BBOB results showing less algorithms finding the solution.
 % Reference added - M
