@@ -328,7 +328,7 @@ what we are going to do in this paper.
 \label{method}
 %
 \begin{figure*}[h!tb]
-\includegraphics[width=4.5in]{../images/kafkeo}
+\includegraphics[width=4in]{../images/kafkeo}
 \caption{General scheme of the architecture of this method. Please
   refer to text for the explanation of the different numbers.}
 \label{fig:kafkeo}
@@ -381,11 +381,7 @@ iterations. When creating a population message, the setup function randomly
 selects an optimization algorithm and parameters. These parameters
 are part of the population's metadata read by the stateless
 functions executing the algorithm. In the current configuration, all
-types of algorithms have the same probability of been chosen. % What
-                                % happens then with this when
-                                % populations are mixed? Which
-                                % algorithm is chosen? 
-                                % Answered above - M 
+types of algorithms have the same probability of being chosen.
 
 \item Once a stateless function finishes the execution of a certain number of
   generations, the resulting population is pushed to 
