@@ -599,7 +599,8 @@ docker-compose} version 1.21.0, in Ubuntu Linux 18.04, and Python
 3.7.5 code. Container images and Docker compose file are available at
 (https://hub.docker.com/x/x), and (https://github.com/x/).  The
 experiments were performed with COCO \cite{hansen2016coco} version
-bbob.v15.03 in python, the plots were produced with version 2.3.2.
+{\tt bbob.v15.03} written in Python. Plots shown below were created
+with COCO version 2.3.2.
 
 \begin{figure*}[h!tb]
     \begin{tabular}
@@ -607,7 +608,7 @@ bbob.v15.03 in python, the plots were produced with version 2.3.2.
          c@{\hspace*{-0.00001\textwidth}}
          c@{\hspace*{-0.00001\textwidth}}
         }
-    GA  &  PSO & GA \& PSO\\   
+    GA  &  PSO & GA \& PSO\\
     \includegraphics[width=0.28\textwidth]{GAOnly_f001}&
     \includegraphics[width=0.28\textwidth]{PSOOnly_f001}&
     \includegraphics[width=0.28\textwidth]{GAPSO_f001}\\
@@ -659,22 +660,23 @@ dimension (FEvals/DIM) for the functions used in this paper. } \label{fig:bbob2}
 \section{Results}
 \label{results}
 
-The results are shown in Figure \ref{fig:bbob}, where we can see how
-the runtime scales with dimension, for reaching certain target values $\Delta f$;
-% Please check that this is true - JJ
-% One compares between our own multi-populations the other against the rest 
-% and only for the hardest target 10^(-8) - Mario
-% The last one, shows #FE vs Percentege of $10^{-8}$ targets reached
-% Our GA-PSO reaches almost all targets, but takes more #FE than others
-% That is why appears on top. It reaches but takes more evals on average.
-% So please fix that... - JJ
-% ping here - JJ
-% TO DO - M
-% Was fixed in another commit - M
-line colors indicate the average runtime for targets reached
-at least one time. A red circle without a number on top indicates the algorithm
+Our main intention here is to show how the combination of two kinds of
+population-based algorithms is able to outperform single-algorithm
+versions of the same method. We will run the BBOB benchmarks for the
+five selected functions. These functions, even if they are not the
+full range of BBOB benchmarsk, are a sufficiently diverse set and are
+able to find differences in performance between the two
+single-algorithm methods and the mixed algorithm we are focusing on
+this paper. These functions have also been used in
+\cite{GARCIAVALDEZ2021234:anon}, which can also be used for comparison.
+
+\autoref{fig:bbob} shows the classical COCO comparison, which is
+related to the number of evaluations needed to reach the target values
+$\Delta f$. Line colors indicate the average of FEs for targets reached
+at least one time, while a red circle without a number on top indicates the algorithm
 has reached the most difficult target $10^{-8}$ on all instances for that dimension;
-if it has a number, this indicates how many times the target was reached.
+if it has a number, this indicates how many times the target was
+reached.
 Values of targets $\Delta f = 10^{k}$ with $k$ colors are
 given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. 
 Each column presents the results for GA, PSO, and GA\&PSO methods.
