@@ -345,7 +345,7 @@ of populations. We have considered these requirements and, in this
 paper, propose a cloud-native hybrid-algorithm, multi-population
 solution. In this model, populations are the primary data structures,
 and we package them as messages that are part of a continuous stream
-flow from one computing node, that performs a kind of allgorithm, to
+flow from one computing node, that performs a kind of algorithm, to
 the next. To achieve this ``continuous stream,'' everything must
 happen asynchronously without. Computing nodes running an algorithm
 ``wake up'' when they receive a message, with no idle time between the
@@ -401,7 +401,7 @@ has been reached.
   that are again pushed to the \texttt{input} queue closing the loop.
   Although this steps corresponds roughly to the classical
 {\em migration}, since it mixes different populations, it is actually
-a selection procecure, since it ranks the individuals of the mixed
+a selection procedure, since it ranks the individuals of the mixed
 population according to fitness and selects the best half of them,
 eventually generating three new populations. Without this step, there
 would be no real parallel algorithm; populations would be sequentially
@@ -657,7 +657,7 @@ Our main intention here is to show how the combination of two kinds of
 population-based algorithms is able to outperform single-algorithm
 versions of the same method. We will run the BBOB benchmarks for the
 five selected functions. These functions, even if they are not the
-full range of BBOB benchmarsk, are a sufficiently diverse set and are
+full range of BBOB benchmarks, are a sufficiently diverse set and are
 able to find differences in performance between the two
 single-algorithm methods and the mixed algorithm we are focusing on
 this paper. These functions have also been used in
@@ -750,7 +750,7 @@ al. \cite{garcia2009noiseless},
 and the BIPOP-CMA-ES algorithm \cite{hansen2009benchmarking} by Hansen, this last algorithm has the
 best overall ($f_1-f_2$) performance on the BBOB-2009 benchmark,
 as it  could solve 23, 22 and 20 functions out of 24 in dimensions 10, 20 and
-40, respectively.  The algorith uses two interlaced restart strategies, 
+40, respectively.  The algorithm uses two interlaced restart strategies, 
 one with an increasing population size and one with varying small population sizes using
 a covariance matrix adaptation evolution strategy (CMA-ES).
 We also compare with two methods that are not population-based, but univariate
