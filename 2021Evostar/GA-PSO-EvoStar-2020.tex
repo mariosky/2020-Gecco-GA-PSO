@@ -687,7 +687,8 @@ $10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
 performance in 20 and 40 dimensions. However, it's quite competitive for $f_5$
 where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
 dimensions. As indicated in \cite{hansen2009real}, this function shows
-the ability of the algorithm to adapt the size of changes and also be
+the ability of the algorithm to adapt the size of changes in
+individual solutions and also be
 able to get out of a local optimum; a GA is able to perform reasonably
 well (and definitely better than on the other functions).
 The multi-population PSO on the other hand (shown in the middle column),
@@ -730,12 +731,19 @@ but it has the best overall runtime for the lower dimensions of $f_5$.
   \label{fig:avg}
 \end{figure}
 %
-Finally, the proposed PSO\&GA multi-strategy method reaches the most difficult $10^{-8}$ target
-on all functions ($f_1-f_5$) scaling well to higher dimensions, even
-on $f_3$ and $f_4$ (charts on the last row), which are usually
-considered difficult functions \cite{hansen2010comparing}.  % Maybe a reference for this? - JJ
-% I will add the paper of BBOB results showing less algorithms finding the solution.
-% Reference added - M
+Finally, the proposed PSO\&GA mixed-algorithm method, shown on the
+rightmost column in \autoref{fig:bbob}, reaches the most difficult $10^{-8}$ target
+for all functions ($f_1-f_5$) scaling well to higher dimensions, even
+on $f_3$ and $f_4$, which are usually
+considered difficult functions \cite{hansen2010comparing}. Please bear
+in mind that the scale of the $y$ axis, corresponding to the number of
+evaluations, has a smaller span in this column, in some cases two
+orders of magnitude less than for the single-algorithm methods, thus
+showing a more robust, and consistently higher, performance. % I have
+                                % added this discussion. Please check
+                                % it - JJ
+
+
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows
 how the runtime scales with dimension to reach the most difficult target
