@@ -676,23 +676,23 @@ $\Delta f$. Line colors indicate the average of FEs for targets reached
 at least one time, while a red circle without a number on top indicates the algorithm
 has reached the most difficult target $10^{-8}$ on all instances for that dimension;
 if it has a number, this indicates how many times the target was
-reached.
-Values of targets $\Delta f = 10^{k}$ with $k$ colors are
-given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. 
+reached. For instance, you can see numbers in $f_2$ to $f_5$ for the
+evolutionary algorithm, implying there are, in fact, few cases where
+the target was reached, for instance, just 1 for dimension = 10,
+$\delta_f = 10^{-3}$ and $f_2$. Values of targets $\Delta f = 10^{k}$ with $k$ colors are
+given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$.
 Each column presents the results for GA, PSO, and GA\&PSO methods.
-The GA algorithm (on the left column) has more difficulty even to reach the
+In general, and in this framework, the GA (on the left column) hardly reaches even the
 $10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
-performance in 20 and 40 dimensions. It performs better on function five $f_5$
+performance in 20 and 40 dimensions. However, it's quite competitive for $f_5$
 where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
-dimensions. 
-
-            % Maybe some comments on why these 5 functions and what
-            % makes f5 special? - JJ
-            % This was mentioned earlier, F5 I think is more deceptive, but I'm not sure will check that - M   
-            % TO DO
-The multi-population PSO on the other hand (shown in the middle),
-has better performance; reaching all targets for functions $f_1$ and $f_2$ but 
-it has a higher runtime in most cases when compared against the multi-strategy method. 
+dimensions. As indicated in \cite{hansen2009real}, this function shows
+the ability of the algorithm to adapt the size of changes and also be
+able to get out of a local optimum; a GA is able to perform reasonably
+well (and definitely better than on the other functions).
+The multi-population PSO on the other hand (shown in the middle column),
+has, in general, better performance, reaching all targets for
+functions $f_1$ and $f_2$; however it needs a high number of evaluations.
 PSO is not able to reach the $10^{-8}$ target on functions $f_3$ and $f_4$ for higher dimensions; 
 but it has the best overall runtime for the lower dimensions of $f_5$.
 
