@@ -790,19 +790,25 @@ higher dimensions, the GA-PSO multi-population gives competitive results by
 reaching all targets within budget. The Brent-STEP algorithm did not provide
 results for 40D.
 
-\section{Conclusions and future lines of work}
+\section{Conclusions, discussion and future lines of work}
 \label{conclusions}
 
-In this paper we have presented a new method that uses concurrent,
-cloud native methods to evolve populations using a mix of different algorithms.
-Populations and evolution (or any other kind of
-change) are totally decoupled, and its processing is stateless, which
-makes possible to create a mixture of processing algorithms that work
+A common element of different population based metaheuristics, namely,
+the population itself, has made the application of different
+algorithms relatively easy by decoupling the algorithms from the
+population. In \cite{GARCIAVALDEZ2021234:anon} we showed how this
+could be used in a cloud native framework; this paper scales back the
+functionality showing a more basic mixed-algorithm, stateless and
+concurrent implementation that combines off-the-shelf open source
+libraries to create a higher level optimization framework that can be
+easily deployed locally or on the cloud. The fact that populations and evolution (or any other kind of
+change) are totally decoupled and the processing of every population
+is stateless enables the creation create a mixture of processing algorithms that work
 asynchronously (and possibly concurrently) and in a way that's totally
-independent of each other. More methods can be added to the mix by simply 
-adding another stateless function that listens to the population queue.
-% Clarify "possibly" - JJ
-% Don -M
+independent of each other. More methods can be added to the mix by simply
+adding another stateless function that listens to the population queue
+and writes back to it.
+
 
 % A paragraph trying to explain results, looking at the results for
 % different functions. Why does it work better? Does it really
@@ -817,27 +823,23 @@ authors in hybrid algorithms, except that, in this case, the architecture is dif
 there are improvements all across the tested functions; besides,
 results are better than results that have been published for other
 algorithms, including a hybrid one, making the hybrid PSO/GA a firm
-contender in the function optimization arena. % Probably add a bit of more stuff here, like ...
+contender in the function optimization arena.
 It is interesting to note that this is done despite mixing both
 algorithms in a totally random way, so that it's really impossible to
 know whether an individual population will be processed by a GA or
 PSO, or how many cycles of each has undergone. The migration process,
 however, guarantees a mixing of results and is probably the key to the
-ultimate success of the algorithm proposed here. % Check that this
-                                % seems reasonable - JJ
-                                % looks good - M
+ultimate success of the algorithm proposed here.
 
 As future lines of work, we will try to add different
 population-based, data-compatible algorithms to the mix, to see what
 kind of results they obtain and what could possible be the best
-possible mix. A way of automatically scaling to get the number of
-nodes needed would also be a very interesting feature.
-An extensive study on the real effects of the mix of algorithms should
-also be performed, with a theoretical basis if possible, using the
+possible mix. An extensive study on the real effects of the mix of
+algorithms should also be performed, with a theoretical basis if possible, using the
 size of the basins of attractions, for instance, or how different
-algorithms move along the fitness landscape. We can also measure how 
+algorithms move along the fitness landscape. We can also measure how
 diversity is maintained by the combination of methods and random parameters,
-and propose new ways to adapt this diversity to the state of the search. 
+and propose new ways to adapt this diversity to the state of the search.
 
 \section*{Acknowledgments}
 The authors would also like to thank the anonymous referees for
