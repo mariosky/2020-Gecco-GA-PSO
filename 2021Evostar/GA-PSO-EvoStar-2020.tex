@@ -351,39 +351,35 @@ happen asynchronously without. Computing nodes running an algorithm
 ``wake up'' when they receive a message, with no idle time between the
 processing of messages arriving from the stream.
 
-We have implemented this streaming functionality by using a message
-queue system, whose general architecture is shown in Figure
-\ref{fig:kafkeo}. We can explain the model by using an analogy of
+We implemented this streaming functionality by using a message
+queue system, we show the architecture in Figure
+\ref{fig:kafkeo}. The main components of the architecture are 
 producers and consumers of messages. There are two queues, one labeled
 \texttt{input}, which mainly holds populations that are going to be
 evolved, and the other called \texttt{output} which is where algorithm
 nodes send their population messages. In a queue, {\em push}
-operations are represented by solid arrows connecting to the left side
-and pull or pop operations as solid arrows leaving from the right
+operations are shown as arrows entering to the left side
+and pull or pop operations as arrows leaving from the right
 side. The \texttt{controller} process, is responsible for the
 migration of individuals from one population to the other, and keeping
-track of the iterations of the algorithm. There is at least one
-\texttt{stateless function} worker process responsible for running the
-isolated algorithms. The two processes \texttt{PSO} and \texttt{GA},
-are shown in red. We can follow the path of messages as follows:
+track of the iterations of the algorithm. There should be at least one
+\texttt{stateless function} worker responsible for running an isolated algorithm.
+In this case, there are two isolated processes \texttt{PSO} and \texttt{GA},
+shown in red. The stream of messages follows the path explained next:
 
 \begin{enumerate}
 
-\item In this step, the specified number of populations are created according
-to the configuration. Populations at this moment are just static data messages,
-including each individual inside. Each population includes a metadata section
-where its algorithm and execution parameters are specified. For instance, for a
-GA, the mutation rate, type of crossover operator, and other values are
-indicated.
+\item As a first step, a specified number of populations is created. 
+At first populations are just data, that includes randomly created individuals.
+Each populations has its corresponding metadata section with the algorithm's parameters.
+For instance, the parameters for a GA, include the mutation rate, the type of crossover, among others.
 
 \item The setup process pushes each population on to the \texttt{input}
-queue so that they can be consumed by stateless functions responsible for the
-execution of the search.
+queue, this queue in turn is consumed by all the \texttt{stateless functions} executing 
+the search algorithms.
 
-\item One or more \texttt{stateless functions} are constantly pulling
-population messages from the \texttt{input} queue. These functions have the
-task of executing the optimization algorithm. They take the current state of
-the population and run the specified algorithm for a certain number of
+\item These functions have the task of executing the optimization algorithm, taking the 
+current state of the population to run the algorithm for a specified number of
 iterations. When creating a population message, the setup function randomly
 selects an optimization algorithm and parameters. These parameters
 are part of the population's metadata read by the stateless
@@ -394,21 +390,20 @@ types of algorithms have the same probability of been chosen. % What
                                 % algorithm is chosen? 
                                 % Answered above - M 
 
-\item Once a stateless function finishes the execution of a pre-fixed number of
-  generations, the resulting population is pushed to
+\item Once a stateless function finishes the execution of a certain number of
+  generations, the resulting population is pushed to 
 the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
-\item The \texttt{controller} pulls populations from the \texttt{output} queue,
-inspects the metadata describing the current state of the populations, and if
-the algorithm has found an optimal solution or the maximum number of iteration
-has been reached it stops the execution.
+\item The \texttt{controller} takes populations from the \texttt{output} queue,
+logs the metadata of the current state of each population, and it stops the execution
+of the algorithm if an optimal solution has been found or a maximum number of iteration
+has been reached.
 
-\item Otherwise, it passes the stream of messages to a ``migration'' function,
-  where populations are mixed. It generates new populations, and they are
-again pushed to the \texttt{input} queue to continue in a loop. The
-\texttt{controller} is also responsible for logging the
-metadata. Although this steps corresponds roughly to the classical
+\item If not, it sends the incoming messages to a ``migration'' function,
+  responsible for mixing the populations. This function generates new populations,
+  that are again pushed to the \texttt{input} queue closing the loop.
+  Although this steps corresponds roughly to the classical
 {\em migration}, since it mixes different populations, it is actually
 a selection procecure, since it ranks the individuals of the mixed
 population according to fitness and selects the best half of them,
@@ -418,19 +413,16 @@ processed by different algorithms, though.
 
 \end{enumerate}
 
-This message queue pattern is an essential component of a highly
-scalable reactive architecture; one of the reasons for this
-scalability is the use of stateless functions that have no secondary
-effects, or the need to read data from an external entity. Stateless
+This message queue pattern is a common component of highly
+scalable reactive architectures; one of the reasons for this
+scalability is the use of stateless functions. Stateless
 functions do not need to read, keep, or modify data outside of the
 scope of the method, it will have no side effects reading inputs and
 producing an output, mapping input to output as it were. If we
 implement population-based optimization algorithms using stateless
 functions, then to the system, there is no difference between having
 one or many copies of the same function pulling work from the queue
-all at the same time, because there are no unwanted side effects,
-including problems of resource locking resulting from this
-concurrency. This architecture has been implemented successfully for
+all at the same time. This architecture has been implemented successfully for
 developing cloud-native multi-population algorithms, using serverless
 functions \cite{garcia2018modern}, and concurrent programming
 \cite{guervos2019improving}.
@@ -488,10 +480,10 @@ measure the performance of this hybrid algorithm. We will do this next.
 \label{setup}
 
 In this section, we present the experimental setup needed 
-to verify if having a multi-population algorithm, with asynchronous
-heterogeneous populations and the support for mixing search strategies,
-increases the performance of single-algorithm search by needing fewer function evaluations
-than a homogeneous setting. % Maybe say something about the parallel
+to verify if a multi-population algorithm, using asynchronous
+heterogeneous populations with a migration procedure, has better performance 
+than a single homogeneous algorithm method, needing fewer function evaluations to 
+reach a solution. % Maybe say something about the parallel
                             % setup too? - JJ
                             % added the async - Mario
 
@@ -524,26 +516,17 @@ for $D = 2$, \#FEs is $200,000$).
 %repository\footnote{\url{https://coco.gforge.inria.fr/doku.php?id=algorithms-bbob}}
 %of more than 200 results for the noiseless BBOB testbed, collected from BBOB
 %workshops and special sessions between the years 2009 and 2019.
-To test the heterogeneous multi-population capabilities, we have compared the aRT between a
-homogeneous and an ensemble of multi-populations, using Genetic Algorithms
+To test our proposal, we compare the aRT between 
+an ensemble of multi-populations,  and single version algorithms using Genetic Algorithms
 (GAs) and Particle Swarm Optimization (PSO).
 
-We have used the DEAP framework for the
-GA stateless function \cite{fortin2012deap} and the EvoloPy library
-\cite{faris2016evolopy} for the PSO algorithm function. 
-We selected these libraries because they are open source
-and written in python, and easily deployable in our 
-framework or in the cloud.  
+We use DEAP \cite{fortin2012deap}, to implement the GA stateless function and the EvoloPy library
+\cite{faris2016evolopy} for the PSO algorithm function. We selected these libraries because they are open source
+and written in python, and easily deployable in our  framework or in the cloud.  
 We show the parameters for each algorithm in Table \ref{tab:GAparams};
-these were obtained by following a
-method proposed by García et al. in \cite{garcia2017benchmarking:anon}. First, we
-tested the parameters for the Rastrigin separable function with five
-dimensions. After about fifteen experiments, the most challenging targets were
-achieved for this particular function. We tested again with functions one to
-three, and after obtaining favorable results, we set the PSO and GA algorithm
-parameters. We have set the mutation and crossover probabilities of the GA randomly
-to have heterogeneous populations; and also less parameters to tune,
-we did not follow the same tactic for PSO, as we choose the same parameters
+these were obtained by following a method proposed by García et al. in \cite{garcia2017benchmarking:anon}. 
+We randomly set mutation and crossover probabilities for the GA with the goal of having more heterogeneous populations; 
+and also for having less parameters to tune. We did not follow the same tactic for PSO, as we choose the same parameters
 as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009blackHybrid}.   
                                 % and also less parameters to tune?
                                 % Why didn't you do the same for PSO?
@@ -680,8 +663,8 @@ dimension (FEvals/DIM) for separable functions.
 \section{Results}
 \label{results}
 
-The results obtained by the experiments show (see Figure \ref{fig:bbob}) how
-the runtime scales with dimension to reach certain target values $\Delta f$;
+The results are shown in Figure \ref{fig:bbob}, where we can see how
+the runtime scales with dimension, for reaching certain target values $\Delta f$;
 % Please check that this is true - JJ
 % One compares between our own multi-populations the other against the rest 
 % and only for the hardest target 10^(-8) - Mario
@@ -692,30 +675,28 @@ the runtime scales with dimension to reach certain target values $\Delta f$;
 % ping here - JJ
 % TO DO - M
 % Was fixed in another commit - M
-the color of the lines indicates the average runtime, for each target reached
+line colors indicate the average runtime for targets reached
 at least one time. A red circle without a number on top indicates the algorithm
-has reached the $10^{-8}$ target on all instances for that dimension;
-if it has a number, it indicates how many times the algorithm has reached
-the target. Fixed values of targets $\Delta f = 10^{k}$ with $k$ colors are
-given in the legend of $f_1$, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. Results
-from each configuration are presented in each column, GA, PSO, and GA\&PSO
-populations.
-We can see that the GA algorithm (on the left-most column) has a hard time reaching even the
-$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and yields the worst
-performance in 20 and 40 dimensions. Finally, it performs better on $f_5$
-reaching the $10^{-8}$ on all dimensions but with a higher runtime on lower
+has reached the most difficult target $10^{-8}$ on all instances for that dimension;
+if it has a number, this indicates how many times the target was reached.
+Values of targets $\Delta f = 10^{k}$ with $k$ colors are
+given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$. 
+Each column presents the results for GA, PSO, and GA\&PSO methods.
+The GA algorithm (on the left column) has more difficulty even to reach the
+$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
+performance in 20 and 40 dimensions. It performs better on function five $f_5$
+where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
 dimensions. 
 
             % Maybe some comments on why these 5 functions and what
             % makes f5 special? - JJ
             % This was mentioned earlier, F5 I think is more deceptive, but I'm not sure will check that - M   
             % TO DO
-On the other hand, the multi-population PSO (shown in the column on the middle)
-has better performance; its results are less spread
-reaching all targets for functions $f_1$ and $f_2$ but with a slightly higher
-runtime than the multi-strategy configuration. It is not able to reach the
-$10^{-8}$ target on the higher dimensions of $f_3$ and $f_4$. Moreover, the PSO
-multi-population has the best runtime for the lower dimensions of $f_5$.
+The multi-population PSO on the other hand (shown in the middle),
+has better performance; reaching all targets for functions $f_1$ and $f_2$ but 
+it has a higher runtime in most cases when compared against the multi-strategy method. 
+PSO is not able to reach the $10^{-8}$ target on functions $f_3$ and $f_4$ for higher dimensions; 
+but it has the best overall runtime for the lower dimensions of $f_5$.
 
 \begin{figure}[h!tb]
   \begin{tabular}
@@ -752,9 +733,9 @@ multi-population has the best runtime for the lower dimensions of $f_5$.
   \label{fig:avg}
 \end{figure}
 %
-Finally, the proposed PSO\&GA mixed algorithm has reached the $10^{-8}$ target
-value on all functions ($f_1-f_5$) and scales well to higher dimensions, even
-on $f_3$ and $f_4$ (charts on the lower rows), which are usually
+Finally, the proposed PSO\&GA multi-strategy method reaches the most difficult $10^{-8}$ target
+on all functions ($f_1-f_5$) scaling well to higher dimensions, even
+on $f_3$ and $f_4$ (charts on the last row), which are usually
 considered difficult functions \cite{hansen2010comparing}.  % Maybe a reference for this? - JJ
 % I will add the paper of BBOB results showing less algorithms finding the solution.
 % Reference added - M
