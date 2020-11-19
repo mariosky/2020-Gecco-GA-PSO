@@ -30,7 +30,9 @@
 
 
 \begin{document}
-\title{Event-driven multi-population optimization: mixing Swarm and Evolutionary strategies}
+\title{Event-driven multi-population optimization: mixing Swarm and
+  Evolutionary strategies}
+\titlerunning{Event-driven multi-population optimization}
 \author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
 Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
 Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
@@ -184,10 +186,6 @@ PSO method creates new candidate solutions by moving towards promising
 candidates, while a GA interchanges portions of solutions with better fitness.
 This line of research can bring light to the type of benefits this type of
 mixing can bring to the field.
-% We should make a stronger statement on why
-                        % we are going to do this here. It's the first
-                        % mention, it should be a bit stronger. - JJ
-% Added a paragraph - M
 Our hypothesis here is that expanding the search space exploration
 capabilities of the algorithm by mixing different algorithms might on
 one hand reduce the need to fine-tune single-algorithm parameters,
@@ -508,7 +506,7 @@ uses these 15 instances over 2, 3, 5, 10, 20, and
 40 dimensions. With the maximum number of function evaluations (\#FEs)
 increasing with the dimension (D), using the expression $10^5 \cdot D$ (i.e.
 for $D = 2$, \#FEs is $200,000$).
-
+%
 % Not that important removing for space - M
 %The COCO framework offers several tools to compare the performance of
 %algorithms, generating data sets, tables, and reports for an experiment, we have
@@ -520,22 +518,22 @@ To test our proposal, we compare the aRT between
 an ensemble of multi-populations,  and single version algorithms using Genetic Algorithms
 (GAs) and Particle Swarm Optimization (PSO).
 
-We use DEAP \cite{fortin2012deap}, to implement the GA stateless function and the EvoloPy library
-\cite{faris2016evolopy} for the PSO algorithm function. We selected these libraries because they are open source
-and written in python, and easily deployable in our  framework or in the cloud.  
-We show the parameters for each algorithm in Table \ref{tab:GAparams};
-these were obtained by following a method proposed by García et al. in \cite{garcia2017benchmarking:anon}. 
-We randomly set mutation and crossover probabilities for the GA with the goal of having more heterogeneous populations; 
-and also for having less parameters to tune. We did not follow the same tactic for PSO, as we choose the same parameters
-as those proposed by El-Abd and Kamel in the PSO implementation for the BBOB benchmark \cite{el2009blackHybrid}.   
-                                % and also less parameters to tune?
-                                % Why didn't you do the same for PSO?
-                                % - JJ
-                                % Mentioned above and there is no answer for why not doing the 
-                                % same for PSO, I missed that - M 
-the entry in the Table shows the range of these
-parameters. We have not changed these settings during the experiments, and we have
-only provided the population size and number of generations as parameters.
+The stateless GA function is implemented using DEAP
+\cite{fortin2012deap}, while the PSO algorithm uses EvoloPy
+\cite{faris2016evolopy}. These libraries are free software written in
+Python, and easily deployable in our framework or in the cloud.  We
+show the parameters for each algorithm in Table \ref{tab:GAparams};
+these were obtained by following a method proposed by García et al. in
+\cite{garcia2017benchmarking:anon} and have been also used in
+\cite{GARCIAVALDEZ2021234:anon}. We randomly (within the range shown
+in the table) set mutation and crossover probabilities for the GA with
+the goal of having more diverse populations and less parameters to
+tune. We did not follow the same tactic for PSO, as we choose the same
+parameters as those proposed by El-Abd and Kamel in the PSO
+implementation for the BBOB benchmark \cite{el2009blackHybrid}. We
+have not changed these settings during the experiments, and we have
+only provided the population size and number of generations as
+parameters.
 
 \begin{table}
   \small
@@ -556,25 +554,25 @@ only provided the population size and number of generations as parameters.
 
 To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
-earlier, and a total of 10 populations. % Maybe quote our FGCS paper?
-                                % - JJ
-                                % TODO - M
-Table \ref{tab:params:10} shows the parameters we have used. The {\em
+earlier, and a total of 10 populations. This setup is similar, and in
+fact precedes, the one published in \cite{GARCIAVALDEZ2021234:anon}.
+\autoref{tab:params:10} shows the parameters we have used (which
+also match the ones used in \cite{GARCIAVALDEZ2021234:anon}. The {\em
 GA-PSO Ratio} parameter specifies the proportion of populations that
 will be processed using the GA algorithm, with $0$ indicating all
 populations will run a PSO algorithm, and with $0.5$ the same
 proportion of PSO and GA populations, and GA only it is specified with
 $1$. We have specified that the experiment will use only the first
-five functions. We have used 15 instances, because this is the
-standard for the BBOB benchmark \cite{hansen2016coco}.  The list of
+five functions. We have used the
+standard number of instances in the BBOB benchmark
+\cite{hansen2016coco}, 15. The list of
 dimensions that we have tested is in the {\em Dimensions} parameter.
 Then, we have defined for each dimension: the number of populations,
 and for each population, the number of generations and population
 size. Finally, we have defined how many complete loops the algorithm
 will perform. The product of these parameters gives us a maximum
 \#FEs. For example, for $D = 2$, the maximum number of evaluations is
-$200,000$, this is the same as the product of the parameters, that is
-$40*50*10*10$.
+$200,000$, which is equal to $40*50*10*10$ (first column in \autoref{tab:params:10}).
 
 \begin{table}[h!tb]
   \small
