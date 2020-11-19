@@ -361,7 +361,7 @@ and pull or pop operations as arrows leaving from the right
 side. The \texttt{controller} process, is responsible for the
 migration of individuals from one population to the other, and keeping
 track of the iterations of the algorithm. There should be at least one
-\texttt{stateless function} worker responsible for running an isolated algorithm.
+\texttt{stateless\_function} worker responsible for running an isolated algorithm.
 In this case, there are two isolated processes \texttt{PSO} and \texttt{GA},
 shown in red. The stream of messages follows the path explained next:
 
@@ -373,7 +373,7 @@ Each populations has its corresponding metadata section with the algorithm's par
 For instance, the parameters for a GA, include the mutation rate, the type of crossover, among others.
 
 \item The setup process pushes each population on to the \texttt{input}
-queue, this queue in turn is consumed by all the \texttt{stateless functions} executing 
+queue, this queue in turn is consumed by all the \texttt{stateless\_functions} executing 
 the search algorithms.
 
 \item These functions have the task of executing the optimization algorithm, taking the 
