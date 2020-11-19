@@ -329,7 +329,7 @@ what we are going to do in this paper.
 \label{method}
 %
 \begin{figure*}[h!tb]
-\includegraphics[width=5in]{../images/kafkeo}
+\includegraphics[width=4.5in]{../images/kafkeo}
 \caption{General scheme of the architecture of this method. Please
   refer to text for the explanation of the different numbers.}
 \label{fig:kafkeo}
@@ -556,18 +556,13 @@ To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
 earlier, and a total of 10 populations. This setup is similar, and in
 fact precedes, the one published in \cite{GARCIAVALDEZ2021234:anon}.
-\autoref{tab:params:10} shows the parameters we have used (which
-also match the ones used in \cite{GARCIAVALDEZ2021234:anon}. The {\em
+\autoref{tab:params:10} shows the parameters we have used (from \cite{GARCIAVALDEZ2021234:anon}). The {\em
 GA-PSO Ratio} parameter specifies the proportion of populations that
-will be processed using the GA algorithm, with $0$ indicating all
-populations will run a PSO algorithm, and with $0.5$ the same
-proportion of PSO and GA populations, and GA only it is specified with
-$1$. We have specified that the experiment will use only the first
-five functions. We have used the
+will be processed using the GA algorithm. We have used the
 standard number of instances in the BBOB benchmark
-\cite{hansen2016coco}, 15. The list of
-dimensions that we have tested is in the {\em Dimensions} parameter.
-Then, we have defined for each dimension: the number of populations,
+\cite{hansen2016coco}, 15 and $f_1$ to $f_5$. The list of
+dimensions that we have tested is in the {\em Dimensions} parameter;
+for each dimension, the number of populations;
 and for each population, the number of generations and population
 size. Finally, we have defined how many complete loops the algorithm
 will perform. The product of these parameters gives us a maximum
@@ -739,9 +734,7 @@ considered difficult functions \cite{hansen2010comparing}. Please bear
 in mind that the scale of the $y$ axis, corresponding to the number of
 evaluations, has a smaller span in this column, in some cases two
 orders of magnitude less than for the single-algorithm methods, thus
-showing a more robust, and consistently higher, performance. % I have
-                                % added this discussion. Please check
-                                % it - JJ
+showing a more robust, and consistently higher, performance.
 
 
 These results are also competitive when compared against other GA and PSO
