@@ -516,8 +516,8 @@ The stateless GA function is implemented using DEAP
 Python, and easily deployable in our framework or in the cloud.  We
 show the parameters for each algorithm in Table \ref{tab:GAparams};
 these were obtained by following a method proposed by García et al. in
-\cite{garcia2017benchmarking:anon} and have been also used in
-\cite{GARCIAVALDEZ2021234:anon}. We randomly (within the range shown
+\cite{garcia2017benchmarking} and have been also used in
+\cite{GARCIAVALDEZ2021234}. We randomly (within the range shown
 in the table) set mutation and crossover probabilities for the GA with
 the goal of having more diverse populations and less parameters to
 tune. We did not follow the same tactic for PSO, as we choose the same
@@ -547,8 +547,8 @@ parameters.
 To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
 earlier, and a total of 10 populations. This setup is similar, and in
-fact precedes, the one published in \cite{GARCIAVALDEZ2021234:anon}.
-\autoref{tab:params:10} shows the parameters we have used (from \cite{GARCIAVALDEZ2021234:anon}). 
+fact precedes, the one published in \cite{GARCIAVALDEZ2021234}.
+\autoref{tab:params:10} shows the parameters we have used (from \cite{GARCIAVALDEZ2021234}). 
 The proportion of populations using the GA algorithm against the PSO is given by the parameter {\em
 GA-PSO Ratio}. 
 We have used the standard number of instances in the BBOB benchmark
@@ -655,7 +655,7 @@ full range of BBOB benchmarks, are a sufficiently diverse set and are
 able to find differences in performance between the two
 single-algorithm methods and the mixed algorithm we are focusing on
 this paper. These functions have also been used in
-\cite{GARCIAVALDEZ2021234:anon}, which can also be used for comparison.
+\cite{GARCIAVALDEZ2021234}, which can also be used for comparison.
 
 \autoref{fig:bbob} shows the classical COCO comparison, which is
 related to the \#FE needed to reach target values
@@ -718,11 +718,11 @@ but for dimensions $2$, $3$, and $5$ of $f_5$ achieves the best runtime.
   \label{fig:avg}
 \end{figure}
 %
-Finnally, the PSO\&GA multi-population algorithm, shown in the
+Finally, the PSO\&GA multi-population algorithm, shown in the
 right column see \autoref{fig:bbob}, reaches the most difficult $10^{-8}$ target
 for all functions ($f_1-f_5$) scaling well to higher dimensions, even
 on $f_3$ and $f_4$, which are usually
-considered difficult functions \cite{hansen2010comparing}. Please bear
+considered difficult functions \cite{hansen2010bbob}. Please bear
 in mind that the scale of the $y$ axis, corresponding to the number of
 evaluations, has a smaller span in this column, in some cases two
 orders of magnitude less than for the single-algorithm methods, thus
@@ -782,7 +782,7 @@ results for 40D.
 A common element of different population based metaheuristics, namely,
 the population itself, has made the application of different
 algorithms relatively easy by decoupling the algorithms from the
-population. In \cite{GARCIAVALDEZ2021234:anon} we showed how this
+population. In \cite{GARCIAVALDEZ2021234} we showed how this
 could be used in a cloud native framework; this paper scales back the
 functionality showing a more basic mixed-algorithm, stateless and
 concurrent implementation that combines off-the-shelf open source
