@@ -49,9 +49,10 @@ University of Granada, Granada, Spain\\
 %
 \begin{abstract}
 
-Researchers in the field of nature-inspired optimization have recently
-proposed multi-population asynchronous algorithms that distribute the
-evolutionary process among heterogeneous search paradigms. These
+Researchers in nature-inspired optimization have recently
+proposed multi-population asynchronous algorithms that split the 
+evolutionary process between different search 
+paradigms working in collaboration. These
 algorithms execute the optimization strategy by reading streams of
 messages containing solution populations from message queues. After
 searching for a small number of iterations, new evolved populations
@@ -66,13 +67,13 @@ the asynchronous processing of multi-population, multi-strategy
 algorithms that achieves an improvement over homogeneous
 configurations. We evaluate this method by comparing a heterogeneous
 ensemble of multi-populations against a homogeneous solution
-consisting of Genetic Algorithms (GAs) and Particle Swarm Optimization
-(PSO) populations. We evaluate both solutions using five problems from
-the noiseless BBOB testbed for the optimization of continuous
+consisting of a Genetic Algorithm (GA) and Particle Swarm Optimization
+(PSO) populations, using five problems from
+the noiseless BBOB toolbox for the optimization of continuous
 functions. Results show that compared with other asynchronous
 homogeneous population-based algorithms, this method offers better
-performance in terms of the number of evaluations needed to find a
-solution and the number of instances where it found it.
+performance concerning the maximum number of evaluations needed to find a
+solution and the number runs where it found it.
 
 \keywords{heterogeneous multi-population algorithms  \and genetic algorithms
  \and cloud-native systems.}
@@ -132,20 +133,19 @@ This fact, together with the a priori ease of simultaneous evaluation
 of different segments of the population, have spawned proposals of
 some form of parallelization from the start
 \cite{muhlenbein1988evolution} to decrease their execution time, at
-least in the area of evolutionary algorithms. One of the first
-parallelization methods was the island model, which led to an
-increased performance
+least in the area of evolutionary algorithms. One of the earliest 
+parallelization methods was the island model, which led to increased performance
 \cite{gorges1990explicit,grosso1985computer}. The idea was to divide
 the population into smaller segments that interacted with each
-other. Since then, other researchers have adopted the idea and found
-additional advantages besides a reduced execution speed; these include
-avoiding a premature convergence and maintaining the global
+other. Since then, other researchers have borrowed the concept and found
+other advantages besides a reduced execution time; these include
+avoiding an early convergence while maintaining the global
 population's diversity \cite{li2015multi}. We are going to call these
 kinds of methods, multi-population algorithms \cite{Ma2019}. The
 relative isolation in which the Algorithm manages populations,
 together with the synchronous or asynchronous communication, helps
-increase the global diversity since each population searches in a
-distinct area, at least between communications
+increase the global diversity since each population searches over a
+different area, at least between communications
 \cite{li2016multi,wu2016differential}. In some cases, even a
 multi-population based algorithm is able to scale better due to these
 interactions and the operation's parallelism \cite{ALBA20027}.
@@ -155,14 +155,14 @@ implicitly, the same algorithm) in all
 segments (often called {\em demes}) in which the population is
 divided. But this is not really mandatory: Having many populations
 offers researchers many configuration choices and additional
-challenges when designing scalable multi-population algorithms.
-Design options include the size and number of populations, the type of
-communication between them, each population's search area, the search
+challenges when designing scalable algorithms.
+Designers must choose the number of populations and their size, the type of
+communication among them, each population's search area, the search
 strategy, its parametrization, and, of course, the actual algorithm
 that every segment is running. In the literature, we can find several
 heterogeneous mixed-algorithm multi-population methods that integrate
-variations of optimization algorithms, and these often have a better performance
-than single-population or homogeneous multi-population algorithms 
+variations of population-based algorithms, and often, these have a better performance
+than  algorithms using a single-population or homogeneous multi-populations 
 \cite{wu2016differential,nseef2016adaptive}. In this paper,
 we will focus in this aspect, with multiple populations running with
 distinct parameters and optimization algorithms.
@@ -173,9 +173,9 @@ since the space of free parameters (and its possible interactions)
 blows up; some
 parameters influence the solution's accuracy while others affect the convergence
 speed of individual algorithms, tipping the balance between exploring or
-exploiting the solution space. On the other hand, current literature shows that
-having a high number of populations that communicate in parallel
-evens out for the effect of individual population's parameters
+exploiting the solution space. Moreover, current literature shows that
+having a higher number of populations communicating in parallel
+evens out the effect on exploration and exploitation in each individual population
 \cite{li2016multi,tanabe2013evaluation}. We can add some heterogeneity 
 by just altering each population's parameters, but in this work,
 we are interested in evaluating the compensating effect that
@@ -214,8 +214,8 @@ The organization of the paper is as follows: First, in Section \ref{soa} we pres
 the relevant state of the art. In Section \ref{method}, we describe in detail the
 framework used in this work.  Section \ref{setup} describes the design of the empirical
 evaluation we designed to assess the effectiveness of the method, and in Section
-\ref{results}, we report and discuss the results. Finally, we present the
-conclusions of this work and offer suggestions on future work in Section
+\ref{results}, we report and discuss the results. Finally, we present 
+conclusions and offer future work suggestions in Section
 \ref{conclusions}.
 
 \section{State of the Art}
@@ -340,10 +340,10 @@ what we are going to do in this paper.
 As we have mentioned before, when designing efficient multi-population
 algorithms, we need to consider additional issues \cite{Ma2019},
 including the number and size of populations, how they interact or
-communicate between them, and the search strategy and parametrization
-of populations. We have considered these requirements and, in this
-paper, propose a cloud-native hybrid-algorithm, multi-population
-solution. In this model, populations are the primary data structures,
+communicate between them, and the search strategy in each.
+We have considered these requirements and, Considering these requirements, 
+in this paper, we propose a cloud-native hybrid-algorithm, multi-population solution.
+In this model, populations are the primary data structures,
 and we package them as messages that are part of a continuous stream
 flow from one computing node, that performs a kind of algorithm, to
 the next. To achieve this ``continuous stream,'' everything must
@@ -357,52 +357,47 @@ queue system, we show the architecture in Figure
 producers and consumers of messages. There are two queues, one labeled
 \texttt{input}, which mainly holds populations that are going to be
 evolved, and the other called \texttt{output} which is where algorithm
-nodes send their population messages. In a queue, {\em push}
-operations are shown as arrows entering to the left side
-and pull or pop operations as arrows leaving from the right
-side. The \texttt{controller} process, is responsible for the
-migration of individuals from one population to the other, and keeping
-track of the iterations of the algorithm. There should be at least one
-\texttt{stateless\_function} worker responsible for running an isolated algorithm.
-In this case, there are two isolated processes \texttt{PSO} and \texttt{GA},
-shown in red. The stream of messages follows the path explained next:
+nodes send their population messages. In a queue, {\em push} and {\em pop}
+operations are shown as arrows entering or leaving the box. 
+The \texttt{controller} process manages the migration 
+of individuals from one population to the other and keeps 
+track of the algorithm's iterations. 
+In this case, there are two search strategies \texttt{PSO} and \texttt{GA},
+these as red boxes. The stream of messages follows the path explained next:
 
 \begin{enumerate}
 
 \item As a first step, a specified number of populations is created. 
 At first populations are just data, that includes randomly created individuals.
 Each populations has its corresponding metadata section with the algorithm's parameters.
-For instance, the parameters for a GA, include the mutation rate, the type of crossover, among others.
 
 \item The setup process pushes each population on to the \texttt{input}
 queue, this queue in turn is consumed by all the \texttt{stateless\_functions} executing 
 the search algorithms.
 
 \item These functions have the task of executing the optimization algorithm, taking the 
-current state of the population to run the algorithm for a specified number of
-iterations. When creating a population message, the setup function randomly
+the population's current state and running a certain number of iterations.
+When creating a population message, the setup function randomly
 selects an optimization algorithm and parameters. These parameters
 are part of the population's metadata read by the stateless
 functions executing the algorithm. In the current configuration, all
 types of algorithms have the same probability of being chosen.
 
-\item Once a stateless function finishes the execution of a certain number of
-  generations, the resulting population is pushed to 
-the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
+\item Once a stateless function finishes the iterations, the population state 
+ is pushed to the \texttt{output} queue; when the computing node is done with a population, it draws another one from the
 queue.
 
-\item The \texttt{controller} takes populations from the \texttt{output} queue,
-logs the metadata of the current state of each population, and it stops the execution
-of the algorithm if an optimal solution has been found or a maximum number of iteration
-has been reached.
+\item The \texttt{controller} logs the metadata of each population
+pulled from the \texttt{output} queue, it stops the algorithm when reaching 
+a certain solution or when completing all the iterations.
 
 \item If not, it sends the incoming messages to a ``migration'' function,
   responsible for mixing the populations. This function generates new populations,
-  that are again pushed to the \texttt{input} queue closing the loop.
+  that again are pushed to the \texttt{input} queue closing the loop.
   Although this steps corresponds roughly to the classical
 {\em migration}, since it mixes different populations, it is actually
 a selection procedure, since it ranks the individuals of the mixed
-population according to fitness and selects the best half of them,
+population and selects the best half,
 eventually generating three new populations. Without this step, there
 would be no real parallel algorithm; populations would be sequentially
 processed by different algorithms, though.
@@ -414,11 +409,11 @@ scalable reactive architectures; one of the reasons for this
 scalability is the use of stateless functions. Stateless
 functions do not need to read, keep, or modify data outside of the
 scope of the method, it will have no side effects reading inputs and
-producing an output, mapping input to output as it were. If we
+producing an output, mapping input to output as it were. Suppose we
 implement population-based optimization algorithms using stateless
-functions, then to the system, there is no difference between having
-one or many copies of the same function pulling work from the queue
-all at the same time. This architecture has been implemented successfully for
+functions. In that case, the system can handle one or many copies 
+pulling work at the same time. 
+This architecture has been implemented successfully for
 developing cloud-native multi-population algorithms, using serverless
 functions \cite{garcia2018modern}, and concurrent programming
 \cite{guervos2019improving}.
@@ -440,10 +435,10 @@ As the controller is pulling population messages from the output
 queue, it waits until the message queue contains three valid
 populations to trigger an event handled by the
 \texttt{population\_mixer} function, which uses as an argument a list
-containing the three populations. This design has the advantage of not
-needing to keep a buffer in memory or external storage, and following
-the reactive paradigm. A possible disadvantage can be that it only
-mixes populations that have arrived sequentially to the message queue,
+containing the three populations. This design has the advantage of following 
+the reactive paradigm while not needing to keep a buffer
+in memory or external storage. A disadvantage is that it only 
+migrates between populations that have arrived sequentially from the message queue,
 but we could mitigate this with a larger buffer and in fact
 populations do not need to arrive to the buffer in the same order they
 were created or processed, so this shouldn't, in principle, contribute
@@ -458,11 +453,11 @@ functions executing a particular algorithm, we will
 have more messages from one of the algorithms in the
 output queue.
 
-When the \texttt{population\_mixer} unit receives a list of three
-populations, let us say [A, B, C], ranking the union of two
-populations and generating new ones by merging the best half from
-each. Finally, the three generated 
-populations back to the \texttt{input} message queue.
+%When the \texttt{population\_mixer} unit receives three
+%populations, let us say [A, B, C], ranking the union of two
+%populations and generating new ones by merging the best half from
+%each. Finally, the three generated 
+%populations back to the \texttt{input} message queue.
 We will use this set up to perform a series of experiments destined to
 measure the performance of this hybrid algorithm. We will do this next.
 
@@ -498,11 +493,10 @@ general methods \cite{doerr2013evolutionary,swarzberg1994step}.
 
 These functions are real-parameter, single-objective, and are
 usually employed as benchmarks. We have tested with fifteen instances of each
-function, each one having a different optimal value. The standard benchmark of
-the BBOB testbed % which testbed? % BBOB -M
+function, each one having a distinct optimum value. The BBOB testbed % which testbed? % BBOB -M
 uses these 15 instances over 2, 3, 5, 10, 20, and
 40 dimensions. With the maximum number of function evaluations (\#FEs)
-increasing with the dimension (D), using the expression $10^5 \cdot D$ (i.e.
+increasing with dimension (D), using the expression $10^5 \cdot D$ (i.e.
 for $D = 2$, \#FEs is $200,000$).
 %
 % Not that important removing for space - M
@@ -513,8 +507,8 @@ for $D = 2$, \#FEs is $200,000$).
 %of more than 200 results for the noiseless BBOB testbed, collected from BBOB
 %workshops and special sessions between the years 2009 and 2019.
 To test our proposal, we compare the aRT between 
-an ensemble of multi-populations,  and single version algorithms using Genetic Algorithms
-(GAs) and Particle Swarm Optimization (PSO).
+a multi-population ensemble, and standalone versions of GA 
+and PSO algorithms.
 
 The stateless GA function is implemented using DEAP
 \cite{fortin2012deap}, while the PSO algorithm uses EvoloPy
@@ -543,10 +537,10 @@ parameters.
     \hline
     \multicolumn{2}{|c||}{GA} & \multicolumn{2}{c|}{PSO} \\ \hline
     Selection & Tournament size=12 &      $V_{max}$ & 6                  \\ \hline
-    Mutation & Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05 & $W_{max}$ & $0.9$     \\ \hline
-    Mutation Probability & [0.1,0.3] &   $W_{min}$ & $0.2$                      \\ \hline
-    Crossover & Two Point   &       $C_1$ & 2                             \\ \hline
-    Crossover Probability  & [0.2,0.6] & $C_2$ & 2  \\ \hline
+    Mutation Type &  Gaussian $\mu=0.0$, $\sigma=0.5$, indbp=0.05 & $W_{max}$ & $0.9$     \\ \hline
+    Probability of Mutation & [0.1,0.3] &   $W_{min}$ & $0.2$                      \\ \hline
+    Crossover Type & Two-Point   &       $C_1$ & 2                             \\ \hline
+    Probability of Crossover  & [0.2,0.6] & $C_2$ & 2  \\ \hline
   \end{tabular}
 \end{table}
 
@@ -554,18 +548,18 @@ To run the experiments, we have deployed the Docker application with 8 worker
 containers hosting the stateless version of the GA and PSO algorithms described
 earlier, and a total of 10 populations. This setup is similar, and in
 fact precedes, the one published in \cite{GARCIAVALDEZ2021234:anon}.
-\autoref{tab:params:10} shows the parameters we have used (from \cite{GARCIAVALDEZ2021234:anon}). The {\em
-GA-PSO Ratio} parameter specifies the proportion of populations that
-will be processed using the GA algorithm. We have used the
-standard number of instances in the BBOB benchmark
+\autoref{tab:params:10} shows the parameters we have used (from \cite{GARCIAVALDEZ2021234:anon}). 
+The proportion of populations using the GA algorithm against the PSO is given by the parameter {\em
+GA-PSO Ratio}. 
+We have used the standard number of instances in the BBOB benchmark
 \cite{hansen2016coco}, 15 and $f_1$ to $f_5$. The list of
 dimensions that we have tested is in the {\em Dimensions} parameter;
-for each dimension, the number of populations;
-and for each population, the number of generations and population
-size. Finally, we have defined how many complete loops the algorithm
+for every dimension, we must specify the number of populations;
+together with the number of generations and population
+size for each population. Finally, we have defined how many complete loops the algorithm
 will perform. The product of these parameters gives us a maximum
-\#FEs. For example, for $D = 2$, the maximum number of evaluations is
-$200,000$, which is equal to $40*50*10*10$ (first column in \autoref{tab:params:10}).
+\#FEs. For example, for $D = 2$, the \#FEs is
+$200,000$ (see first column in \autoref{tab:params:10}).
 
 \begin{table}[h!tb]
   \small
@@ -585,15 +579,15 @@ $200,000$, which is equal to $40*50*10*10$ (first column in \autoref{tab:params:
   \end{tabular}
 \end{table}
 
-We have deployed the container-based application in a Desktop PC with
-AMD Ryzen 9 3900x 12-core processor with 24 threads and 16 GB RAM. We
-used Docker version 19.03.3, build a872fc2f86, and {\tt
+We have deployed the container-based application in a PC with
+an AMD Ryzen9 3900x with a 12-core CPU, 24 threads, and 16 GB RAM. We
+used Docker version 19.03.3,  and {\tt
 docker-compose} version 1.21.0, in Ubuntu Linux 18.04, and Python
 3.7.5 code. Container images and Docker compose file are available at
-(https://hub.docker.com/x/x), and (https://github.com/x/).  The
+(https://hub.docker.com/mariosky), and (https://github.com/mariosky/EvoSwarm).  The
 experiments were performed with COCO \cite{hansen2016coco} version
-{\tt bbob.v15.03} written in Python. Plots shown below were created
-with COCO version 2.3.2.
+{\tt bbob.v15.03} written in Python. The plot shown below was generated
+using COCO version 2.3.2.
 
 \begin{figure*}[h!tb]
     \begin{tabular}
@@ -664,33 +658,33 @@ this paper. These functions have also been used in
 \cite{GARCIAVALDEZ2021234:anon}, which can also be used for comparison.
 
 \autoref{fig:bbob} shows the classical COCO comparison, which is
-related to the number of evaluations needed to reach the target values
+related to the \#FE needed to reach target values
 $\Delta f$. Line colors indicate the average of FEs for targets reached
-at least one time, while a red circle without a number on top indicates the algorithm
-has reached the most difficult target $10^{-8}$ on all instances for that dimension;
-if it has a number, this indicates how many times the target was
+at least one time, a red circle (without a number on top) means that the algorithm,
+reached on all instances, the most difficult target $10^{-8}$;
+a number on the top indicates how many times the target was
 reached. For instance, you can see numbers in $f_2$ to $f_5$ for the
 evolutionary algorithm, implying there are, in fact, few cases where
 the target was reached, for instance, just 1 for dimension = 10,
-$\delta_f = 10^{-3}$ and $f_2$. Values of targets $\Delta f = 10^{k}$ with $k$ colors are
+$\delta_f = 10^{-3}$ and $f_2$. Values of targets $\Delta f = 10^{k}$ are
 given in the legend of the first function, $k$ values are $[-8,-5,-3,-2,-1,0,1]$.
 Each column presents the results for GA, PSO, and GA\&PSO methods.
 In general, and in this framework, the GA (on the left column) hardly reaches even the
-$10^{-5}$ target in functions ($f_1-f_4$) for all dimensions, and has the worst
+$10^{-5}$ target in functions ($f_1-f_4$), and achieved the worst
 performance in 20 and 40 dimensions. However, it's quite competitive for $f_5$
 where it reaches the $10^{-8}$ target on all dimensions, but it has the highest runtime on lower
-dimensions. As indicated in \cite{hansen2009real}, this function shows
-the ability of the algorithm to adapt the size of changes in
+dimensions. As indicated in \cite{hansen2009real}, this results shows
+a characteristic of the algorithm, that is to adapt the size of changes in
 individual solutions and also be
 able to get out of a local optimum; a GA is able to perform reasonably
-well (and definitely better than on the other functions).
-The multi-population PSO on the other hand (shown in the middle column),
-has, in general, better performance, reaching all targets for
-functions $f_1$ and $f_2$; however it needs a high number of evaluations.
-PSO is not able to reach the $10^{-8}$ target on functions $f_3$ and $f_4$ for higher dimensions; 
-but it has the best overall runtime for the lower dimensions of $f_5$.
+well (and definitely better than in functions $f_1$ to $f_4$).
+Nonetheless, multi-population PSO (on the middle),
+in general, achieves a better performance than the GA, reaching all targets in
+$f_1$ and $f_2$ functions; however it needs a high number of evaluations.
+On the higher dimensions of functions $f_3$ and $f_4$, PSO is not able to reach most difficult target ($10^{-8}$); 
+but for dimensions $2$, $3$, and $5$ of $f_5$ achieves the best runtime.
 
-\begin{figure}[h!tb]
+\begin{figure}[h!tb] 
   \begin{tabular}
       {c@{\hspace*{-0.00001\textwidth}}
       % c@{\hspace*{-0.00001\textwidth}}
@@ -724,8 +718,8 @@ but it has the best overall runtime for the lower dimensions of $f_5$.
   \label{fig:avg}
 \end{figure}
 %
-Finally, the proposed PSO\&GA mixed-algorithm method, shown on the
-rightmost column in \autoref{fig:bbob}, reaches the most difficult $10^{-8}$ target
+Finnally, the PSO\&GA multi-population algorithm, shown in the
+right column see \autoref{fig:bbob}, reaches the most difficult $10^{-8}$ target
 for all functions ($f_1-f_5$) scaling well to higher dimensions, even
 on $f_3$ and $f_4$, which are usually
 considered difficult functions \cite{hansen2010comparing}. Please bear
@@ -737,8 +731,8 @@ showing a more robust, and consistently higher, performance.
 
 These results are also competitive when compared against other GA and PSO
 implementations of past BBOB workshops. Figure \ref{fig:avg} shows
-how the runtime scales with dimension to reach the most difficult target
-for $\Delta f = 10^{-8}$ for each function.
+how the aRT scales against dimensions to reach the most difficult target
+($\Delta f = 10^{-8}$) in all functions.
 We chose two types of representative algorithms, first, Evolutionary 
 an Swarm based and  not population-based. We chose a simple binary GA algorithm of Nicolau \cite{nicolau2009application},
 the PSO algorithm by El-Abd and Kamel \cite{el2009blackHybrid}, an EDA and PSO
@@ -838,9 +832,9 @@ methods and random parameters, which will help us to propose new ways
 to adapt this diversity to the state of the search.
 
 \section*{Acknowledgments}
-The authors would also like to thank the anonymous referees for their
-helpful suggestions and corrections. This paper has been supported in part by project
-DeepBio (TIN2017-85727-C4-2-P) and TecNM (P-11356).
+We would like to thank the anonymous reviewers for their
+helpful suggestions and corrections. This work received support from 
+projects DeepBio (TIN2017-85727-C4-2-P) and TecNM (11356).
 
 
 \bibliographystyle{splncs04}
